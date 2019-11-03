@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage
+    x:Class="EuroMobile.Views.CustomMasterDetailPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="http://prismlibrary.com"
+    prism:ViewModelLocator.AutowireViewModel="True">
+
+    <MasterDetailPage.Master>
+        <ContentPage Title="Menu">
+            <StackLayout Padding="20" BackgroundColor="Silver">
+                <Button
+                    BackgroundColor="Red"
+                    Command="{Binding OnNavigateCommand}"
+                    CommandParameter="NavigationPage/Test1Page"
+                    Text="Go Test 1"
+                    TextColor="White" />
+                <Button
+                    BackgroundColor="Red"
+                    Command="{Binding OnNavigateCommand}"
+                    CommandParameter="NavigationPage/Test2Page"
+                    Text="Go Test 2"
+                    TextColor="White" />
+            </StackLayout>
+        </ContentPage>
+    </MasterDetailPage.Master>
+</MasterDetailPage>
