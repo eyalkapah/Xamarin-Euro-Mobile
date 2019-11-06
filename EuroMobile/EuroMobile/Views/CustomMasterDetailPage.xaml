@@ -9,18 +9,28 @@
 
     <MasterDetailPage.Master>
         <ContentPage Title="Menu">
-            <StackLayout Padding="20" BackgroundColor="Silver">
-                <ListView ItemsSource="{Binding MenuItems}">
+            <StackLayout BackgroundColor="Silver">
+                <ListView
+                    ItemsSource="{Binding MenuItems}"
+                    SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
+                    SelectionMode="Single">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Grid Padding="5,10">
+                                <Grid Padding="10">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="30" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Label FontFamily="{StaticResource FontAwesomeBrands}" Text="{x:Static fontawesome:FontAwesomeIcons.Home}" />
-                                    <Label Grid.Column="1" Text="{Binding Title}" />
+                                    <Label
+                                        FontFamily="{StaticResource FontAwesomeSolid}"
+                                        Text="{Binding Glyph}"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="{Binding Title}"
+                                        VerticalOptions="Center"
+                                        VerticalTextAlignment="Center" />
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

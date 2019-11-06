@@ -1,8 +1,124 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="EuroMobile.Views.StandingsPage">
-  
+<ContentPage
+    x:Class="EuroMobile.Views.StandingsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="http://prismlibrary.com"
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <ContentPage.Resources>
+        <OnPlatform x:Key="EnglandFlag" x:TypeArguments="FileImageSource">
+            <On Platform="Android" Value="Assets/Flags/eng.png" />
+            <On Platform="iOS" Value="FontAwesome5Free-Regular" />
+            <On Platform="UWP" Value="Assets/Flags/eng.png" />
+        </OnPlatform>
+
+        <OnPlatform x:Key="CzechRepublicFlag" x:TypeArguments="FileImageSource">
+            <On Platform="Android" Value="Assets/Flags/cze.png" />
+            <On Platform="iOS" Value="FontAwesome5Free-Regular" />
+            <On Platform="UWP" Value="Assets/Flags/cze.png" />
+        </OnPlatform>
+    </ContentPage.Resources>
+
+    <!--<Label Text="Standings" FontSize="24" />-->
+    <FlexLayout
+        AlignItems="Center"
+        Direction="Column"
+        JustifyContent="SpaceEvenly">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition />
+                <RowDefinition Height="2" />
+                <RowDefinition />
+                <RowDefinition Height="0.5" />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="272" />
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="50" />
+            </Grid.ColumnDefinitions>
+
+            <Label FontSize="16" Text="Group A" />
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="P" />
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="2"
+                Text="Pts" />
+
+            <BoxView
+                Grid.Row="2"
+                Grid.ColumnSpan="3"
+                HeightRequest="1"
+                Color="#5b5d68" />
+
+            <StackLayout
+                Grid.Row="3"
+                Grid.Column="0"
+                Orientation="Horizontal">
+                <Image
+                    HeightRequest="32"
+                    Source="{StaticResource EnglandFlag}"
+                    VerticalOptions="Center"
+                    WidthRequest="32" />
+
+                <Label
+                    Margin="10,0"
+                    Text="England"
+                    VerticalOptions="Center" />
+            </StackLayout>
+
+            <Label
+                Grid.Row="3"
+                Grid.Column="1"
+                Text="6"
+                VerticalOptions="Center" />
+
+            <Label
+                Grid.Row="3"
+                Grid.Column="2"
+                Text="15"
+                VerticalOptions="Center" />
+
+            <BoxView
+                Grid.Row="4"
+                Grid.ColumnSpan="3"
+                HeightRequest="0.5"
+                Color="#5b5d68" />
+
+            <StackLayout
+                Grid.Row="5"
+                Grid.Column="0"
+                Orientation="Horizontal">
+                <Image
+                    HeightRequest="32"
+                    Source="{StaticResource CzechRepublicFlag}"
+                    VerticalOptions="Center"
+                    WidthRequest="32" />
+
+                <Label
+                    Margin="10,0"
+                    Text="Czech Republic"
+                    VerticalOptions="Center" />
+            </StackLayout>
+
+            <Label
+                Grid.Row="5"
+                Grid.Column="1"
+                Text="6"
+                VerticalOptions="Center" />
+
+            <Label
+                Grid.Row="5"
+                Grid.Column="2"
+                Text="12"
+                VerticalOptions="Center" />
+        </Grid>
+    </FlexLayout>
 </ContentPage>

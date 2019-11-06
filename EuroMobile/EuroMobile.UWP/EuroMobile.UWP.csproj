@@ -104,6 +104,18 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\eng.png" />
+    <Content Include="Assets\Flags\BUL.png" />
+    <Content Include="Assets\Flags\cze.png" />
+    <Content Include="Assets\Flags\eng.png" />
+    <Content Include="Assets\Flags\KOS.png" />
+    <Content Include="Assets\Flags\LTU.png" />
+    <Content Include="Assets\Flags\LUX.png" />
+    <Content Include="Assets\Flags\MNE.png" />
+    <Content Include="Assets\Flags\POR.png" />
+    <Content Include="Assets\Flags\SRB.png" />
+    <Content Include="Assets\Flags\UKR.png" />
+    <Content Include="eng.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

@@ -29,7 +29,7 @@ namespace EuroMobile
         {
             InitializeComponent();
 
-            var result = await NavigationService.NavigateAsync("CustomMasterDetailPage/NavigationPage/Test2Page");
+            var result = await NavigationService.NavigateAsync("CustomMasterDetailPage/NavigationPage/HomePage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -37,8 +37,6 @@ namespace EuroMobile
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<CustomMasterDetailPage, CustomMasterDetailPageViewModel>();
-            containerRegistry.RegisterForNavigation<Test1Page, Test1PageViewModel>();
-            containerRegistry.RegisterForNavigation<Test2Page, Test2PageViewModel>();
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
             containerRegistry.RegisterForNavigation<StandingsPage, StandingsPageViewModel>();
             containerRegistry.RegisterForNavigation<MatchesPage, MatchesPageViewModel>();

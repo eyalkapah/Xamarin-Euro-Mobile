@@ -10,13 +10,13 @@
             <OnPlatform x:Key="FontAwesomeBrands" x:TypeArguments="x:String">
                 <On Platform="Android" Value="FontAwesome5Regular.otf#Regular" />
                 <On Platform="iOS" Value="FontAwesome5Brands-Regular" />
-                <On Platform="UWP" Value="/Assets/FontAwesome5Brands.otf#Font Awesome 5 Brands" />
+                <On Platform="UWP" Value="/Assets/FontAwesome5BrandsRegular.otf#Font Awesome 5 Brands" />
             </OnPlatform>
 
             <OnPlatform x:Key="FontAwesomeSolid" x:TypeArguments="x:String">
                 <On Platform="Android" Value="FontAwesome5Solid.otf#Regular" />
                 <On Platform="iOS" Value="FontAwesome5Free-Solid" />
-                <On Platform="UWP" Value="/Assets/FontAwesome5Solid.otf#Font Awesome 5 Free" />
+                <On Platform="UWP" Value="/Assets/FontAwesome5FreeSolid.otf#Font Awesome 5 Free" />
             </OnPlatform>
 
             <OnPlatform x:Key="FontAwesomeRegular" x:TypeArguments="x:String">
