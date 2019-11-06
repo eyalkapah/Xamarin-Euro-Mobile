@@ -1,4 +1,6 @@
-﻿using Prism.Commands;
+﻿using EuroMobile.Models.UI;
+using EuroMobile.Views;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;

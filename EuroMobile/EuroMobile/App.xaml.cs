@@ -29,7 +29,7 @@ namespace EuroMobile
         {
             InitializeComponent();
 
-            var result = await NavigationService.NavigateAsync(new System.Uri("/CustomMasterDetailPage/NavigationPage/Test2Page", System.UriKind.Absolute));
+            var result = await NavigationService.NavigateAsync("CustomMasterDetailPage/NavigationPage/Test2Page");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -39,6 +39,9 @@ namespace EuroMobile
             containerRegistry.RegisterForNavigation<CustomMasterDetailPage, CustomMasterDetailPageViewModel>();
             containerRegistry.RegisterForNavigation<Test1Page, Test1PageViewModel>();
             containerRegistry.RegisterForNavigation<Test2Page, Test2PageViewModel>();
+            containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
+            containerRegistry.RegisterForNavigation<StandingsPage, StandingsPageViewModel>();
+            containerRegistry.RegisterForNavigation<MatchesPage, MatchesPageViewModel>();
         }
     }
 }

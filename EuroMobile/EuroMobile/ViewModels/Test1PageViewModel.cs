@@ -8,10 +8,9 @@ using System.Linq;
 
 namespace EuroMobile.ViewModels
 {
-    public class Test1PageViewModel : BindableBase, IActiveAware
+    public class Test1PageViewModel : ViewModelBase, IActiveAware
     {
         private bool _isActive;
-        private INavigationService _navigationService;
 
         public event EventHandler IsActiveChanged;
 
@@ -23,9 +22,8 @@ namespace EuroMobile.ViewModels
 
         public DelegateCommand OnLoginCommand { get; set; }
 
-        public Test1PageViewModel(INavigationService navigationService)
+        public Test1PageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _navigationService = navigationService;
             OnLoginCommand = new DelegateCommand(GoHome);
         }
 
@@ -36,7 +34,7 @@ namespace EuroMobile.ViewModels
 
         private async void GoHome()
         {
-            await _navigationService.NavigateAsync(new Uri($"HomePage", UriKind.Relative), null, false);
+            await NavigationService.NavigateAsync("HomePage");
         }
     }
 }

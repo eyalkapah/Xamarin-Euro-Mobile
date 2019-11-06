@@ -3,24 +3,29 @@
     x:Class="EuroMobile.Views.CustomMasterDetailPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fontawesome="clr-namespace:EuroMobile.Utils"
     xmlns:prism="http://prismlibrary.com"
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <MasterDetailPage.Master>
         <ContentPage Title="Menu">
             <StackLayout Padding="20" BackgroundColor="Silver">
-                <Button
-                    BackgroundColor="Red"
-                    Command="{Binding OnNavigateCommand}"
-                    CommandParameter="NavigationPage/Test1Page"
-                    Text="Go Test 1"
-                    TextColor="White" />
-                <Button
-                    BackgroundColor="Red"
-                    Command="{Binding OnNavigateCommand}"
-                    CommandParameter="NavigationPage/Test2Page"
-                    Text="Go Test 2"
-                    TextColor="White" />
+                <ListView ItemsSource="{Binding MenuItems}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="5,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label FontFamily="{StaticResource FontAwesomeBrands}" Text="{x:Static fontawesome:FontAwesomeIcons.Home}" />
+                                    <Label Grid.Column="1" Text="{Binding Title}" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackLayout>
         </ContentPage>
     </MasterDetailPage.Master>
