@@ -40,6 +40,7 @@ namespace EuroMobile
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
             containerRegistry.RegisterForNavigation<StandingsPage, StandingsPageViewModel>();
             containerRegistry.RegisterForNavigation<MatchesPage, MatchesPageViewModel>();
+            containerRegistry.RegisterForNavigation<ViewA, ViewAViewModel>();
         }
     }
 }

@@ -14,26 +14,21 @@ namespace EuroMobile.ViewModels
     {
         private List<MasterPageItem> _menuItems;
 
+        private MasterPageItem _selectedMenuItem;
+
         public List<MasterPageItem> MenuItems
         {
             get => _menuItems;
             set => SetProperty(ref _menuItems, value);
         }
 
-        private MasterPageItem _selectedMenuItem;
+        public DelegateCommand<string> OnNavigateCommand { get; set; }
 
         public MasterPageItem SelectedMenuItem
         {
             get => _selectedMenuItem;
             set => SetProperty(ref _selectedMenuItem, value, () => OnSelectionChanged(value));
         }
-
-        private async void OnSelectionChanged(MasterPageItem value)
-        {
-            await NavigationService.NavigateAsync(value.TargetType.Name);
-        }
-
-        public DelegateCommand<string> OnNavigateCommand { get; set; }
 
         public CustomMasterDetailPageViewModel(INavigationService navigationService) : base(navigationService)
         {
@@ -42,9 +37,10 @@ namespace EuroMobile.ViewModels
             BuildNavigationMenu();
         }
 
+
         private void BuildNavigationMenu()
         {
-            MenuItems = new List<MasterPageItem>
+            var items = new List<MasterPageItem>
             {
                 new MasterPageItem
                 {
@@ -65,18 +61,22 @@ namespace EuroMobile.ViewModels
                     TargetType = typeof(MatchesPage)
                 }
             };
-        }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
-        {
-            base.OnNavigatedTo(parameters);
-
-            SelectedMenuItem = MenuItems.First();
+            MenuItems = items;
+            SelectedMenuItem = items.First();
         }
 
         private async void NavigateAsync(string page)
         {
             await NavigationService.NavigateAsync(new Uri(page, UriKind.Relative));
+        }
+
+        private async void OnSelectionChanged(MasterPageItem selectedItem)
+        {
+            if (selectedItem == null)
+                return;
+
+            await NavigationService.NavigateAsync(new Uri($"NavigationPage/{selectedItem.TargetType.Name}", UriKind.Relative));
         }
     }
 }

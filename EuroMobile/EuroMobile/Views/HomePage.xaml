@@ -5,9 +5,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prism="http://prismlibrary.com"
     prism:ViewModelLocator.AutowireViewModel="True">
-    <Label
-        FontSize="36"
-        HorizontalOptions="Center"
-        Text="Home"
-        VerticalOptions="Center" />
+
+    <StackLayout>
+        <Label
+            FontSize="36"
+            HorizontalOptions="Center"
+            Text="Home"
+            VerticalOptions="Center" />
+
+        <Button
+            Margin="30"
+            Command="{Binding OnNavigateCommand}"
+            CommandParameter="ViewA"
+            Text="Navigate" />
+    </StackLayout>
 </ContentPage>
