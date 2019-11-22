@@ -5,16 +5,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prism="http://prismlibrary.com"
     prism:ViewModelLocator.AutowireViewModel="True">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <OnPlatform
-                x:Key="FacebookLogo"
-                x:TypeArguments="ImageSource"
-                Android="facebook.png"
-                WinPhone="Assets\Logos\facebook.png"
-                iOS="facebook.png" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand">
             <Frame>
@@ -58,7 +48,7 @@
                     Command="{Binding LoginWithGoogleCommand}"
                     HeightRequest="64"
                     HorizontalOptions="CenterAndExpand"
-                    Source="google.png"
+                    Source="{StaticResource GoogleLogo}"
                     VerticalOptions="Center"
                     WidthRequest="64" />
             </StackLayout>

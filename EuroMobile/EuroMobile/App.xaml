@@ -24,6 +24,20 @@
                 <On Platform="iOS" Value="FontAwesome5Free-Regular" />
                 <On Platform="UWP" Value="/Assets/FontAwesome5Regular.otf#Font Awesome 5 Free" />
             </OnPlatform>
+
+            <OnPlatform
+                x:Key="FacebookLogo"
+                x:TypeArguments="ImageSource"
+                Android="facebook.png"
+                WinPhone="Assets\Logos\facebook.png"
+                iOS="facebook.png" />
+
+            <OnPlatform
+                x:Key="GoogleLogo"
+                x:TypeArguments="ImageSource"
+                Android="google.png"
+                WinPhone="Assets\Logos\google.png"
+                iOS="google.png" />
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>

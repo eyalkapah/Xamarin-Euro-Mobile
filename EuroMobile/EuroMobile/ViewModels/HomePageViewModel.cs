@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using EuroMobile.ViewModels.Base;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;

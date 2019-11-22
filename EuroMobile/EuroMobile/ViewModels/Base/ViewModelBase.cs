@@ -5,13 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EuroMobile.ViewModels
+namespace EuroMobile.ViewModels.Base
 {
     public class ViewModelBase : BindableBase, IInitialize, INavigationAware, IDestructible
     {
-        protected INavigationService NavigationService { get; private set; }
-
         private string _title;
+        protected INavigationService NavigationService { get; private set; }
         public string Title
         {
             get { return _title; }
@@ -25,22 +24,18 @@ namespace EuroMobile.ViewModels
 
         public virtual void Initialize(INavigationParameters parameters)
         {
-
         }
 
         public virtual void OnNavigatedFrom(INavigationParameters parameters)
         {
-
         }
 
         public virtual void OnNavigatedTo(INavigationParameters parameters)
         {
-
         }
 
         public virtual void Destroy()
         {
-
         }
     }
 }

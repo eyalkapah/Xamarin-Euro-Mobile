@@ -1,8 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="EuroMobile.Views.RegisterPage">
-  
+<ContentPage
+    x:Class="EuroMobile.Views.RegisterPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="http://prismlibrary.com"
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand">
+            <Frame>
+                <StackLayout>
+                    <Entry
+                        FontSize="Small"
+                        HorizontalOptions="Fill"
+                        Placeholder="Email"
+                        Text="{Binding Username, Mode=TwoWay}" />
+                    <Entry
+                        x:Name="PasswordEntry"
+                        FontSize="Small"
+                        HorizontalOptions="Fill"
+                        IsPassword="true"
+                        Placeholder="Password"
+                        Text="{Binding Password, Mode=TwoWay}" />
+
+                    <Button
+                        Margin="8,32"
+                        BackgroundColor="OrangeRed"
+                        Command="{Binding RegisterCommandAsync}"
+                        CornerRadius="8"
+                        HorizontalOptions="Fill"
+                        Text="CREATE ACCOUNT"
+                        TextColor="White" />
+                </StackLayout>
+            </Frame>
+
+            <StackLayout
+                Margin="24"
+                HorizontalOptions="CenterAndExpand"
+                Orientation="Horizontal"
+                VerticalOptions="EndAndExpand">
+                <Label FontSize="Small" Text="Have an Account?" />
+
+                <Label
+                    FontSize="Small"
+                    Text="Sign In"
+                    TextColor="OrangeRed">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateToSignInPageCommand}" NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

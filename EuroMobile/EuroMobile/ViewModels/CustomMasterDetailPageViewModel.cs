@@ -1,5 +1,6 @@
 ﻿using EuroMobile.Models.UI;
 using EuroMobile.Utils;
+using EuroMobile.ViewModels.Base;
 using EuroMobile.Views;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -79,7 +80,7 @@ namespace EuroMobile.ViewModels
                 new MasterPageItem
                 {
                     Title = "Add account",
-                    Glyph = FontAwesomeIcons.Play,
+                    Glyph = FontAwesomeIcons.Plus,
                     TargetType = typeof(SignInPage)
                 },
                 new MasterPageItem
