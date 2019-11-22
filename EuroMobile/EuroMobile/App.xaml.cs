@@ -4,6 +4,7 @@ using EuroMobile.ViewModels;
 using EuroMobile.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using EuroMobile.Services;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
@@ -34,6 +35,9 @@ namespace EuroMobile
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<ILoginService, LoginService>();
+            containerRegistry.RegisterSingleton<ISettingsService, SettingsService>();
+
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<CustomMasterDetailPage, CustomMasterDetailPageViewModel>();

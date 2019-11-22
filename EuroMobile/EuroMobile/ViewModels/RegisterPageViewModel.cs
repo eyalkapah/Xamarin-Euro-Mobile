@@ -1,4 +1,5 @@
-﻿using EuroMobile.ViewModels.Base;
+﻿using EuroMobile.Services;
+using EuroMobile.ViewModels.Base;
 using EuroMobile.Views;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -12,7 +13,7 @@ namespace EuroMobile.ViewModels
 {
     public class RegisterPageViewModel : ViewModelBase
     {
-        //private readonly ILoginService _loginService;
+        private readonly ILoginService _loginService;
         private string _password;
 
         private string _username;
@@ -33,11 +34,11 @@ namespace EuroMobile.ViewModels
             set => SetProperty(ref _username, value);
         }
 
-        public RegisterPageViewModel(INavigationService navigationService) : base(navigationService)
+        public RegisterPageViewModel(INavigationService navigationService, ILoginService loginService) : base(navigationService)
         {
             NavigateToSignInPageCommand = new DelegateCommand(NavigateToSignInPageAsync);
             RegisterCommandAsync = new DelegateCommand(RegisterAsync);
-            //_loginService = loginService;
+            _loginService = loginService;
         }
 
         private async void NavigateToSignInPageAsync()
@@ -49,7 +50,7 @@ namespace EuroMobile.ViewModels
         {
             try
             {
-                //var response = await _loginService.RegisterAsync(Username, Password);
+                var response = await _loginService.RegisterAsync(Username, Password);
 
                 //if (!response.HandleErrorResponse("Register"))
                 //    return;
