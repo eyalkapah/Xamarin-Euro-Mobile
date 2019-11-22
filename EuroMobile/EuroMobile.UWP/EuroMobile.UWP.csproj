@@ -115,6 +115,8 @@
     <Content Include="Assets\Flags\POR.png" />
     <Content Include="Assets\Flags\SRB.png" />
     <Content Include="Assets\Flags\UKR.png" />
+    <Content Include="Assets\Logos\facebook.png" />
+    <Content Include="Assets\Logos\google.png" />
     <Content Include="eng.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -152,6 +154,7 @@
     <Content Include="Assets\FontAwesome5FreeSolid.otf" />
     <None Include="EuroMobile.UWP_TemporaryKey.pfx" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

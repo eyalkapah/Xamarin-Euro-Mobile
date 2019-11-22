@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace EuroMobile.ViewModels
 {
-    public class StPageViewModel : BindableBase
+    public class MenuPageViewModel : BindableBase
     {
-        public StPageViewModel()
+        public MenuPageViewModel()
         {
 
         }

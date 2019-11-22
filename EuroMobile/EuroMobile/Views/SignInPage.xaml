@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="EuroMobile.Views.SignInPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="http://prismlibrary.com"
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <OnPlatform
+                x:Key="FacebookLogo"
+                x:TypeArguments="ImageSource"
+                Android="facebook.png"
+                WinPhone="Assets\Logos\facebook.png"
+                iOS="facebook.png" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand">
+            <Frame>
+                <StackLayout>
+                    <Entry
+                        FontSize="Small"
+                        HorizontalOptions="Fill"
+                        Placeholder="Email" />
+                    <Entry
+                        FontSize="Small"
+                        HorizontalOptions="Fill"
+                        IsPassword="true"
+                        Placeholder="Password" />
+                    <Label
+                        FontSize="Small"
+                        HorizontalOptions="End"
+                        Text="Forgot Passowrd?"
+                        TextDecorations="Underline" />
+                    <Button
+                        Margin="8,32"
+                        BackgroundColor="OrangeRed"
+                        CornerRadius="8"
+                        HorizontalOptions="Fill"
+                        Text="Log In"
+                        TextColor="White" />
+                </StackLayout>
+            </Frame>
+
+            <StackLayout Margin="50" Orientation="Horizontal">
+                <ImageButton
+                    BackgroundColor="Transparent"
+                    Command="{Binding LoginWithFacebookCommand}"
+                    HeightRequest="64"
+                    HorizontalOptions="CenterAndExpand"
+                    Source="{StaticResource FacebookLogo}"
+                    VerticalOptions="Center"
+                    WidthRequest="64" />
+
+                <ImageButton
+                    BackgroundColor="Transparent"
+                    Command="{Binding LoginWithGoogleCommand}"
+                    HeightRequest="64"
+                    HorizontalOptions="CenterAndExpand"
+                    Source="google.png"
+                    VerticalOptions="Center"
+                    WidthRequest="64" />
+            </StackLayout>
+
+            <StackLayout
+                Margin="24"
+                HorizontalOptions="CenterAndExpand"
+                Orientation="Horizontal"
+                VerticalOptions="EndAndExpand">
+                <Label FontSize="Small" Text="No Account?" />
+
+                <Label
+                    FontSize="Small"
+                    Text="Register"
+                    TextColor="OrangeRed">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding RegisterCommand}" NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

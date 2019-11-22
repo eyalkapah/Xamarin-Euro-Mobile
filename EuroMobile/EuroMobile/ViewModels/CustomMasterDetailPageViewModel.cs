@@ -12,9 +12,10 @@ namespace EuroMobile.ViewModels
 {
     public class CustomMasterDetailPageViewModel : ViewModelBase
     {
+        private List<MasterPageItem> __secondaryMenuItems;
         private List<MasterPageItem> _menuItems;
-
         private MasterPageItem _selectedMenuItem;
+        private MasterPageItem _selectedSecondaryMenuItem;
 
         public List<MasterPageItem> MenuItems
         {
@@ -24,10 +25,22 @@ namespace EuroMobile.ViewModels
 
         public DelegateCommand<string> OnNavigateCommand { get; set; }
 
+        public List<MasterPageItem> SecondaryMenuItems
+        {
+            get => __secondaryMenuItems;
+            set => SetProperty(ref __secondaryMenuItems, value);
+        }
+
         public MasterPageItem SelectedMenuItem
         {
             get => _selectedMenuItem;
             set => SetProperty(ref _selectedMenuItem, value, () => OnSelectionChanged(value));
+        }
+
+        public MasterPageItem SelectedSecondaryMenuItem
+        {
+            get => _selectedSecondaryMenuItem;
+            set => SetProperty(ref _selectedSecondaryMenuItem, value, () => OnSelectionChanged(value));
         }
 
         public CustomMasterDetailPageViewModel(INavigationService navigationService) : base(navigationService)
@@ -37,10 +50,9 @@ namespace EuroMobile.ViewModels
             BuildNavigationMenu();
         }
 
-
         private void BuildNavigationMenu()
         {
-            var items = new List<MasterPageItem>
+            MenuItems = new List<MasterPageItem>
             {
                 new MasterPageItem
                 {
@@ -62,8 +74,21 @@ namespace EuroMobile.ViewModels
                 }
             };
 
-            MenuItems = items;
-            SelectedMenuItem = items.First();
+            SecondaryMenuItems = new List<MasterPageItem>
+            {
+                new MasterPageItem
+                {
+                    Title = "Add account",
+                    Glyph = FontAwesomeIcons.Play,
+                    TargetType = typeof(SignInPage)
+                },
+                new MasterPageItem
+                {
+                    Title = "Settins",
+                    Glyph = FontAwesomeIcons.Cog,
+                    TargetType = typeof(SettingsPage)
+                }
+            };
         }
 
         private async void NavigateAsync(string page)
@@ -77,6 +102,9 @@ namespace EuroMobile.ViewModels
                 return;
 
             await NavigationService.NavigateAsync(new Uri($"NavigationPage/{selectedItem.TargetType.Name}", UriKind.Relative));
+
+            SelectedSecondaryMenuItem = null;
+            SelectedMenuItem = null;
         }
     }
 }
