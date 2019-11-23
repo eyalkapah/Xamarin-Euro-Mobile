@@ -6,6 +6,14 @@ using Prism.Ioc;
 
 namespace EuroMobile.Droid
 {
+    public class AndroidInitializer : IPlatformInitializer
+    {
+        public void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            // Register any platform specific implementations
+        }
+    }
+
     [Activity(Label = "EuroMobile", Icon = "@mipmap/ic_launcher", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
@@ -16,17 +24,10 @@ namespace EuroMobile.Droid
 
             base.OnCreate(bundle);
 
-            global::Xamarin.Forms.Forms.Init(this, bundle);
+            Xamarin.Forms.Forms.Init(this, bundle);
+            Xamarin.Forms.FormsMaterial.Init(this, bundle);
+
             LoadApplication(new App(new AndroidInitializer()));
         }
     }
-
-    public class AndroidInitializer : IPlatformInitializer
-    {
-        public void RegisterTypes(IContainerRegistry containerRegistry)
-        {
-            // Register any platform specific implementations
-        }
-    }
 }
-

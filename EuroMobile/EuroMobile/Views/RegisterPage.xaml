@@ -3,27 +3,139 @@
     x:Class="EuroMobile.Views.RegisterPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fa="clr-namespace:EuroMobile.Utils"
     xmlns:prism="http://prismlibrary.com"
-    prism:ViewModelLocator.AutowireViewModel="True">
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="FormEntryStyle" TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="FontSize" Value="Small" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="ClearButtonVisibility" Value="WhileEditing" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand">
+
+
+            <StackLayout Padding="20">
+                <Frame
+                    Padding="16"
+                    CornerRadius="100"
+                    HorizontalOptions="Center"
+                    IsClippedToBounds="True"
+                    WidthRequest="96">
+                    <Grid>
+                        <Image
+                            HorizontalOptions="Center"
+                            Source="upload_image.png"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            FontSize="12"
+                            HorizontalOptions="Center"
+                            Text="Upload Photo"
+                            TextColor="Orange"
+                            VerticalOptions="End" />
+                    </Grid>
+                </Frame>
+            </StackLayout>
             <Frame>
                 <StackLayout>
-                    <Entry
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Margin="0,16,0,0"
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            HeightRequest="32"
+                            Text="{x:Static fa:FontAwesomeIcons.Envelope}"
+                            VerticalOptions="Center"
+                            WidthRequest="32" />
+
+                        <Entry
+                            Grid.Column="1"
+                            Placeholder="Email"
+                            Style="{StaticResource FormEntryStyle}"
+                            Text="{Binding Username, Mode=TwoWay}" />
+
+                        <Label
+                            Grid.Row="1"
+                            Margin="0,16,0,0"
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            HeightRequest="32"
+                            Text="{x:Static fa:FontAwesomeIcons.Key}"
+                            VerticalOptions="Center"
+                            WidthRequest="32" />
+
+                        <Entry
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            IsPassword="true"
+                            Placeholder="Password"
+                            Style="{StaticResource FormEntryStyle}"
+                            Text="{Binding Password, Mode=TwoWay}" />
+                    </Grid>
+
+                    <Label
+                        Margin="0,16,0,0"
+                        FontAttributes="Bold"
                         FontSize="Small"
-                        HorizontalOptions="Fill"
-                        Placeholder="Email"
-                        Text="{Binding Username, Mode=TwoWay}" />
-                    <Entry
-                        x:Name="PasswordEntry"
-                        FontSize="Small"
-                        HorizontalOptions="Fill"
-                        IsPassword="true"
-                        Placeholder="Password"
-                        Text="{Binding Password, Mode=TwoWay}" />
+                        Text="Name" />
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Margin="0,16,0,0"
+                            FontFamily="{StaticResource FontAwesomeSolid}"
+                            HeightRequest="32"
+                            Text="{x:Static fa:FontAwesomeIcons.User}"
+                            VerticalOptions="Center"
+                            WidthRequest="32" />
+
+                        <Entry
+                            Grid.Column="1"
+                            CharacterSpacing="0"
+                            Placeholder="First Name"
+                            Style="{StaticResource FormEntryStyle}"
+                            Text="{Binding FirstName, Mode=TwoWay}" />
+
+                        <Entry
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Placeholder="Last Name"
+                            Style="{StaticResource FormEntryStyle}"
+                            Text="{Binding LastName, Mode=TwoWay}" />
+
+                        <Entry
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Placeholder="Nick Name"
+                            Style="{StaticResource FormEntryStyle}"
+                            Text="{Binding NickName, Mode=TwoWay}" />
+                    </Grid>
 
                     <Button
-                        Margin="8,32"
+                        Margin="8,16"
                         BackgroundColor="OrangeRed"
                         Command="{Binding RegisterCommandAsync}"
                         CornerRadius="8"
@@ -34,7 +146,7 @@
             </Frame>
 
             <StackLayout
-                Margin="24"
+                Margin="16"
                 HorizontalOptions="CenterAndExpand"
                 Orientation="Horizontal"
                 VerticalOptions="EndAndExpand">

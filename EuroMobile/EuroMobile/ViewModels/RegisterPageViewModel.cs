@@ -1,9 +1,11 @@
-﻿using EuroMobile.Services;
+﻿using EuroMobile.Extensions;
+using EuroMobile.Services;
 using EuroMobile.ViewModels.Base;
 using EuroMobile.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +16,33 @@ namespace EuroMobile.ViewModels
     public class RegisterPageViewModel : ViewModelBase
     {
         private readonly ILoginService _loginService;
+        private readonly IPageDialogService _pageDialogService;
         private string _password;
-
         private string _username;
-
+        private string _firstName;
+        private string _lastName;
+        private string _nickName;
+        
         public ICommand NavigateToSignInPageCommand { get; set; }
+        public ICommand RegisterCommandAsync { get; set; }
+        public string FirstName
+        {
+            get => _firstName;
+            set => SetProperty(ref _firstName, value);
+        }
+
+        public string LastName
+        {
+            get => _lastName;
+            set => SetProperty(ref _lastName, value);
+        }
+
+
+        public string NickName
+        {
+            get => _nickName;
+            set => SetProperty(ref _nickName, value);
+        }
 
         public string Password
         {
@@ -26,19 +50,18 @@ namespace EuroMobile.ViewModels
             set => SetProperty(ref _password, value);
         }
 
-        public ICommand RegisterCommandAsync { get; set; }
-
         public string Username
         {
             get => _username;
             set => SetProperty(ref _username, value);
         }
 
-        public RegisterPageViewModel(INavigationService navigationService, ILoginService loginService) : base(navigationService)
+        public RegisterPageViewModel(INavigationService navigationService, ILoginService loginService, IPageDialogService pageDialogService) : base(navigationService)
         {
             NavigateToSignInPageCommand = new DelegateCommand(NavigateToSignInPageAsync);
             RegisterCommandAsync = new DelegateCommand(RegisterAsync);
             _loginService = loginService;
+            _pageDialogService = pageDialogService;
         }
 
         private async void NavigateToSignInPageAsync()
@@ -52,16 +75,22 @@ namespace EuroMobile.ViewModels
             {
                 var response = await _loginService.RegisterAsync(Username, Password);
 
-                //if (!response.HandleErrorResponse("Register"))
-                //    return;
+                var errorMessage = response.GetResponseErrorMessage();
 
-                //var content = await response.Content.ReadAsStringAsync();
+                if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    await _pageDialogService.DisplayAlertAsync("Registration", errorMessage, "OK");
+                }
+                else
+                {
+                    var content = await response.Content.ReadAsStringAsync();
 
-                //_loginService.HandleSuccessfullLogin(content);
+                    _loginService.HandleSuccessfullLogin(content);
+                }
             }
             catch (Exception ex)
             {
-                //await NavigationService.NavigateAsync<ModalViewModel, UIMessage>(new UIMessage("Registration Error", ex.Message));
+                await _pageDialogService.DisplayAlertAsync("Registration", ex.Message, "OK");
             }
         }
     }

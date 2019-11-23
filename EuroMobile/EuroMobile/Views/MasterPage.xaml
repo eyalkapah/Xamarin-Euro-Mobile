@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="EuroMobile.Views.MasterPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Personal Organiser"
+    mc:Ignorable="d">
+    <StackLayout>
+        <ListView
+            ItemsSource="{Binding MenuItems}"
+            SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
+            SelectionMode="Single">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                Text="{Binding Glyph}"
+                                VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="1"
+                                Text="{Binding Title}"
+                                VerticalOptions="Center"
+                                VerticalTextAlignment="Center" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ListView
+            HeightRequest="98"
+            ItemsSource="{Binding SecondaryMenuItems}"
+            SelectedItem="{Binding SelectedSecondaryMenuItem, Mode=TwoWay}"
+            VerticalOptions="End">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                FontFamily="{StaticResource FontAwesomeSolid}"
+                                Text="{Binding Glyph}"
+                                VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="1"
+                                Text="{Binding Title}"
+                                VerticalOptions="Center"
+                                VerticalTextAlignment="Center" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>

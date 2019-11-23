@@ -96,6 +96,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MasterDetailPageNavigation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +118,7 @@
     <Content Include="Assets\Flags\UKR.png" />
     <Content Include="Assets\Logos\facebook.png" />
     <Content Include="Assets\Logos\google.png" />
+    <Content Include="Assets\upload_image.png" />
     <Content Include="eng.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
