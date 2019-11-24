@@ -20,14 +20,13 @@
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand">
 
-
-            <StackLayout Padding="20">
+            <StackLayout Padding="16">
                 <Frame
                     Padding="16"
                     CornerRadius="100"
                     HorizontalOptions="Center"
                     IsClippedToBounds="True"
-                    WidthRequest="96">
+                    WidthRequest="88">
                     <Grid>
                         <Image
                             HorizontalOptions="Center"
@@ -125,13 +124,6 @@
                             Placeholder="Last Name"
                             Style="{StaticResource FormEntryStyle}"
                             Text="{Binding LastName, Mode=TwoWay}" />
-
-                        <Entry
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Placeholder="Nick Name"
-                            Style="{StaticResource FormEntryStyle}"
-                            Text="{Binding NickName, Mode=TwoWay}" />
                     </Grid>
 
                     <Button

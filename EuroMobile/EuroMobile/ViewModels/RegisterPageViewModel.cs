@@ -22,9 +22,10 @@ namespace EuroMobile.ViewModels
         private string _firstName;
         private string _lastName;
         private string _nickName;
-        
+
         public ICommand NavigateToSignInPageCommand { get; set; }
         public ICommand RegisterCommandAsync { get; set; }
+
         public string FirstName
         {
             get => _firstName;
@@ -36,7 +37,6 @@ namespace EuroMobile.ViewModels
             get => _lastName;
             set => SetProperty(ref _lastName, value);
         }
-
 
         public string NickName
         {
@@ -86,6 +86,8 @@ namespace EuroMobile.ViewModels
                     var content = await response.Content.ReadAsStringAsync();
 
                     _loginService.HandleSuccessfullLogin(content);
+
+                    await NavigationService.NavigateAsync(typeof(HomePage).Name);
                 }
             }
             catch (Exception ex)

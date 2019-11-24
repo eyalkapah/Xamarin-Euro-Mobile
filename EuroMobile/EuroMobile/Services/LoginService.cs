@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace EuroMobile.Services
 {
@@ -14,14 +15,33 @@ namespace EuroMobile.Services
     {
         private readonly ISettingsService _settings;
 
+        public LoginInfo LoginInfo { get; set; }
+
         public LoginService(ISettingsService settings)
         {
             _settings = settings;
         }
 
-        public void HandleSuccessfullLogin(string content)
+        public async void HandleSuccessfullLogin(string content)
         {
             var json = JsonConvert.DeserializeObject<LoginCredentials>(content);
+
+            try
+            {
+                LoginInfo = new LoginInfo
+                {
+                    FirstName = json.FirstName,
+                    LastName = json.LastName,
+                    Nick = json.Nick
+                };
+
+                await SecureStorage.SetAsync("email", json.Email);
+                await SecureStorage.SetAsync("token", json.Token);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<HttpResponseMessage> RegisterAsync(string username, string password)

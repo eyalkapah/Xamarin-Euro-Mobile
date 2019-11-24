@@ -18,6 +18,10 @@ namespace EuroMobile.Services
             set => AddOrUpdateValue(BaseUrl, value);
         }
 
+        public SettingsService()
+        {
+        }
+
         public Task AddOrUpdateValue(string key, bool value) => AddOrUpdateValueInternalAsync(key, value);
 
         public Task AddOrUpdateValue(string key, string value) => AddOrUpdateValueInternalAsync(key, value);
