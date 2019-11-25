@@ -9,7 +9,15 @@ namespace EuroMobile
     public class GlobalSettings
     {
         private string _baseEndpoint;
+
+        public const string DefaultBaseUrl = "https://localhost:5000";
+
         public static GlobalSettings Instance { get; } = new GlobalSettings();
+
+        public GlobalSettings()
+        {
+            BaseEndpoint = DefaultBaseUrl;
+        }
 
         public string BaseEndpoint
         {

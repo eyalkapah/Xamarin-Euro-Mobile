@@ -9,17 +9,14 @@ namespace EuroMobile.Services
 {
     public class SettingsService : ISettingsService
     {
-        private const string BaseUrl = "url_base";
-        private static readonly string BaseUrlDefault = GlobalSettings.Instance.BaseEndpoint;
+        public const string BaseUrl = "https://localhost:5000";
+
+        private readonly string _baseUrl = GlobalSettings.Instance.BaseEndpoint;
 
         public string UrlBase
         {
-            get => GetValueOrDefault(BaseUrl, BaseUrlDefault);
+            get => GetValueOrDefault(BaseUrl, _baseUrl);
             set => AddOrUpdateValue(BaseUrl, value);
-        }
-
-        public SettingsService()
-        {
         }
 
         public Task AddOrUpdateValue(string key, bool value) => AddOrUpdateValueInternalAsync(key, value);
@@ -29,6 +26,8 @@ namespace EuroMobile.Services
         public bool GetValueOrDefault(string key, bool defaultValue) => GetValueOrDefaultInternal(key, defaultValue);
 
         public string GetValueOrDefault(string key, string defaultValue) => GetValueOrDefaultInternal(key, defaultValue);
+
+        #region Private Methods
 
         private async Task AddOrUpdateValueInternalAsync<T>(string key, T value)
         {
@@ -73,5 +72,7 @@ namespace EuroMobile.Services
                 Console.WriteLine("Unable to remove: " + key, " Message: " + ex.Message);
             }
         }
+
+        #endregion Private Methods
     }
 }
