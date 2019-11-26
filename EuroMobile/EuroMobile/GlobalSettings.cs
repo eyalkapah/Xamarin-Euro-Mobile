@@ -8,16 +8,9 @@ namespace EuroMobile
 {
     public class GlobalSettings
     {
+        public const string DefaultBaseUrl = "https://localhost:44340";
         private string _baseEndpoint;
-
-        public const string DefaultBaseUrl = "https://localhost:5000";
-
         public static GlobalSettings Instance { get; } = new GlobalSettings();
-
-        public GlobalSettings()
-        {
-            BaseEndpoint = DefaultBaseUrl;
-        }
 
         public string BaseEndpoint
         {
@@ -30,11 +23,17 @@ namespace EuroMobile
         }
 
         public string LogoutEndpoint { get; private set; }
+
         public string RegisterEndpoint { get; private set; }
+
+        public GlobalSettings()
+        {
+            BaseEndpoint = DefaultBaseUrl;
+        }
 
         private void UpdateEndpoint(string baseEndpoint)
         {
-            RegisterEndpoint = $"{baseEndpoint}/api/account/register";
+            RegisterEndpoint = $"{baseEndpoint}/api/register";
             LogoutEndpoint = $"{baseEndpoint}/api/account/endsession";
         }
     }
