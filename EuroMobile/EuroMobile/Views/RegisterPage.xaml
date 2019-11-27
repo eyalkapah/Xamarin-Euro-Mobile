@@ -20,7 +20,7 @@
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand">
 
-            <StackLayout Padding="16">
+            <!--<StackLayout Padding="16">
                 <Frame
                     Padding="16"
                     CornerRadius="100"
@@ -41,8 +41,71 @@
                             VerticalOptions="End" />
                     </Grid>
                 </Frame>
-            </StackLayout>
-            <Frame>
+            </StackLayout>-->
+
+            <Frame
+                Margin="16"
+                CornerRadius="10"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Margin="0,16,0,0"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
+                        HeightRequest="32"
+                        Text="{x:Static fa:FontAwesomeIcons.Envelope}"
+                        VerticalOptions="Center"
+                        WidthRequest="32" />
+
+                    <Entry
+                        Grid.Column="1"
+                        Placeholder="Email"
+                        Style="{StaticResource FormEntryStyle}"
+                        Text="{Binding Username, Mode=TwoWay}" />
+
+                    <Label
+                        Grid.Row="1"
+                        Margin="0,16,0,0"
+                        FontFamily="{StaticResource FontAwesomeSolid}"
+                        HeightRequest="32"
+                        Text="{x:Static fa:FontAwesomeIcons.Key}"
+                        VerticalOptions="Center"
+                        WidthRequest="32" />
+
+                    <Entry
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        IsPassword="true"
+                        Placeholder="Password"
+                        Style="{StaticResource FormEntryStyle}"
+                        Text="{Binding Password, Mode=TwoWay}" />
+                </Grid>
+
+
+
+
+            </Frame>
+
+            <Button
+                Margin="16"
+                BackgroundColor="OrangeRed"
+                Command="{Binding RegisterCommandAsync}"
+                CornerRadius="8"
+                HorizontalOptions="Fill"
+                Text="CREATE ACCOUNT"
+                TextColor="White" />
+
+
+            <!--<Frame>
                 <StackLayout>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -135,7 +198,7 @@
                         Text="CREATE ACCOUNT"
                         TextColor="White" />
                 </StackLayout>
-            </Frame>
+            </Frame>-->
 
             <StackLayout
                 Margin="16"

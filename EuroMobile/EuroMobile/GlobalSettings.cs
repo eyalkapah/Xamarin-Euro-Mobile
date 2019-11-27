@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace EuroMobile
 {
     public class GlobalSettings
     {
-        public const string DefaultBaseUrl = "https://localhost:44340";
+        //public const string DefaultBaseUrl = "https://localhost:44340";
+        //public const string DefaultBaseUrl = "http://10.164.71.176:5001";
+
+        public static string DefaultBaseUrl = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5000" : "http://localhost:5000";
+
         private string _baseEndpoint;
         public static GlobalSettings Instance { get; } = new GlobalSettings();
 

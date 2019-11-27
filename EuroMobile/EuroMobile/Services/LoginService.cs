@@ -46,17 +46,29 @@ namespace EuroMobile.Services
 
         public async Task<HttpResponseMessage> RegisterAsync(string username, string password)
         {
+            //using (var client = new HttpClient())
+            //{
+            //    var result = await client.GetAsync("http://10.0.2.2:5000/api/team");
+            //}
             using (var client = new HttpClient())
             {
-                var jsonContent = JsonConvert.SerializeObject(new RegisterCredentialsApi
+                try
                 {
-                    Username = username,
-                    Password = password
-                });
+                    var jsonContent = JsonConvert.SerializeObject(new RegisterCredentialsApi
+                    {
+                        Username = username,
+                        Password = password
+                    });
 
-                return await client.PostAsync(GlobalSettings.Instance.RegisterEndpoint,
-                    new StringContent(jsonContent.ToString(), Encoding.UTF8, "application/json"));
+                    return await client.PostAsync(GlobalSettings.Instance.RegisterEndpoint,
+                        new StringContent(jsonContent.ToString(), Encoding.UTF8, "application/json"));
+                }
+                catch (Exception ex)
+                {
+                }
             }
+
+            return null;
         }
     }
 }

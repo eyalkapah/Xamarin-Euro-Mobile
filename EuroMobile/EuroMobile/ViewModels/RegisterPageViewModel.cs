@@ -19,30 +19,10 @@ namespace EuroMobile.ViewModels
         private readonly IPageDialogService _pageDialogService;
         private string _password;
         private string _username;
-        private string _firstName;
-        private string _lastName;
-        private string _nickName;
 
         public ICommand NavigateToSignInPageCommand { get; set; }
         public ICommand RegisterCommandAsync { get; set; }
 
-        public string FirstName
-        {
-            get => _firstName;
-            set => SetProperty(ref _firstName, value);
-        }
-
-        public string LastName
-        {
-            get => _lastName;
-            set => SetProperty(ref _lastName, value);
-        }
-
-        public string NickName
-        {
-            get => _nickName;
-            set => SetProperty(ref _nickName, value);
-        }
 
         public string Password
         {
