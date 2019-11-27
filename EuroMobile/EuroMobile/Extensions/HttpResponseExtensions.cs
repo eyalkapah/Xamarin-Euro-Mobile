@@ -1,17 +1,14 @@
-﻿using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using EuroMobile.Models.Api;
+using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EuroMobile.Extensions
 {
     public static class HttpResponseExtensions
     {
-        public static string GetResponseErrorMessage(this HttpResponseMessage response)
+        public static async Task<string> GetResponseErrorMessage(this HttpResponseMessage response)
         {
             if (response.IsSuccessStatusCode)
             {
@@ -24,7 +21,11 @@ namespace EuroMobile.Extensions
             }
             else
             {
-                return $"Server responded with {response.StatusCode}";
+                var json = await response.Content.ReadAsStringAsync();
+
+                var apiResponse = (ApiResponse)JsonConvert.DeserializeObject(json);
+
+                return string.IsNullOrEmpty(apiResponse.ErrorMessage) ? apiResponse.ErrorMessage : $"Server responded with {response.StatusCode}";
             }
         }
     }

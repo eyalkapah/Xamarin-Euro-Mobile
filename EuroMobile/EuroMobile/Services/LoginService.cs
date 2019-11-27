@@ -56,7 +56,7 @@ namespace EuroMobile.Services
                 {
                     var jsonContent = JsonConvert.SerializeObject(new RegisterCredentialsApi
                     {
-                        Username = username,
+                        Email = username,
                         Password = password
                     });
 

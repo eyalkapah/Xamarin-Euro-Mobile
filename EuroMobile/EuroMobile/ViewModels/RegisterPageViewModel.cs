@@ -23,7 +23,6 @@ namespace EuroMobile.ViewModels
         public ICommand NavigateToSignInPageCommand { get; set; }
         public ICommand RegisterCommandAsync { get; set; }
 
-
         public string Password
         {
             get => _password;
@@ -55,7 +54,7 @@ namespace EuroMobile.ViewModels
             {
                 var response = await _loginService.RegisterAsync(Username, Password);
 
-                var errorMessage = response.GetResponseErrorMessage();
+                var errorMessage = await response.GetResponseErrorMessage();
 
                 if (!string.IsNullOrEmpty(errorMessage))
                 {
