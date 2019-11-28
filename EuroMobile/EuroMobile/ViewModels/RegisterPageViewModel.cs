@@ -17,22 +17,37 @@ namespace EuroMobile.ViewModels
     {
         private readonly ILoginService _loginService;
         private readonly IPageDialogService _pageDialogService;
+        private string _emailErrorMessage;
         private string _password;
+        private string _passwordErrorMessage;
         private string _username;
 
+        public string EmailErrorMessage
+        {
+            get => _emailErrorMessage;
+            set => SetProperty(ref _emailErrorMessage, value);
+        }
+
         public ICommand NavigateToSignInPageCommand { get; set; }
-        public ICommand RegisterCommandAsync { get; set; }
 
         public string Password
         {
             get => _password;
-            set => SetProperty(ref _password, value);
+            set => SetProperty(ref _password, value, () => PasswordErrorMessage = string.Empty);
         }
+
+        public string PasswordErrorMessage
+        {
+            get => _passwordErrorMessage;
+            set => SetProperty(ref _passwordErrorMessage, value);
+        }
+
+        public ICommand RegisterCommandAsync { get; set; }
 
         public string Username
         {
             get => _username;
-            set => SetProperty(ref _username, value);
+            set => SetProperty(ref _username, value, () => EmailErrorMessage = string.Empty);
         }
 
         public RegisterPageViewModel(INavigationService navigationService, ILoginService loginService, IPageDialogService pageDialogService) : base(navigationService)
@@ -41,6 +56,12 @@ namespace EuroMobile.ViewModels
             RegisterCommandAsync = new DelegateCommand(RegisterAsync);
             _loginService = loginService;
             _pageDialogService = pageDialogService;
+        }
+
+        public void ClearErrors()
+        {
+            EmailErrorMessage = string.Empty;
+            PasswordErrorMessage = string.Empty;
         }
 
         private async void NavigateToSignInPageAsync()
@@ -52,13 +73,15 @@ namespace EuroMobile.ViewModels
         {
             try
             {
+                ClearErrors();
+
                 var response = await _loginService.RegisterAsync(Username, Password);
 
-                var errorMessage = await response.GetResponseErrorMessage();
-
-                if (!string.IsNullOrEmpty(errorMessage))
+                if (!response.IsSuccessStatusCode)
                 {
-                    await _pageDialogService.DisplayAlertAsync("Registration", errorMessage, "OK");
+                    var errors = await response.GetResponseErrorMessage();
+
+                    //await _pageDialogService.DisplayAlertAsync("Registration", errorMessage, "OK");
                 }
                 else
                 {
