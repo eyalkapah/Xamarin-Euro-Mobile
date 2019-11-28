@@ -53,7 +53,7 @@ namespace EuroMobile.ViewModels
         public RegisterPageViewModel(INavigationService navigationService, ILoginService loginService, IPageDialogService pageDialogService) : base(navigationService)
         {
             NavigateToSignInPageCommand = new DelegateCommand(NavigateToSignInPageAsync);
-            RegisterCommandAsync = new DelegateCommand(RegisterAsync);
+            RegisterCommandAsync = new DelegateCommand(RegisterAsync, () => !string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Username)).ObservesProperty(() => Password).ObservesProperty(() => Username);
             _loginService = loginService;
             _pageDialogService = pageDialogService;
         }
@@ -80,6 +80,9 @@ namespace EuroMobile.ViewModels
                 if (!response.IsSuccessStatusCode)
                 {
                     var errors = await response.GetResponseErrorMessage();
+
+                    EmailErrorMessage = errors.FirstOrDefault(e => e.Code.Equals("Email"))?.Description;
+                    PasswordErrorMessage = errors.FirstOrDefault(e => e.Code.Equals("Password"))?.Description;
 
                     //await _pageDialogService.DisplayAlertAsync("Registration", errorMessage, "OK");
                 }

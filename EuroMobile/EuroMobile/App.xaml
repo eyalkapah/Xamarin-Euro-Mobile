@@ -3,10 +3,14 @@
     x:Class="EuroMobile.App"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:EuroMobile.Converters"
     xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms">
     <Application.Resources>
 
         <ResourceDictionary>
+            <converters:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter" />
+            <converters:HasValueConverter x:Key="HasValueConverter" />
+
             <OnPlatform x:Key="FontAwesomeBrands" x:TypeArguments="x:String">
                 <On Platform="Android" Value="FontAwesome5Regular.otf#Regular" />
                 <On Platform="iOS" Value="FontAwesome5Brands-Regular" />

@@ -3,8 +3,11 @@
     x:Class="EuroMobile.Views.RegisterPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:fa="clr-namespace:EuroMobile.Utils"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com"
+    Title="Register"
     prism:ViewModelLocator.AutowireViewModel="True"
     Visual="Material">
     <ContentPage.Resources>
@@ -14,11 +17,12 @@
                 <Setter Property="FontSize" Value="Small" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="ClearButtonVisibility" Value="WhileEditing" />
+                <Setter Property="PlaceholderColor" Value="Gray" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout VerticalOptions="FillAndExpand">
+        <StackLayout BackgroundColor="AliceBlue" VerticalOptions="Fill">
 
             <!--<StackLayout Padding="16">
                 <Frame
@@ -72,8 +76,10 @@
                         Style="{StaticResource FormEntryStyle}"
                         Text="{Binding Username, Mode=TwoWay}" />
 
+
+
                     <Label
-                        Grid.Row="1"
+                        Grid.Row="2"
                         Margin="0,16,0,0"
                         FontFamily="{StaticResource FontAwesomeSolid}"
                         HeightRequest="32"
@@ -82,17 +88,34 @@
                         WidthRequest="32" />
 
                     <Entry
-                        Grid.Row="1"
+                        Grid.Row="2"
                         Grid.Column="1"
                         IsPassword="true"
                         Placeholder="Password"
                         Style="{StaticResource FormEntryStyle}"
                         Text="{Binding Password, Mode=TwoWay}" />
+
+
                 </Grid>
+            </Frame>
 
+            <Frame
+                Margin="16"
+                Padding="8"
+                CornerRadius="0"
+                HorizontalOptions="Fill">
+                <StackLayout VerticalOptions="Start">
+                    <Label
+                        FontSize="10"
+                        Text="This is email error message"
+                        TextColor="Red"
+                        VerticalOptions="StartAndExpand" />
 
-
-
+                    <Label
+                        FontSize="10"
+                        Text="{Binding PasswordErrorMessage, Mode=OneWay}"
+                        TextColor="Red" />
+                </StackLayout>
             </Frame>
 
             <Button
@@ -102,8 +125,8 @@
                 CornerRadius="8"
                 HorizontalOptions="Fill"
                 Text="CREATE ACCOUNT"
-                TextColor="White" />
-
+                TextColor="White"
+                VerticalOptions="EndAndExpand" />
 
             <!--<Frame>
                 <StackLayout>
@@ -204,7 +227,7 @@
                 Margin="16"
                 HorizontalOptions="CenterAndExpand"
                 Orientation="Horizontal"
-                VerticalOptions="EndAndExpand">
+                VerticalOptions="End">
                 <Label FontSize="Small" Text="Have an Account?" />
 
                 <Label
