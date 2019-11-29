@@ -9,7 +9,7 @@ namespace EuroMobile.Services
 {
     public interface ILoginService
     {
-        void HandleSuccessfullLogin(string content);
+        void HandleSuccessfullRegistration(string content);
 
         Task<HttpResponseMessage> RegisterAsync(string username, string password);
     }

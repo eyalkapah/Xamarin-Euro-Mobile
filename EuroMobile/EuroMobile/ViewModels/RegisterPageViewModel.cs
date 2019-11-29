@@ -3,11 +3,9 @@ using EuroMobile.Services;
 using EuroMobile.ViewModels.Base;
 using EuroMobile.Views;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 
@@ -29,6 +27,7 @@ namespace EuroMobile.ViewModels
         }
 
         public ICommand NavigateToSignInPageCommand { get; set; }
+        public ICommand RegisterCommandAsync { get; set; }
 
         public string Password
         {
@@ -41,8 +40,6 @@ namespace EuroMobile.ViewModels
             get => _passwordErrorMessage;
             set => SetProperty(ref _passwordErrorMessage, value);
         }
-
-        public ICommand RegisterCommandAsync { get; set; }
 
         public string Username
         {
@@ -83,16 +80,14 @@ namespace EuroMobile.ViewModels
 
                     EmailErrorMessage = errors.FirstOrDefault(e => e.Code.Equals("Email"))?.Description;
                     PasswordErrorMessage = errors.FirstOrDefault(e => e.Code.Equals("Password"))?.Description;
-
-                    //await _pageDialogService.DisplayAlertAsync("Registration", errorMessage, "OK");
                 }
                 else
                 {
-                    var content = await response.Content.ReadAsStringAsync();
+                    var result = await response.Content.ReadAsStringAsync();
 
-                    _loginService.HandleSuccessfullLogin(content);
+                    _loginService.HandleSuccessfullRegistration(result);
 
-                    await NavigationService.NavigateAsync(typeof(HomePage).Name);
+                    await NavigationService.NavigateAsync("/CustomMasterDetailPage/NavigationPage/HomePage");
                 }
             }
             catch (Exception ex)

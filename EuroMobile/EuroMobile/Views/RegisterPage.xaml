@@ -22,7 +22,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout BackgroundColor="AliceBlue" VerticalOptions="Fill">
+        <StackLayout BackgroundColor="#EFEFEF" VerticalOptions="Fill">
 
             <!--<StackLayout Padding="16">
                 <Frame
@@ -67,6 +67,7 @@
                         FontFamily="{StaticResource FontAwesomeSolid}"
                         HeightRequest="32"
                         Text="{x:Static fa:FontAwesomeIcons.Envelope}"
+                        TextColor="Black"
                         VerticalOptions="Center"
                         WidthRequest="32" />
 
@@ -76,14 +77,13 @@
                         Style="{StaticResource FormEntryStyle}"
                         Text="{Binding Username, Mode=TwoWay}" />
 
-
-
                     <Label
                         Grid.Row="2"
                         Margin="0,16,0,0"
                         FontFamily="{StaticResource FontAwesomeSolid}"
                         HeightRequest="32"
                         Text="{x:Static fa:FontAwesomeIcons.Key}"
+                        TextColor="Black"
                         VerticalOptions="Center"
                         WidthRequest="32" />
 
@@ -94,8 +94,6 @@
                         Placeholder="Password"
                         Style="{StaticResource FormEntryStyle}"
                         Text="{Binding Password, Mode=TwoWay}" />
-
-
                 </Grid>
             </Frame>
 
@@ -104,15 +102,44 @@
                 Padding="8"
                 CornerRadius="0"
                 HorizontalOptions="Fill">
+                <Frame.Triggers>
+                    <MultiTrigger TargetType="Frame">
+                        <MultiTrigger.Conditions>
+                            <BindingCondition Binding="{Binding Source={x:Reference EmailErrorMessageLabel}, Path=IsVisible}" Value="False" />
+                            <BindingCondition Binding="{Binding Source={x:Reference PasswordErrorMessageLabel}, Path=IsVisible}" Value="False" />
+                        </MultiTrigger.Conditions>
+
+                        <Setter Property="IsVisible" Value="False" />
+                        <!--  multiple Setter elements are allowed  -->
+                    </MultiTrigger>
+                </Frame.Triggers>
                 <StackLayout VerticalOptions="Start">
                     <Label
+                        FontAttributes="Bold"
                         FontSize="10"
-                        Text="This is email error message"
+                        IsVisible="{Binding EmailErrorMessage, Converter={StaticResource HasValueConverter}}"
+                        Text="Email"
+                        TextColor="Red" />
+                    <Label
+                        x:Name="EmailErrorMessageLabel"
+                        Margin="8,0,8,8"
+                        FontSize="10"
+                        IsVisible="{Binding EmailErrorMessage, Converter={StaticResource HasValueConverter}}"
+                        Text="{Binding EmailErrorMessage}"
                         TextColor="Red"
                         VerticalOptions="StartAndExpand" />
 
                     <Label
+                        FontAttributes="Bold"
                         FontSize="10"
+                        IsVisible="{Binding PasswordErrorMessage, Converter={StaticResource HasValueConverter}}"
+                        Text="Password"
+                        TextColor="Red" />
+                    <Label
+                        x:Name="PasswordErrorMessageLabel"
+                        Margin="8,0,8,8"
+                        FontSize="10"
+                        IsVisible="{Binding PasswordErrorMessage, Converter={StaticResource HasValueConverter}}"
                         Text="{Binding PasswordErrorMessage, Mode=OneWay}"
                         TextColor="Red" />
                 </StackLayout>

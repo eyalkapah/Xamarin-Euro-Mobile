@@ -1,9 +1,6 @@
-﻿using EuroMobile.Models;
-using EuroMobile.Models.Api;
+﻿using EuroMobile.Models.Api;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,28 +12,23 @@ namespace EuroMobile.Services
     {
         private readonly ISettingsService _settings;
 
-        public LoginInfo LoginInfo { get; set; }
+        public bool IsLoggedIn { get; set; }
 
         public LoginService(ISettingsService settings)
         {
             _settings = settings;
         }
 
-        public async void HandleSuccessfullLogin(string content)
+        public async void HandleSuccessfullRegistration(string content)
         {
-            var json = JsonConvert.DeserializeObject<LoginCredentials>(content);
+            var credentialsResult = JsonConvert.DeserializeObject<ApiResponse>(content);
 
             try
             {
-                LoginInfo = new LoginInfo
-                {
-                    FirstName = json.FirstName,
-                    LastName = json.LastName,
-                    Nick = json.Nick
-                };
+                await SecureStorage.SetAsync("email", credentialsResult.Response.Email);
+                await SecureStorage.SetAsync("token", credentialsResult.Response.Token);
 
-                await SecureStorage.SetAsync("email", json.Email);
-                await SecureStorage.SetAsync("token", json.Token);
+                IsLoggedIn = true;
             }
             catch (Exception ex)
             {
