@@ -12,7 +12,23 @@ namespace EuroMobile.Services
     {
         private readonly ISettingsService _settings;
 
-        public bool IsLoggedIn { get; set; }
+        private bool _isLoggedIn;
+
+        public event EventHandler<bool> LoggedInChanged = delegate { };
+
+        public bool IsLoggedIn
+        {
+            get => _isLoggedIn;
+            set
+            {
+                if (_isLoggedIn != value)
+                {
+                    _isLoggedIn = value;
+
+                    OnLoggedInChanged(value);
+                }
+            }
+        }
 
         public LoginService(ISettingsService settings)
         {
@@ -61,6 +77,11 @@ namespace EuroMobile.Services
             }
 
             return null;
+        }
+
+        private void OnLoggedInChanged(bool value)
+        {
+            LoggedInChanged(this, value);
         }
     }
 }

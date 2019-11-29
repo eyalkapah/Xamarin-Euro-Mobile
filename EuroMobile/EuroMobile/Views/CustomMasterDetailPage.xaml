@@ -9,7 +9,7 @@
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <MasterDetailPage.Master>
-        <views:MasterPage x:Name="MasterPage" />
+        <views:MasterPage x:Name="MasterPage" BindingContext="{Binding MasterPageViewModel}" />
         <!--<ContentPage Title="Menu">
             <StackLayout BackgroundColor="Silver">
                 <ListView
