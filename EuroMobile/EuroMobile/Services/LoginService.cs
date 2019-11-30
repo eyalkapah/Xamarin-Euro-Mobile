@@ -1,4 +1,5 @@
-﻿using EuroMobile.Models.Api;
+﻿using EuroMobile.Models;
+using EuroMobile.Models.Api;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -35,6 +36,11 @@ namespace EuroMobile.Services
             _settings = settings;
         }
 
+        public UserInfo GetUserInfo()
+        {
+            throw new NotImplementedException();
+        }
+
         public async void HandleSuccessfullRegistration(string content)
         {
             var credentialsResult = JsonConvert.DeserializeObject<ApiResponse>(content);
@@ -50,6 +56,11 @@ namespace EuroMobile.Services
             {
                 throw ex;
             }
+        }
+
+        public Task LoginAsync(string username, string password)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<HttpResponseMessage> RegisterAsync(string username, string password)

@@ -10,17 +10,7 @@
     Title="Register"
     prism:ViewModelLocator.AutowireViewModel="True"
     Visual="Material">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style x:Key="FormEntryStyle" TargetType="Entry">
-                <Setter Property="BackgroundColor" Value="Transparent" />
-                <Setter Property="FontSize" Value="Small" />
-                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-                <Setter Property="ClearButtonVisibility" Value="WhileEditing" />
-                <Setter Property="PlaceholderColor" Value="Gray" />
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
+
     <ContentPage.Content>
         <StackLayout BackgroundColor="#EFEFEF" VerticalOptions="Fill">
 

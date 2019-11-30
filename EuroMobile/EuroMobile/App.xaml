@@ -8,6 +8,7 @@
     <Application.Resources>
 
         <ResourceDictionary>
+
             <converters:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter" />
             <converters:HasValueConverter x:Key="HasValueConverter" />
 
@@ -42,6 +43,14 @@
                 Android="google.png"
                 WinPhone="Assets\Logos\google.png"
                 iOS="google.png" />
+
+            <Style x:Key="FormEntryStyle" TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="FontSize" Value="Small" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="ClearButtonVisibility" Value="WhileEditing" />
+                <Setter Property="PlaceholderColor" Value="Gray" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>
