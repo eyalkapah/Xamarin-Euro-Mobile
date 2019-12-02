@@ -1,9 +1,11 @@
-﻿using EuroMobile.Services;
+﻿using EuroMobile.Extensions;
+using EuroMobile.Services;
 using EuroMobile.ViewModels.Base;
 using EuroMobile.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,7 @@ namespace EuroMobile.ViewModels
     public class SignInPageViewModel : ViewModelBase
     {
         private ILoginService _loginService;
+        private readonly IPageDialogService _dialogService;
         private string _password;
         private string _username;
         public ICommand LoginCommand { get; set; }
@@ -34,10 +37,10 @@ namespace EuroMobile.ViewModels
             set => SetProperty(ref _username, value);
         }
 
-        public SignInPageViewModel(INavigationService navigationService, ILoginService loginService) : base(navigationService)
+        public SignInPageViewModel(INavigationService navigationService, ILoginService loginService, IPageDialogService dialogService) : base(navigationService)
         {
             _loginService = loginService;
-
+            _dialogService = dialogService;
             LoginCommand = new DelegateCommand(LoginAsync, () => !string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Username))
                 .ObservesProperty(() => Password)
                 .ObservesProperty(() => Username);
@@ -47,18 +50,17 @@ namespace EuroMobile.ViewModels
             RegisterCommand = new DelegateCommand(Register);
         }
 
-        private void LoginAsync()
+        private async void LoginAsync()
         {
             try
             {
-                var response = await _loginService.LoginAsync(Username, Password);
+                var response = await _loginService.LogInAsync(Username, Password);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    var errors = await response.GetResponseErrorMessage();
+                    var error = await response.GetResponseError();
 
-                    EmailErrorMessage = errors.FirstOrDefault(e => e.Code.Equals("Email"))?.Description;
-                    PasswordErrorMessage = errors.FirstOrDefault(e => e.Code.Equals("Password"))?.Description;
+                    await _dialogService.DisplayAlertAsync("Fail", error, "OK");
                 }
                 else
                 {

@@ -43,7 +43,7 @@ namespace EuroMobile.Services
 
         public async void HandleSuccessfullRegistration(string content)
         {
-            var credentialsResult = JsonConvert.DeserializeObject<ApiResponse>(content);
+            var credentialsResult = JsonConvert.DeserializeObject<ApiResponse<RegisterCredentialsResultApiModel>>(content);
 
             try
             {
@@ -58,9 +58,27 @@ namespace EuroMobile.Services
             }
         }
 
-        public Task LoginAsync(string username, string password)
+        public async Task<HttpResponseMessage> LogInAsync(string username, string password)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var jsonContent = JsonConvert.SerializeObject(new LoginCredentialsApiModel
+                    {
+                        Username = username,
+                        Password = password
+                    });
+
+                    return await client.PostAsync(GlobalSettings.Instance.LogInEndpoint,
+                        new StringContent(jsonContent.ToString(), Encoding.UTF8, "application/json"));
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+
+            return null;
         }
 
         public async Task<HttpResponseMessage> RegisterAsync(string username, string password)

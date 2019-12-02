@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +12,8 @@ namespace EuroMobile.ViewModels.Base
     {
         private string _title;
         protected INavigationService NavigationService { get; private set; }
+        public IPageDialogService PageDialogService => IoC.PageDialog;
+
         public string Title
         {
             get { return _title; }

@@ -18,7 +18,7 @@ namespace EuroMobile.Services
 
         void HandleSuccessfullRegistration(string content);
 
-        Task LoginAsync(string username, string password);
+        Task<HttpResponseMessage> LogInAsync(string username, string password);
 
         Task<HttpResponseMessage> RegisterAsync(string username, string password);
     }

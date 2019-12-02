@@ -49,6 +49,8 @@ namespace EuroMobile
             containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
             containerRegistry.RegisterForNavigation<SignInPage, SignInPageViewModel>();
             containerRegistry.RegisterForNavigation<RegisterPage, RegisterPageViewModel>();
+
+            IoC.Initialize(Container);
         }
 
         private void InitializeServices()

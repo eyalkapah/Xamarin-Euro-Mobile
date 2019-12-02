@@ -76,7 +76,7 @@ namespace EuroMobile.ViewModels
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    var errors = await response.GetResponseErrorMessage();
+                    var errors = await response.GetResponseErrors();
 
                     EmailErrorMessage = errors.FirstOrDefault(e => e.Code.Equals("Email"))?.Description;
                     PasswordErrorMessage = errors.FirstOrDefault(e => e.Code.Equals("Password"))?.Description;

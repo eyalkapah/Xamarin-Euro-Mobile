@@ -30,6 +30,7 @@ namespace EuroMobile
         public string LogoutEndpoint { get; private set; }
 
         public string RegisterEndpoint { get; private set; }
+        public string LogInEndpoint { get; private set; }
 
         public GlobalSettings()
         {
@@ -39,6 +40,7 @@ namespace EuroMobile
         private void UpdateEndpoint(string baseEndpoint)
         {
             RegisterEndpoint = $"{baseEndpoint}/api/register";
+            LogInEndpoint = $"{BaseEndpoint}/api/login";
             LogoutEndpoint = $"{baseEndpoint}/api/account/endsession";
         }
     }

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace EuroMobile.Models.Api
 {
-    public class ApiResponse
+    public class ApiResponse<T>
     {
         [JsonProperty("errors")]
         public List<ErrorApiModel> Errors { get; set; }
 
         [JsonProperty("is_succeeded")]
-        public bool IsSucceeded { get; set; }
+        public bool IsSucceeded => Errors == null;
 
         [JsonProperty("response")]
-        public RegisterCredentialsResultApiModel Response { get; set; }
+        public T Response { get; internal set; }
     }
 }

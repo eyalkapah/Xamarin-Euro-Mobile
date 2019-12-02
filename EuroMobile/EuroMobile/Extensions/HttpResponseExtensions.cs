@@ -10,7 +10,16 @@ namespace EuroMobile.Extensions
 {
     public static class HttpResponseExtensions
     {
-        public static async Task<List<ErrorApiModel>> GetResponseErrorMessage(this HttpResponseMessage response)
+        public static async Task<string> GetResponseError(this HttpResponseMessage response)
+        {
+            var json = await response.Content.ReadAsStringAsync();
+
+            var apiResponse = JsonConvert.DeserializeObject<LoginApiResponse<LoginResultApiModel>>(json);
+
+            return !apiResponse.IsSucceeded ? apiResponse.Error : null;
+        }
+
+        public static async Task<List<ErrorApiModel>> GetResponseErrors(this HttpResponseMessage response)
         {
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
@@ -27,7 +36,7 @@ namespace EuroMobile.Extensions
             {
                 var json = await response.Content.ReadAsStringAsync();
 
-                var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(json);
+                var apiResponse = JsonConvert.DeserializeObject<ApiResponse<RegisterCredentialsResultApiModel>>(json);
 
                 if (!apiResponse.IsSucceeded)
                 {
