@@ -16,10 +16,12 @@ namespace EuroMobile.Services
 
         UserInfo GetUserInfo();
 
-        void HandleSuccessfullRegistration(string content);
+        Task HandleSuccessfullRegistrationAsync(string content);
 
         Task<HttpResponseMessage> LogInAsync(string username, string password);
 
         Task<HttpResponseMessage> RegisterAsync(string username, string password);
+
+        Task HandleSuccessfullLoginAsync(string content);
     }
 }

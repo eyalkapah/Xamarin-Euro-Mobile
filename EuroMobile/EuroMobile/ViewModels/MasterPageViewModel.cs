@@ -8,17 +8,16 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace EuroMobile.ViewModels
 {
     public class MasterPageViewModel : ViewModelBase
     {
         private readonly ILoginService _loginService;
-        private List<MasterPageItem> __secondaryMenuItems;
         private bool _isLoggedIn;
-        private List<MasterPageItem> _menuItems;
+        private List<MasterPageItem> _navigationItems;
         private MasterPageItem _selectedMenuItem;
-        private MasterPageItem _selectedSecondaryMenuItem;
 
         public bool IsLoggedIn
         {
@@ -26,30 +25,18 @@ namespace EuroMobile.ViewModels
             set => SetProperty(ref _isLoggedIn, value);
         }
 
-        public List<MasterPageItem> MenuItems
+        public List<MasterPageItem> NavigationItems
         {
-            get => _menuItems;
-            set => SetProperty(ref _menuItems, value);
+            get => _navigationItems;
+            set => SetProperty(ref _navigationItems, value);
         }
 
         public DelegateCommand<string> OnNavigateCommand { get; set; }
-
-        public List<MasterPageItem> SecondaryMenuItems
-        {
-            get => __secondaryMenuItems;
-            set => SetProperty(ref __secondaryMenuItems, value);
-        }
 
         public MasterPageItem SelectedMenuItem
         {
             get => _selectedMenuItem;
             set => SetProperty(ref _selectedMenuItem, value, () => OnSelectionChanged(value));
-        }
-
-        public MasterPageItem SelectedSecondaryMenuItem
-        {
-            get => _selectedSecondaryMenuItem;
-            set => SetProperty(ref _selectedSecondaryMenuItem, value, () => OnSelectionChanged(value));
         }
 
         public MasterPageViewModel(INavigationService navigationService, ILoginService loginService) : base(navigationService)
@@ -63,7 +50,7 @@ namespace EuroMobile.ViewModels
         {
             return Task.Run(() =>
             {
-                MenuItems = new List<MasterPageItem>
+                NavigationItems = new List<MasterPageItem>
             {
                 new MasterPageItem
                 {
@@ -84,24 +71,6 @@ namespace EuroMobile.ViewModels
                     TargetType = typeof(MatchesPage)
                 }
             };
-
-                SecondaryMenuItems = new List<MasterPageItem>();
-
-                if (!_loginService.IsLoggedIn)
-                    SecondaryMenuItems.Add(new MasterPageItem
-                    {
-                        Title = "Add account",
-                        Glyph = FontAwesomeIcons.Plus,
-                        TargetType = typeof(SignInPage)
-                    });
-
-                SecondaryMenuItems.Add(
-                    new MasterPageItem
-                    {
-                        Title = "Settings",
-                        Glyph = FontAwesomeIcons.Cog,
-                        TargetType = typeof(SettingsPage)
-                    });
             });
         }
 
@@ -117,7 +86,6 @@ namespace EuroMobile.ViewModels
 
             await NavigationService.NavigateAsync(new Uri($"NavigationPage/{selectedItem.TargetType.Name}", UriKind.Relative));
 
-            SelectedSecondaryMenuItem = null;
             SelectedMenuItem = null;
         }
     }

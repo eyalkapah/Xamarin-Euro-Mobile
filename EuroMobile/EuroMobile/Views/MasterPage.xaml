@@ -6,10 +6,15 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:fa="clr-namespace:EuroMobile.Utils"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="clr-namespace:Prism.Navigation.Xaml;assembly=Prism.Forms"
+    xmlns:viewmodels="clr-namespace:EuroMobile.ViewModels"
     Title="Personal Organiser"
     BackgroundColor="#1f1f1f"
     mc:Ignorable="d">
-    <StackLayout Padding="16,24,16,0">
+    <d:ContentPage.BindingContext>
+        <viewmodels:MasterPageViewModel />
+    </d:ContentPage.BindingContext>
+    <StackLayout Padding="16,24,16,0" VerticalOptions="StartAndExpand">
         <StackLayout Padding="0,8">
             <Label
                 FontFamily="{StaticResource FontAwesomeSolid}"
@@ -27,7 +32,6 @@
                 FontSize="12"
                 Text="eykapah@microsoft.com"
                 TextColor="White" />
-
         </StackLayout>
 
         <BoxView
@@ -36,9 +40,10 @@
             HorizontalOptions="FillAndExpand"
             Opacity="0.3" />
         <ListView
-            ItemsSource="{Binding MenuItems}"
+            ItemsSource="{Binding NavigationItems}"
             SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
-            SelectionMode="Single">
+            SelectionMode="Single"
+            VerticalOptions="FillAndExpand">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -64,35 +69,43 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <ListView
-            HeightRequest="98"
-            ItemsSource="{Binding SecondaryMenuItems}"
-            SelectedItem="{Binding SelectedSecondaryMenuItem, Mode=TwoWay}"
-            VerticalOptions="End">
+        <StackLayout
+            Padding="0,8"
+            IsVisible="{Binding IsLoggedIn}"
+            Orientation="Horizontal">
+            <Label
+                FontFamily="{StaticResource FontAwesomeSolid}"
+                Text="{x:Static fa:FontAwesomeIcons.Plus}"
+                TextColor="White"
+                VerticalOptions="Center"
+                WidthRequest="30" />
+            <Label
+                Grid.Column="1"
+                Text="Add account"
+                TextColor="White"
+                VerticalOptions="Center"
+                VerticalTextAlignment="Center" />
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{prism:NavigateTo 'NavigationPage/SignInPage'}" />
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
 
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="30" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Label
-                                FontFamily="{StaticResource FontAwesomeSolid}"
-                                Text="{Binding Glyph}"
-                                TextColor="White"
-                                VerticalOptions="Center" />
-                            <Label
-                                Grid.Column="1"
-                                Text="{Binding Title}"
-                                TextColor="White"
-                                VerticalOptions="Center"
-                                VerticalTextAlignment="Center" />
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <StackLayout Padding="0,8" Orientation="Horizontal">
+            <Label
+                FontFamily="{StaticResource FontAwesomeSolid}"
+                Text="{x:Static fa:FontAwesomeIcons.Cog}"
+                TextColor="White"
+                VerticalOptions="Center"
+                WidthRequest="30" />
+            <Label
+                Grid.Column="1"
+                Text="Settings"
+                TextColor="White"
+                VerticalOptions="Center"
+                VerticalTextAlignment="Center" />
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{prism:NavigateTo 'NavigationPage/Settings'}" />
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
     </StackLayout>
 </ContentPage>

@@ -41,13 +41,30 @@ namespace EuroMobile.Services
             throw new NotImplementedException();
         }
 
-        public async void HandleSuccessfullRegistration(string content)
+        public async Task HandleSuccessfullRegistrationAsync(string content)
         {
             var credentialsResult = JsonConvert.DeserializeObject<ApiResponse<RegisterCredentialsResultApiModel>>(content);
 
             try
             {
                 await SecureStorage.SetAsync("email", credentialsResult.Response.Email);
+                await SecureStorage.SetAsync("token", credentialsResult.Response.Token);
+
+                IsLoggedIn = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task HandleSuccessfullLoginAsync(string content)
+        {
+            var credentialsResult = JsonConvert.DeserializeObject<ApiResponse<LoginResultApiModel>>(content);
+
+            try
+            {
+                await SecureStorage.SetAsync("email", credentialsResult.Response.Username);
                 await SecureStorage.SetAsync("token", credentialsResult.Response.Token);
 
                 IsLoggedIn = true;
