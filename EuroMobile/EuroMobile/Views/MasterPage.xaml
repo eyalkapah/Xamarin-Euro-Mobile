@@ -104,7 +104,7 @@
                 VerticalOptions="Center"
                 VerticalTextAlignment="Center" />
             <StackLayout.GestureRecognizers>
-                <TapGestureRecognizer Command="{prism:NavigateTo 'NavigationPage/Settings'}" />
+                <TapGestureRecognizer Command="{prism:NavigateTo 'NavigationPage/SettingsPage'}" />
             </StackLayout.GestureRecognizers>
         </StackLayout>
     </StackLayout>

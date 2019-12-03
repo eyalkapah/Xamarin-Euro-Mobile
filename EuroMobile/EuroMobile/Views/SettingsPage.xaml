@@ -3,7 +3,51 @@
     x:Class="EuroMobile.Views.SettingsPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:fa="clr-namespace:EuroMobile.Utils"
     xmlns:prism="http://prismlibrary.com"
+    xmlns:viewmodels="clr-namespace:EuroMobile.ViewModels"
+    Title="Settings"
     prism:ViewModelLocator.AutowireViewModel="True">
-    <Label Text="Settings" />
+    <d:ContentPage.BindingContext>
+        <viewmodels:SettingsPageViewModel />
+    </d:ContentPage.BindingContext>
+    <StackLayout VerticalOptions="StartAndExpand">
+
+        <StackLayout
+            Padding="16,24,16,16"
+            BackgroundColor="Aquamarine"
+            Orientation="Horizontal">
+            <Label
+                FontFamily="{StaticResource FontAwesomeSolid}"
+                FontSize="48"
+                Text="{x:Static fa:FontAwesomeIcons.UserCircle}"
+                VerticalOptions="Start" />
+
+            <StackLayout Margin="8,0" VerticalOptions="Center">
+                <Label
+                    Margin="0,0,0,-8"
+                    FontAttributes="Bold"
+                    FontSize="Subtitle"
+                    Text="{Binding FullName}" />
+                <Label FontSize="12" Text="{Binding Email}" />
+
+            </StackLayout>
+
+        </StackLayout>
+
+        <Frame
+            Margin="16,-32,16,0"
+            Padding="16"
+            CornerRadius="180"
+            HorizontalOptions="End">
+            <Label
+                FontFamily="{StaticResource FontAwesomeSolid}"
+                FontSize="24"
+                HorizontalOptions="Center"
+                Text="{x:Static fa:FontAwesomeIcons.Camera}"
+                VerticalOptions="Center" />
+        </Frame>
+
+    </StackLayout>
 </ContentPage>
