@@ -12,12 +12,13 @@
     <d:ContentPage.BindingContext>
         <viewmodels:SettingsPageViewModel />
     </d:ContentPage.BindingContext>
-    <StackLayout VerticalOptions="StartAndExpand">
+    <StackLayout Spacing="0" VerticalOptions="StartAndExpand">
 
         <StackLayout
             Padding="16,24,16,16"
-            BackgroundColor="Aquamarine"
-            Orientation="Horizontal">
+            BackgroundColor="#EFEFEF"
+            Orientation="Horizontal"
+            VerticalOptions="Start">
             <Label
                 FontFamily="{StaticResource FontAwesomeSolid}"
                 FontSize="48"
@@ -31,23 +32,60 @@
                     FontSize="Subtitle"
                     Text="{Binding FullName}" />
                 <Label FontSize="12" Text="{Binding Email}" />
-
             </StackLayout>
-
         </StackLayout>
 
-        <Frame
-            Margin="16,-32,16,0"
-            Padding="16"
-            CornerRadius="180"
-            HorizontalOptions="End">
-            <Label
-                FontFamily="{StaticResource FontAwesomeSolid}"
-                FontSize="24"
-                HorizontalOptions="Center"
-                Text="{x:Static fa:FontAwesomeIcons.Camera}"
-                VerticalOptions="Center" />
-        </Frame>
+        <Grid>
 
+            <Frame
+                Margin="0"
+                Padding="16,16,0,16"
+                CornerRadius="0"
+                HorizontalOptions="Fill">
+
+                <StackLayout>
+                    <StackLayout Spacing="2">
+
+                        <Label
+                            Margin="0,0,0,8"
+                            FontAttributes="Bold"
+                            FontSize="12"
+                            Text="Account" />
+                        <Label Text="Eyal Kapah" TextColor="Black" />
+                        <Label FontSize="12" Text="Full Name" />
+
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ShowFullNameDialogCommand}" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+
+                    <BoxView
+                        BackgroundColor="#696969"
+                        HeightRequest="1"
+                        HorizontalOptions="FillAndExpand"
+                        Opacity="0.3" />
+
+                    <StackLayout Spacing="2">
+
+                        <Label Text="Bio" TextColor="Black" />
+                        <Label FontSize="12" Text="Add a few words about yourself" />
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+
+            <Frame
+                Margin="16,-32,16,0"
+                Padding="16"
+                BorderColor="#D9D9D9"
+                CornerRadius="180"
+                HorizontalOptions="End"
+                VerticalOptions="Start">
+
+                <Label
+                    FontFamily="{StaticResource FontAwesomeSolid}"
+                    FontSize="24"
+                    Text="{x:Static fa:FontAwesomeIcons.Camera}" />
+            </Frame>
+        </Grid>
     </StackLayout>
 </ContentPage>

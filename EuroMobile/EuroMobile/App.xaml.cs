@@ -50,6 +50,8 @@ namespace EuroMobile
             containerRegistry.RegisterForNavigation<SignInPage, SignInPageViewModel>();
             containerRegistry.RegisterForNavigation<RegisterPage, RegisterPageViewModel>();
 
+            containerRegistry.RegisterDialog<FullNameDialog, FullNameDialogViewModel>();
+
             IoC.Initialize(Container);
         }
 
