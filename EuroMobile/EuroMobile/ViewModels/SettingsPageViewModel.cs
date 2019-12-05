@@ -1,5 +1,6 @@
 ﻿using EuroMobile.ViewModels.Base;
 using EuroMobile.Views;
+using EuroMobile.Views.Dialogs;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -41,7 +42,7 @@ namespace EuroMobile.ViewModels
 
         private void ShowFullNameDialog()
         {
-            IoC.DialogService.ShowDialog(typeof(FullNameDialog).Name);
+            IoC.DialogService.ShowDialog(typeof(AddFullNameDialogView).Name);
         }
     }
 }

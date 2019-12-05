@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using EuroMobile.Services;
 using System;
+using EuroMobile.Views.Dialogs;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
@@ -50,7 +51,7 @@ namespace EuroMobile
             containerRegistry.RegisterForNavigation<SignInPage, SignInPageViewModel>();
             containerRegistry.RegisterForNavigation<RegisterPage, RegisterPageViewModel>();
 
-            containerRegistry.RegisterDialog<FullNameDialog, FullNameDialogViewModel>();
+            containerRegistry.RegisterDialog<AddFullNameDialogView, AddFullNameDialogViewModel>();
 
             IoC.Initialize(Container);
         }

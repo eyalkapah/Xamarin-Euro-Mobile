@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace EuroMobile.Views
+namespace EuroMobile.Views.Dialogs
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class FullNameDialog : Grid
+    public partial class AddFullNameDialogView : ContentView
     {
-        public FullNameDialog()
+        public AddFullNameDialogView()
         {
             InitializeComponent();
         }

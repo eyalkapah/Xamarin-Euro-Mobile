@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="EuroMobile.Views.Dialogs.AddFullNameDialogView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com"
+    prism:DialogLayout.CloseOnBackgroundTapped="true"
+    prism:DialogLayout.RelativeWidthRequest="0.80"
+    Visual="Material"
+    mc:Ignorable="d">
+    <Frame CornerRadius="20">
+        <Grid RowSpacing="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackLayout Orientation="Horizontal" Spacing="12">
+
+                <Label
+                    FontSize="Small"
+                    Text="Enter your full name"
+                    VerticalOptions="FillAndExpand"
+                    VerticalTextAlignment="Start" />
+            </StackLayout>
+            <StackLayout Grid.Row="1" HorizontalOptions="FillAndExpand">
+                <Entry
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="FillAndExpand"
+                    Text="{Binding FullName}" />
+            </StackLayout>
+
+            <StackLayout
+                Grid.Row="3"
+                Margin="0,32,0,0"
+                Orientation="Horizontal">
+
+                <Button
+                    Command="{Binding SaveCommand}"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Accept" />
+            </StackLayout>
+        </Grid>
+    </Frame>
+</ContentView>

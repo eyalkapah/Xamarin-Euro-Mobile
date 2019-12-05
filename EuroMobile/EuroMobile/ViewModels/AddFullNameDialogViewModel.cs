@@ -11,12 +11,11 @@ using System.Windows.Input;
 
 namespace EuroMobile.ViewModels
 {
-    public class FullNameDialogViewModel : BindableBase, IDialogAware, IAutoInitialize
+    public class AddFullNameDialogViewModel : BindableBase, IDialogAware, IAutoInitialize
     {
         public event Action<IDialogParameters> RequestClose;
 
-        public ICommand OkCommand { get; set; }
-        public ICommand CancelCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
 
         private string _fullName;
 
@@ -26,18 +25,14 @@ namespace EuroMobile.ViewModels
             set => SetProperty(ref _fullName, value);
         }
 
-        public FullNameDialogViewModel()
+        public AddFullNameDialogViewModel()
         {
-            OkCommand = new DelegateCommand(Ok);
-            CancelCommand = new DelegateCommand(Cancel);
+            SaveCommand = new DelegateCommand(Save, () => !string.IsNullOrWhiteSpace(FullName)).ObservesProperty(() => FullName);
         }
 
-        private void Cancel()
-        {
-            throw new NotImplementedException();
-        }
+     
 
-        private void Ok()
+        private void Save()
         {
             throw new NotImplementedException();
         }
