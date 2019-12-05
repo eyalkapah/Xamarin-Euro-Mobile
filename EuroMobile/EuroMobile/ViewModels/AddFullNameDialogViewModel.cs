@@ -13,6 +13,8 @@ namespace EuroMobile.ViewModels
 {
     public class AddFullNameDialogViewModel : BindableBase, IDialogAware, IAutoInitialize
     {
+        public static string ParameterFullName = "FullName";
+
         public event Action<IDialogParameters> RequestClose;
 
         public ICommand SaveCommand { get; set; }
@@ -30,11 +32,9 @@ namespace EuroMobile.ViewModels
             SaveCommand = new DelegateCommand(Save, () => !string.IsNullOrWhiteSpace(FullName)).ObservesProperty(() => FullName);
         }
 
-     
-
         private void Save()
         {
-            throw new NotImplementedException();
+            RequestClose(new DialogParameters { { ParameterFullName, FullName } });
         }
 
         public bool CanCloseDialog()
@@ -48,6 +48,7 @@ namespace EuroMobile.ViewModels
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
+            FullName = parameters.GetValue<string>(ParameterFullName);
         }
     }
 }

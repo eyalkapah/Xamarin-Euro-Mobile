@@ -75,6 +75,14 @@ namespace EuroMobile.Services
             }
         }
 
+        public async Task<HttpResponseMessage> GetUserProfile()
+        {
+            using (var client = new HttpClient())
+            {
+                return await client.GetAsync(GlobalSettings.Instance.UserProfileEndPoint);
+            }
+        }
+
         public async Task<HttpResponseMessage> LogInAsync(string username, string password)
         {
             using (var client = new HttpClient())

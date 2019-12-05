@@ -23,5 +23,7 @@ namespace EuroMobile.Services
         Task<HttpResponseMessage> RegisterAsync(string username, string password);
 
         Task HandleSuccessfullLoginAsync(string content);
+
+        Task<HttpResponseMessage> GetUserProfile();
     }
 }

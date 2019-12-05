@@ -9,9 +9,7 @@
     xmlns:viewmodels="clr-namespace:EuroMobile.ViewModels"
     Title="Settings"
     prism:ViewModelLocator.AutowireViewModel="True">
-    <d:ContentPage.BindingContext>
-        <viewmodels:SettingsPageViewModel />
-    </d:ContentPage.BindingContext>
+
     <StackLayout Spacing="0" VerticalOptions="StartAndExpand">
 
         <StackLayout
@@ -29,8 +27,34 @@
                 <Label
                     Margin="0,0,0,-8"
                     FontAttributes="Bold"
-                    FontSize="Subtitle"
-                    Text="{Binding FullName}" />
+                    FontSize="Subtitle">
+                    <Label.Style>
+                        <Style TargetType="Entry">
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding FullName, Converter={StaticResource IsNullOrEmptyConverter}}"
+                                    TargetType="Label"
+                                    Value="True">
+                                    <Setter Property="Text" Value="None" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding FullName, Converter={StaticResource IsNullOrEmptyConverter}}"
+                                    TargetType="Label"
+                                    Value="False">
+                                    <Setter Property="Text" Value="{Binding FullName}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                    <!--<Label.Triggers>
+                        <DataTrigger
+                            Binding="{Binding FullName, Converter={StaticResource IsNullOrEmptyConverter}}"
+                            TargetType="Label"
+                            Value="True">
+                            <Setter Property="Text" Value="None" />
+                        </DataTrigger>
+                    </Label.Triggers>-->
+                </Label>
                 <Label FontSize="12" Text="{Binding Email}" />
             </StackLayout>
         </StackLayout>
@@ -51,8 +75,8 @@
                             FontAttributes="Bold"
                             FontSize="12"
                             Text="Account" />
-                        <Label Text="Eyal Kapah" TextColor="Black" />
-                        <Label FontSize="12" Text="Full Name" />
+                        <Label Text="{Binding FullName}" TextColor="Black" />
+                        <Label FontSize="12" Text="Add your name" />
 
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ShowFullNameDialogCommand}" />
