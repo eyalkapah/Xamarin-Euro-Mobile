@@ -19,6 +19,11 @@ namespace EuroMobile.ViewModels
             Title = "Home";
         }
 
+        public override void Initialize(INavigationParameters parameters)
+        {
+            base.Initialize(parameters);
+        }
+
         private async void NavigateAsync(string page)
         {
             await NavigationService.NavigateAsync(new Uri($"{page}", UriKind.Relative));

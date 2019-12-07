@@ -11,6 +11,7 @@
 
             <converters:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter" />
             <converters:HasValueConverter x:Key="HasValueConverter" />
+            <converters:InverseConverter x:Key="InverseConverter" />
 
             <OnPlatform x:Key="FontAwesomeBrands" x:TypeArguments="x:String">
                 <On Platform="Android" Value="FontAwesome5Regular.otf#Regular" />

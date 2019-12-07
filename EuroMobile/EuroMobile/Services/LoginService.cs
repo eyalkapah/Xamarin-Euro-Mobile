@@ -1,8 +1,11 @@
-﻿using EuroMobile.Models;
+﻿using EuroMobile.Exceptions;
+using EuroMobile.Extensions;
+using EuroMobile.Models;
 using EuroMobile.Models.Api;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -17,6 +20,8 @@ namespace EuroMobile.Services
 
         public event EventHandler<bool> LoggedInChanged = delegate { };
 
+        public event EventHandler<UserProfile> UserProfileChanged = delegate { };
+
         public bool IsLoggedIn
         {
             get => _isLoggedIn;
@@ -26,36 +31,21 @@ namespace EuroMobile.Services
                 {
                     _isLoggedIn = value;
 
-                    OnLoggedInChanged(value);
+                    LoggedInChanged(this, value);
                 }
             }
         }
 
+        // C'tor
+        //
         public LoginService(ISettingsService settings)
         {
             _settings = settings;
         }
 
-        public UserInfo GetUserInfo()
+        public Task<HttpResponseMessage> GetUserProfileAsync()
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task HandleSuccessfullRegistrationAsync(string content)
-        {
-            var credentialsResult = JsonConvert.DeserializeObject<ApiResponse<RegisterCredentialsResultApiModel>>(content);
-
-            try
-            {
-                await SecureStorage.SetAsync("email", credentialsResult.Response.Email);
-                await SecureStorage.SetAsync("token", credentialsResult.Response.Token);
-
-                IsLoggedIn = true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return HttpClientExtensions.HttpAuthenticatedClient(GlobalSettings.Instance.UserProfileEndPoint);
         }
 
         public async Task HandleSuccessfullLoginAsync(string content)
@@ -75,11 +65,20 @@ namespace EuroMobile.Services
             }
         }
 
-        public async Task<HttpResponseMessage> GetUserProfile()
+        public async Task HandleSuccessfullRegistrationAsync(string content)
         {
-            using (var client = new HttpClient())
+            var credentialsResult = JsonConvert.DeserializeObject<ApiResponse<RegisterCredentialsResultApiModel>>(content);
+
+            try
             {
-                return await client.GetAsync(GlobalSettings.Instance.UserProfileEndPoint);
+                await SecureStorage.SetAsync("email", credentialsResult.Response.Email);
+                await SecureStorage.SetAsync("token", credentialsResult.Response.Token);
+
+                IsLoggedIn = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -133,9 +132,44 @@ namespace EuroMobile.Services
             return null;
         }
 
-        private void OnLoggedInChanged(bool value)
+        public async Task<UserProfile> SilentLoginInAsync()
         {
-            LoggedInChanged(this, value);
+            try
+            {
+                var email = await SecureStorage.GetAsync("email");
+                var token = await SecureStorage.GetAsync("token");
+
+                if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(token))
+                {
+                    ClearCredentials();
+
+                    return null;
+                }
+                else
+                {
+                    using (var client = new HttpClient())
+                    {
+                        //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                        var response = await client.GetAsync(GlobalSettings.Instance.UserProfileEndPoint);
+
+                        response.EnsureSuccessStatusCode();
+
+                        return await response.HandleSuccessfullSilentLogIn();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ClearCredentials();
+
+                return null;
+            }
+        }
+
+        private void ClearCredentials()
+        {
+            SecureStorage.Remove("email");
+            SecureStorage.Remove("token");
         }
     }
 }

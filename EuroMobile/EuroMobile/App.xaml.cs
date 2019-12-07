@@ -7,6 +7,7 @@ using Xamarin.Forms.Xaml;
 using EuroMobile.Services;
 using System;
 using EuroMobile.Views.Dialogs;
+using System.Threading.Tasks;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
@@ -34,12 +35,17 @@ namespace EuroMobile
             InitializeComponent();
 
             var result = await NavigationService.NavigateAsync("CustomMasterDetailPage/NavigationPage/HomePage");
+
+            var applicationViewModel = Container.Resolve<ApplicationViewModel>();
+            await applicationViewModel.Initialize();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<ILoginService, LoginService>();
             containerRegistry.RegisterSingleton<ISettingsService, SettingsService>();
+
+            containerRegistry.RegisterSingleton<ApplicationViewModel>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();

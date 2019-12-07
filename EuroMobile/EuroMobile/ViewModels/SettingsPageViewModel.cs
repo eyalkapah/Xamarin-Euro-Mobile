@@ -16,21 +16,20 @@ namespace EuroMobile.ViewModels
 {
     public class SettingsPageViewModel : ViewModelBase
     {
-        private string _fullName;
-
-        public string FullName
-        {
-            get => _fullName;
-            set => SetProperty(ref _fullName, value);
-        }
-
-        private string _email;
         private readonly ILoginService _loginService;
+        private string _email;
+        private string _fullName;
 
         public string Email
         {
             get => _email;
             set => SetProperty(ref _email, value);
+        }
+
+        public string FullName
+        {
+            get => _fullName;
+            set => SetProperty(ref _fullName, value);
         }
 
         public ICommand ShowFullNameDialogCommand { get; set; }
@@ -50,7 +49,7 @@ namespace EuroMobile.ViewModels
 
             try
             {
-                var response = await _loginService.GetUserProfile();
+                var response = await _loginService.GetUserProfileAsync();
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -73,6 +72,14 @@ namespace EuroMobile.ViewModels
             }
         }
 
+        private void AddFullNameCallback(IDialogResult obj)
+        {
+            if (obj == null || obj.Parameters == null)
+                return;
+
+            FullName = obj.Parameters.GetValue<string>(AddFullNameDialogViewModel.ParameterFullName);
+        }
+
         private void ShowFullNameDialog()
         {
             IoC.DialogService.ShowDialog(typeof(AddFullNameDialogView).Name,
@@ -81,14 +88,6 @@ namespace EuroMobile.ViewModels
                     { AddFullNameDialogViewModel.ParameterFullName, FullName }
                 },
                 o => AddFullNameCallback(o));
-        }
-
-        private void AddFullNameCallback(IDialogResult obj)
-        {
-            if (obj == null || obj.Parameters == null)
-                return;
-
-            FullName = obj.Parameters.GetValue<string>(AddFullNameDialogViewModel.ParameterFullName);
         }
     }
 }

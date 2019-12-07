@@ -1,4 +1,5 @@
-﻿using EuroMobile.Extensions;
+﻿using EuroMobile.Converters;
+using EuroMobile.Extensions;
 using EuroMobile.Services;
 using EuroMobile.ViewModels.Base;
 using EuroMobile.Views;
@@ -15,8 +16,8 @@ namespace EuroMobile.ViewModels
 {
     public class SignInPageViewModel : ViewModelBase
     {
-        private ILoginService _loginService;
         private readonly IPageDialogService _dialogService;
+        private ILoginService _loginService;
         private string _password;
         private string _username;
         public ICommand LoginCommand { get; set; }
@@ -68,7 +69,7 @@ namespace EuroMobile.ViewModels
 
                     await _loginService.HandleSuccessfullLoginAsync(result);
 
-                    await NavigationService.NavigateAsync("/CustomMasterDetailPage/NavigationPage/HomePage");
+                    await NavigationService.NavigateAsync(NavigationConstants.Home);
                 }
             }
             catch (Exception)

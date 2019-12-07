@@ -71,7 +71,7 @@
 
         <StackLayout
             Padding="0,8"
-            IsVisible="{Binding IsLoggedIn}"
+            IsVisible="{Binding IsLoggedIn, Converter={StaticResource InverseConverter}}"
             Orientation="Horizontal">
             <Label
                 FontFamily="{StaticResource FontAwesomeSolid}"

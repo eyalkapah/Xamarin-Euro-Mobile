@@ -1,9 +1,6 @@
 ﻿using EuroMobile.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EuroMobile.Services
@@ -14,7 +11,9 @@ namespace EuroMobile.Services
 
         bool IsLoggedIn { get; }
 
-        UserInfo GetUserInfo();
+        Task<HttpResponseMessage> GetUserProfileAsync();
+
+        Task HandleSuccessfullLoginAsync(string content);
 
         Task HandleSuccessfullRegistrationAsync(string content);
 
@@ -22,8 +21,6 @@ namespace EuroMobile.Services
 
         Task<HttpResponseMessage> RegisterAsync(string username, string password);
 
-        Task HandleSuccessfullLoginAsync(string content);
-
-        Task<HttpResponseMessage> GetUserProfile();
+        Task<UserProfile> SilentLoginInAsync();
     }
 }
