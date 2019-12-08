@@ -15,7 +15,10 @@
         <viewmodels:MasterPageViewModel />
     </d:ContentPage.BindingContext>
     <StackLayout Padding="16,24,16,0" VerticalOptions="StartAndExpand">
-        <StackLayout Padding="0,8">
+        <StackLayout
+            Padding="0,8"
+            IsVisible="{Binding ApplicationViewModel.IsLoggedIn}"
+            Orientation="Horizontal">
             <Label
                 FontFamily="{StaticResource FontAwesomeSolid}"
                 FontSize="48"
@@ -23,21 +26,24 @@
                 TextColor="White"
                 VerticalOptions="Start" />
 
-            <Label
-                Margin="0,0,0,-8"
-                FontSize="12"
-                Text="{Binding ApplicationViewModel.UserProfile.FullName}"
-                TextColor="White" />
-            <Label
-                FontSize="12"
-                Text="eykapah@microsoft.com"
-                TextColor="White" />
+            <StackLayout Margin="8,0" VerticalOptions="Center">
+                <Label
+                    Margin="0,0,0,-8"
+                    FontSize="12"
+                    Text="{Binding ApplicationViewModel.UserProfile.FullName}"
+                    TextColor="White" />
+                <Label
+                    FontSize="12"
+                    Text="{Binding ApplicationViewModel.UserProfile.Email}"
+                    TextColor="White" />
+            </StackLayout>
         </StackLayout>
 
         <BoxView
             BackgroundColor="#696969"
             HeightRequest="1"
             HorizontalOptions="FillAndExpand"
+            IsVisible="{Binding ApplicationViewModel.IsLoggedIn}"
             Opacity="0.3" />
         <ListView
             ItemsSource="{Binding NavigationItems}"
@@ -69,18 +75,30 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <StackLayout
-            Padding="0,8"
-            IsVisible="{Binding IsLoggedIn, Converter={StaticResource InverseConverter}}"
-            Orientation="Horizontal">
+        <StackLayout Padding="0,8" Orientation="Horizontal">
             <Label
                 FontFamily="{StaticResource FontAwesomeSolid}"
-                Text="{x:Static fa:FontAwesomeIcons.Plus}"
                 TextColor="White"
                 VerticalOptions="Center"
-                WidthRequest="30" />
+                WidthRequest="30">
+                <Label.Triggers>
+                    <DataTrigger
+                        Binding="{Binding ApplicationViewModel.IsLoggedIn}"
+                        TargetType="Label"
+                        Value="True">
+                        <Setter Property="Text" Value="{x:Static fa:FontAwesomeIcons.User}" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding ApplicationViewModel.IsLoggedIn}"
+                        TargetType="Label"
+                        Value="False">
+                        <Setter Property="Text" Value="{x:Static fa:FontAwesomeIcons.Plus}" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
             <Label
                 Grid.Column="1"
+                IsVisible="{Binding ApplicationViewModel.IsLoggedIn, Converter={StaticResource InverseConverter}}"
                 Text="Add account"
                 TextColor="White"
                 VerticalOptions="Center"

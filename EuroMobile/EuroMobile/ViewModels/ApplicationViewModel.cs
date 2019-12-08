@@ -10,7 +10,14 @@ namespace EuroMobile.ViewModels
     {
         private readonly ILoginService _loginService;
 
+        private bool _isLoggedIn;
         private UserProfile _userProfile;
+
+        public bool IsLoggedIn
+        {
+            get => _isLoggedIn;
+            set => SetProperty(ref _isLoggedIn, value);
+        }
 
         public UserProfile UserProfile
         {
@@ -18,14 +25,23 @@ namespace EuroMobile.ViewModels
             set => SetProperty(ref _userProfile, value);
         }
 
+        // C'tor
+        //
         public ApplicationViewModel(ILoginService loginService)
         {
             _loginService = loginService;
+
+            _loginService.LoggedInChanged += (s, e) => OnLoggedInChanged(e);
         }
 
         public async Task Initialize()
         {
             await PerformSilentLoginAsync();
+        }
+
+        private void OnLoggedInChanged(bool isLoggedIn)
+        {
+            IsLoggedIn = isLoggedIn;
         }
 
         private async Task PerformSilentLoginAsync()

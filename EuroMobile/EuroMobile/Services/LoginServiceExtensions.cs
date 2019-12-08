@@ -9,8 +9,10 @@ namespace EuroMobile.Services
 {
     public static class LoginServiceExtensions
     {
-        public static Task<UserProfile> HandleSuccessfullSilentLogIn(this HttpResponseMessage response)
+        public static Task<UserProfile> HandleSuccessfullSilentLogIn(this HttpResponseMessage response, LoginService loginService)
         {
+            loginService.IsLoggedIn = true;
+
             return HandleSuccessfullUserProfileCall(response);
         }
 
@@ -27,7 +29,8 @@ namespace EuroMobile.Services
             {
                 FirstName = profileResult.Response.FirstName,
                 LastName = profileResult.Response.LastName,
-                Bio = profileResult.Response.Bio
+                Bio = profileResult.Response.Bio,
+                Email = profileResult.Response.Email
             };
         }
     }

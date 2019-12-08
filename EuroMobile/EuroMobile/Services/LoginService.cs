@@ -24,6 +24,8 @@ namespace EuroMobile.Services
 
         public event EventHandler<UserProfile> UserProfileChanged = delegate { };
 
+        public IHttpClientFactory ClientFactory => IoC.ClientFactory;
+
         public bool IsLoggedIn
         {
             get => _isLoggedIn;
@@ -37,8 +39,6 @@ namespace EuroMobile.Services
                 }
             }
         }
-
-        public IHttpClientFactory ClientFactory => IoC.ClientFactory;
 
         // C'tor
         //
@@ -162,7 +162,7 @@ namespace EuroMobile.Services
 
                     response.EnsureSuccessStatusCode();
 
-                    return await response.HandleSuccessfullSilentLogIn();
+                    return await response.HandleSuccessfullSilentLogIn(this);
                 }
             }
             catch (Exception ex)
