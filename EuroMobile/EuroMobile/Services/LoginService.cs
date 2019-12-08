@@ -50,8 +50,15 @@ namespace EuroMobile.Services
         public async Task<HttpResponseMessage> GetUserProfileAsync()
         {
             var endpoint = IoC.Configuration["UserProfileEndpoint"];
+            var token = await SecureStorage.GetAsync(Constants.Token);
 
-            var client = await HttpClientExtensions.HttpAuthenticatedClientAsync();
+            //var client = await HttpClientExtensions.HttpAuthenticatedClientAsync();
+
+            var client = IoC.ClientFactory.CreateClient("AzureWebSites");
+
+            client.BaseAddress = new Uri(GlobalSettings.DefaultBaseUrl);
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.Bearer, token);
 
             var response = await client.GetAsync(endpoint);
 

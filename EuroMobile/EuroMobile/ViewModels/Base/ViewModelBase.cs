@@ -20,6 +20,8 @@ namespace EuroMobile.ViewModels.Base
             set { SetProperty(ref _title, value); }
         }
 
+        public ApplicationViewModel ApplicationViewModel => IoC.ApplicationViewModel;
+
         public ViewModelBase(INavigationService navigationService)
         {
             NavigationService = navigationService;

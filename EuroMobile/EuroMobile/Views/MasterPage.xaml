@@ -26,7 +26,7 @@
             <Label
                 Margin="0,0,0,-8"
                 FontSize="12"
-                Text="Eyal Kapah"
+                Text="{Binding ApplicationViewModel.UserProfile.FullName}"
                 TextColor="White" />
             <Label
                 FontSize="12"

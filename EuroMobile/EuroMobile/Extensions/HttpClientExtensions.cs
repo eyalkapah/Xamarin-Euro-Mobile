@@ -11,15 +11,22 @@ namespace EuroMobile.Extensions
     {
         public static async Task<HttpClient> HttpAuthenticatedClientAsync()
         {
-            var token = await SecureStorage.GetAsync(Constants.Token);
+            try
+            {
+                var token = await SecureStorage.GetAsync(Constants.Token);
 
-            var client = IoC.ClientFactory.CreateClient(Constants.DefaultHttpClient);
+                var client = IoC.ClientFactory.CreateClient("AzureWebSites");
 
-            client.BaseAddress = new Uri(GlobalSettings.Instance.BaseEndpoint);
+                client.BaseAddress = new Uri(GlobalSettings.Instance.BaseEndpoint);
 
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.Bearer, token);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.Bearer, token);
 
-            return client;
+                return client;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         private static HttpClient DefaultHttpClient()
