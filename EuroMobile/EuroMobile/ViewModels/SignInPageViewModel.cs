@@ -59,15 +59,15 @@ namespace EuroMobile.ViewModels
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    var error = await response.GetResponseError();
+                    var error = await response.GetResponseErrorAsync();
 
                     await _dialogService.DisplayAlertAsync("Fail", error, "OK");
                 }
                 else
                 {
-                    var result = await response.Content.ReadAsStringAsync();
+                    var stream = await response.Content.ReadAsStreamAsync();
 
-                    await _loginService.HandleSuccessfullLoginAsync(result);
+                    await _loginService.HandleSuccessfullLoginAsync(stream);
 
                     await NavigationService.NavigateAsync(NavigationConstants.Home);
                 }

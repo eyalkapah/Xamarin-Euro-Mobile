@@ -53,7 +53,7 @@ namespace EuroMobile.ViewModels
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    var error = await response.GetResponseError();
+                    var error = await response.GetResponseErrorAsync();
 
                     await IoC.PageDialog.DisplayAlertAsync("Fail", error, "OK");
                 }

@@ -1,12 +1,14 @@
-﻿using EuroMobile.Exceptions;
+﻿using Euro.Shared.In;
+using Euro.Shared.Out;
+using EuroMobile.Exceptions;
 using EuroMobile.Extensions;
 using EuroMobile.Models;
-using EuroMobile.Models.Api;
-using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
@@ -48,9 +50,9 @@ namespace EuroMobile.Services
             return HttpClientExtensions.HttpAuthenticatedClient(GlobalSettings.Instance.UserProfileEndPoint);
         }
 
-        public async Task HandleSuccessfullLoginAsync(string content)
+        public async Task HandleSuccessfullLoginAsync(Stream content)
         {
-            var credentialsResult = JsonConvert.DeserializeObject<ApiResponse<LoginResultApiModel>>(content);
+            var credentialsResult = await JsonSerializer.DeserializeAsync<ApiResponse<LoginResultApiModel>>(content);
 
             try
             {
@@ -65,9 +67,9 @@ namespace EuroMobile.Services
             }
         }
 
-        public async Task HandleSuccessfullRegistrationAsync(string content)
+        public async Task HandleSuccessfullRegistrationAsync(Stream content)
         {
-            var credentialsResult = JsonConvert.DeserializeObject<ApiResponse<RegisterCredentialsResultApiModel>>(content);
+            var credentialsResult = await JsonSerializer.DeserializeAsync<ApiResponse<RegisterCredentialsResultApiModel>>(content);
 
             try
             {
@@ -88,7 +90,7 @@ namespace EuroMobile.Services
             {
                 try
                 {
-                    var jsonContent = JsonConvert.SerializeObject(new LoginCredentialsApiModel
+                    var jsonContent = JsonSerializer.Serialize(new LoginCredentialsApiModel
                     {
                         Username = username,
                         Password = password
@@ -115,7 +117,7 @@ namespace EuroMobile.Services
             {
                 try
                 {
-                    var jsonContent = JsonConvert.SerializeObject(new RegisterCredentialsApi
+                    var jsonContent = JsonSerializer.Serialize(new RegisterCredentialsApiModel
                     {
                         Email = username,
                         Password = password

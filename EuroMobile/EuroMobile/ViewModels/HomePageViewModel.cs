@@ -1,10 +1,15 @@
-﻿using EuroMobile.ViewModels.Base;
+﻿using Euro.Shared;
+using EuroMobile.ViewModels.Base;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using System.Windows.Input;
 
 namespace EuroMobile.ViewModels
 {
@@ -12,11 +17,32 @@ namespace EuroMobile.ViewModels
     {
         public DelegateCommand<string> OnNavigateCommand { get; set; }
 
+        public ICommand TestCommand { get; set; }
+
         public HomePageViewModel(INavigationService navigationService) : base(navigationService)
         {
             OnNavigateCommand = new DelegateCommand<string>(NavigateAsync);
 
+            TestCommand = new DelegateCommand(TestMe);
+
             Title = "Home";
+        }
+
+        private async void TestMe()
+        {
+            using (var client = new HttpClient())
+            {
+                var url = $"{GlobalSettings.Instance.BaseEndpoint}/api/test";
+
+                var jsonContent = JsonSerializer.Serialize(new Test
+                {
+                    FirstName = "Eyal",
+                    LastName = "Kapah"
+                });
+
+                var response = await client.PostAsync(url,
+                    new StringContent(jsonContent.ToString(), Encoding.UTF8, "application/json"));
+            }
         }
 
         public override void Initialize(INavigationParameters parameters)

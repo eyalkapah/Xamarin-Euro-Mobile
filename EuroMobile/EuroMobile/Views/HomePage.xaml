@@ -19,5 +19,11 @@
             Command="{Binding OnNavigateCommand}"
             CommandParameter="ViewA"
             Text="Navigate" />
+
+        <Button
+            Margin="30"
+            Command="{Binding TestCommand}"
+            CommandParameter="ViewA"
+            Text="Test API" />
     </StackLayout>
 </ContentPage>

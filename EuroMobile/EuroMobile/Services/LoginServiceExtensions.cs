@@ -1,7 +1,8 @@
-﻿using EuroMobile.Models;
-using EuroMobile.Models.Api;
-using Newtonsoft.Json;
+﻿using Euro.Shared.In;
+using Euro.Shared.Out;
+using EuroMobile.Models;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace EuroMobile.Services
@@ -15,9 +16,9 @@ namespace EuroMobile.Services
 
         public static async Task<UserProfile> HandleSuccessfullUserProfileCall(this HttpResponseMessage response)
         {
-            var json = await response.Content.ReadAsStringAsync();
+            var json = await response.Content.ReadAsStreamAsync();
 
-            var profileResult = JsonConvert.DeserializeObject<LoginApiResponse<UserProfileDetailsApiModel>>(json);
+            var profileResult = await JsonSerializer.DeserializeAsync<GeneralApiResponse<UserProfileDetailsApiModel>>(json);
 
             if (!profileResult.IsSucceeded)
                 throw new HttpRequestException(profileResult.Error);

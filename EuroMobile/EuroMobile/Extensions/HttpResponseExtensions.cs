@@ -1,20 +1,21 @@
-﻿using EuroMobile.Models.Api;
-using Newtonsoft.Json;
+﻿using Euro.Shared.In;
+using Euro.Shared.Out;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace EuroMobile.Extensions
 {
     public static class HttpResponseExtensions
     {
-        public static async Task<string> GetResponseError(this HttpResponseMessage response)
+        public static async Task<string> GetResponseErrorAsync(this HttpResponseMessage response)
         {
-            var json = await response.Content.ReadAsStringAsync();
+            var json = await response.Content.ReadAsStreamAsync();
 
-            var apiResponse = JsonConvert.DeserializeObject<LoginApiResponse<LoginResultApiModel>>(json);
+            var apiResponse = await JsonSerializer.DeserializeAsync<GeneralApiResponse<LoginResultApiModel>>(json);
 
             return !apiResponse.IsSucceeded ? apiResponse.Error : null;
         }
@@ -34,9 +35,9 @@ namespace EuroMobile.Extensions
             }
             else
             {
-                var json = await response.Content.ReadAsStringAsync();
+                var json = await response.Content.ReadAsStreamAsync();
 
-                var apiResponse = JsonConvert.DeserializeObject<ApiResponse<RegisterCredentialsResultApiModel>>(json);
+                var apiResponse = await JsonSerializer.DeserializeAsync<ApiResponse<RegisterCredentialsResultApiModel>>(json);
 
                 if (!apiResponse.IsSucceeded)
                 {

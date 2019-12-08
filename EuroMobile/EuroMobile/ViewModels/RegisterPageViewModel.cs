@@ -83,9 +83,9 @@ namespace EuroMobile.ViewModels
                 }
                 else
                 {
-                    var result = await response.Content.ReadAsStringAsync();
+                    var stream = await response.Content.ReadAsStreamAsync();
 
-                    await _loginService.HandleSuccessfullRegistrationAsync(result);
+                    await _loginService.HandleSuccessfullRegistrationAsync(stream);
 
                     await NavigationService.NavigateAsync("/CustomMasterDetailPage/NavigationPage/HomePage");
                 }

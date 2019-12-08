@@ -1,5 +1,6 @@
 ﻿using EuroMobile.Models;
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -13,14 +14,14 @@ namespace EuroMobile.Services
 
         Task<HttpResponseMessage> GetUserProfileAsync();
 
-        Task HandleSuccessfullLoginAsync(string content);
-
-        Task HandleSuccessfullRegistrationAsync(string content);
+        Task HandleSuccessfullRegistrationAsync(Stream content);
 
         Task<HttpResponseMessage> LogInAsync(string username, string password);
 
         Task<HttpResponseMessage> RegisterAsync(string username, string password);
 
         Task<UserProfile> SilentLoginInAsync();
+
+        Task HandleSuccessfullLoginAsync(Stream stream);
     }
 }
