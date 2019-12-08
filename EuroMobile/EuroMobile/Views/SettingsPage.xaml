@@ -32,16 +32,16 @@
                         <Style TargetType="Entry">
                             <Style.Triggers>
                                 <DataTrigger
-                                    Binding="{Binding FullName, Converter={StaticResource IsNullOrEmptyConverter}}"
+                                    Binding="{Binding ApplicationViewModel.UserProfile.FullName, Converter={StaticResource IsNullOrEmptyConverter}}"
                                     TargetType="Label"
                                     Value="True">
                                     <Setter Property="Text" Value="None" />
                                 </DataTrigger>
                                 <DataTrigger
-                                    Binding="{Binding FullName, Converter={StaticResource IsNullOrEmptyConverter}}"
+                                    Binding="{Binding ApplicationViewModel.UserProfile.FullName, Converter={StaticResource IsNullOrEmptyConverter}}"
                                     TargetType="Label"
                                     Value="False">
-                                    <Setter Property="Text" Value="{Binding FullName}" />
+                                    <Setter Property="Text" Value="{Binding ApplicationViewModel.UserProfile.FullName}" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -55,7 +55,7 @@
                         </DataTrigger>
                     </Label.Triggers>-->
                 </Label>
-                <Label FontSize="12" Text="{Binding Email}" />
+                <Label FontSize="12" Text="{Binding ApplicationViewModel.UserProfile.Email}" />
             </StackLayout>
         </StackLayout>
 

@@ -43,35 +43,6 @@ namespace EuroMobile.ViewModels
             _loginService = loginService;
         }
 
-        public async override void Initialize(INavigationParameters parameters)
-        {
-            base.Initialize(parameters);
-
-            try
-            {
-                var response = await _loginService.GetUserProfileAsync();
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    var error = await response.GetResponseErrorAsync();
-
-                    await IoC.PageDialog.DisplayAlertAsync("Fail", error, "OK");
-                }
-                else
-                {
-                    var result = await response.Content.ReadAsStringAsync();
-
-                    //await _loginService.HandleSuccessfullRegistrationAsync(result);
-
-                    //await NavigationService.NavigateAsync("/CustomMasterDetailPage/NavigationPage/HomePage");
-                }
-            }
-            catch (Exception ex)
-            {
-                await IoC.PageDialog.DisplayAlertAsync("Fail", ex.Message, "OK");
-            }
-        }
-
         private void AddFullNameCallback(IDialogResult obj)
         {
             if (obj == null || obj.Parameters == null)

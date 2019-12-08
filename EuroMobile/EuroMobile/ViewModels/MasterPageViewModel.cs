@@ -1,5 +1,4 @@
 ﻿using EuroMobile.Models.UI;
-using EuroMobile.Services;
 using EuroMobile.Utils;
 using EuroMobile.ViewModels.Base;
 using EuroMobile.Views;
@@ -8,22 +7,13 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace EuroMobile.ViewModels
 {
     public class MasterPageViewModel : ViewModelBase
     {
-        private readonly ILoginService _loginService;
-        private bool _isLoggedIn;
         private List<MasterPageItem> _navigationItems;
         private MasterPageItem _selectedMenuItem;
-
-        public bool IsLoggedIn
-        {
-            get => _isLoggedIn;
-            set => SetProperty(ref _isLoggedIn, value);
-        }
 
         public List<MasterPageItem> NavigationItems
         {
@@ -39,11 +29,8 @@ namespace EuroMobile.ViewModels
             set => SetProperty(ref _selectedMenuItem, value, () => OnSelectionChanged(value));
         }
 
-        public MasterPageViewModel(INavigationService navigationService, ILoginService loginService) : base(navigationService)
+        public MasterPageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            _loginService = loginService;
-
-            _loginService.LoggedInChanged += LoggedInChanged;
         }
 
         internal Task BuildNavigationMenuAsync()
@@ -72,11 +59,6 @@ namespace EuroMobile.ViewModels
                 }
             };
             });
-        }
-
-        private void LoggedInChanged(object sender, bool isLoggedIn)
-        {
-            IsLoggedIn = IsLoggedIn;
         }
 
         private async void OnSelectionChanged(MasterPageItem selectedItem)
