@@ -8,6 +8,7 @@ using EuroMobile.Services;
 using System;
 using EuroMobile.Views.Dialogs;
 using System.Threading.Tasks;
+using System.Net.Http;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
@@ -44,6 +45,7 @@ namespace EuroMobile
         {
             containerRegistry.RegisterSingleton<ILoginService, LoginService>();
             containerRegistry.RegisterSingleton<ISettingsService, SettingsService>();
+            //containerRegistry.RegisterSingleton<IHttpClientFactory>();
 
             containerRegistry.RegisterSingleton<ApplicationViewModel>();
 
@@ -60,6 +62,8 @@ namespace EuroMobile
             containerRegistry.RegisterDialog<AddFullNameDialogView, AddFullNameDialogViewModel>();
 
             IoC.Initialize(Container);
+
+            Startup.Init(containerRegistry);
         }
 
         private void InitializeServices()

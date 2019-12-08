@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -11,14 +9,34 @@ namespace EuroMobile.Extensions
 {
     public static class HttpClientExtensions
     {
-        private static HttpClient _client = new HttpClient();
-
-        public static async Task<HttpResponseMessage> HttpAuthenticatedClient(string url)
+        public static async Task<HttpClient> HttpAuthenticatedClientAsync()
         {
-            var token = await SecureStorage.GetAsync("token");
+            var token = await SecureStorage.GetAsync(Constants.Token);
 
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var response = await _client.GetAsync(url);
+            var client = IoC.ClientFactory.CreateClient(Constants.DefaultHttpClient);
+
+            client.BaseAddress = new Uri(GlobalSettings.Instance.BaseEndpoint);
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.Bearer, token);
+
+            return client;
+        }
+
+        private static HttpClient DefaultHttpClient()
+        {
+            var client = IoC.ClientFactory.CreateClient(Constants.DefaultHttpClient);
+
+            client.BaseAddress = new Uri(GlobalSettings.Instance.BaseEndpoint);
+
+            return client;
+        }
+
+        public async static Task<HttpResponseMessage> PostDefaultHttpClient(string endpoint, string content)
+        {
+            var client = DefaultHttpClient();
+
+            var response = await client.PostAsync(endpoint,
+                    new StringContent(content, Encoding.UTF8, "application/json"));
 
             return response;
         }

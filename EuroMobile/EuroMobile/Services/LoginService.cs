@@ -38,6 +38,8 @@ namespace EuroMobile.Services
             }
         }
 
+        public IHttpClientFactory ClientFactory => IoC.ClientFactory;
+
         // C'tor
         //
         public LoginService(ISettingsService settings)
@@ -45,9 +47,15 @@ namespace EuroMobile.Services
             _settings = settings;
         }
 
-        public Task<HttpResponseMessage> GetUserProfileAsync()
+        public async Task<HttpResponseMessage> GetUserProfileAsync()
         {
-            return HttpClientExtensions.HttpAuthenticatedClient(GlobalSettings.Instance.UserProfileEndPoint);
+            var endpoint = IoC.Configuration["UserProfileEndpoint"];
+
+            var client = await HttpClientExtensions.HttpAuthenticatedClientAsync();
+
+            var response = await client.GetAsync(endpoint);
+
+            return response;
         }
 
         public async Task HandleSuccessfullLoginAsync(Stream content)
@@ -56,8 +64,8 @@ namespace EuroMobile.Services
 
             try
             {
-                await SecureStorage.SetAsync("email", credentialsResult.Response.Username);
-                await SecureStorage.SetAsync("token", credentialsResult.Response.Token);
+                await SecureStorage.SetAsync(Constants.Email, credentialsResult.Response.Username);
+                await SecureStorage.SetAsync(Constants.Token, credentialsResult.Response.Token);
 
                 IsLoggedIn = true;
             }
@@ -73,8 +81,8 @@ namespace EuroMobile.Services
 
             try
             {
-                await SecureStorage.SetAsync("email", credentialsResult.Response.Email);
-                await SecureStorage.SetAsync("token", credentialsResult.Response.Token);
+                await SecureStorage.SetAsync(Constants.Email, credentialsResult.Response.Email);
+                await SecureStorage.SetAsync(Constants.Token, credentialsResult.Response.Token);
 
                 IsLoggedIn = true;
             }
@@ -86,22 +94,22 @@ namespace EuroMobile.Services
 
         public async Task<HttpResponseMessage> LogInAsync(string username, string password)
         {
-            using (var client = new HttpClient())
+            try
             {
-                try
-                {
-                    var jsonContent = JsonSerializer.Serialize(new LoginCredentialsApiModel
-                    {
-                        Username = username,
-                        Password = password
-                    });
+                var endpoint = IoC.Configuration["LogInEndpoint"];
 
-                    return await client.PostAsync(GlobalSettings.Instance.LogInEndpoint,
-                        new StringContent(jsonContent.ToString(), Encoding.UTF8, "application/json"));
-                }
-                catch (Exception ex)
+                var jsonContent = JsonSerializer.Serialize(new LoginCredentialsApiModel
                 {
-                }
+                    Username = username,
+                    Password = password
+                });
+
+                var response = await HttpClientExtensions.PostDefaultHttpClient(endpoint, jsonContent.ToString());
+
+                return response;
+            }
+            catch (Exception ex)
+            {
             }
 
             return null;
@@ -109,26 +117,20 @@ namespace EuroMobile.Services
 
         public async Task<HttpResponseMessage> RegisterAsync(string username, string password)
         {
-            //using (var client = new HttpClient())
-            //{
-            //    var result = await client.GetAsync("http://10.0.2.2:5000/api/team");
-            //}
-            using (var client = new HttpClient())
+            try
             {
-                try
-                {
-                    var jsonContent = JsonSerializer.Serialize(new RegisterCredentialsApiModel
-                    {
-                        Email = username,
-                        Password = password
-                    });
+                var endpoint = IoC.Configuration["RegisterEndpoint"];
 
-                    return await client.PostAsync(GlobalSettings.Instance.RegisterEndpoint,
-                        new StringContent(jsonContent.ToString(), Encoding.UTF8, "application/json"));
-                }
-                catch (Exception ex)
+                var jsonContent = JsonSerializer.Serialize(new RegisterCredentialsApiModel
                 {
-                }
+                    Email = username,
+                    Password = password
+                });
+
+                var response = await HttpClientExtensions.PostDefaultHttpClient(endpoint, jsonContent.ToString());
+            }
+            catch (Exception ex)
+            {
             }
 
             return null;
@@ -138,8 +140,8 @@ namespace EuroMobile.Services
         {
             try
             {
-                var email = await SecureStorage.GetAsync("email");
-                var token = await SecureStorage.GetAsync("token");
+                var email = await SecureStorage.GetAsync(Constants.Email);
+                var token = await SecureStorage.GetAsync(Constants.Token);
 
                 if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(token))
                 {
@@ -149,20 +151,16 @@ namespace EuroMobile.Services
                 }
                 else
                 {
-                    using (var client = new HttpClient())
-                    {
-                        //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                        var response = await client.GetAsync(GlobalSettings.Instance.UserProfileEndPoint);
+                    var response = await GetUserProfileAsync();
 
-                        response.EnsureSuccessStatusCode();
+                    response.EnsureSuccessStatusCode();
 
-                        return await response.HandleSuccessfullSilentLogIn();
-                    }
+                    return await response.HandleSuccessfullSilentLogIn();
                 }
             }
             catch (Exception ex)
             {
-                ClearCredentials();
+                //ClearCredentials();
 
                 return null;
             }
