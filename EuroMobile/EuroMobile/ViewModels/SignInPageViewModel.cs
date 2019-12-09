@@ -9,6 +9,7 @@ using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 
@@ -57,24 +58,15 @@ namespace EuroMobile.ViewModels
             {
                 var response = await _loginService.LogInAsync(Username, Password);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    var error = await response.GetResponseErrorAsync();
+                await response.HandleSuccessfullLoginAsync(_loginService);
 
-                    await _dialogService.DisplayAlertAsync("Fail", error, "OK");
-                }
-                else
-                {
-                    var stream = await response.Content.ReadAsStreamAsync();
+                await ApplicationViewModel.SetUserProfileAsync();
 
-                    await _loginService.HandleSuccessfullLoginAsync(stream);
-
-                    await NavigationService.NavigateAsync(NavigationConstants.Home);
-                }
+                await NavigationService.NavigateAsync(NavigationConstants.Home);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                Debug.Assert(false, ex.Message);
             }
         }
 

@@ -9,6 +9,12 @@
     xmlns:viewmodels="clr-namespace:EuroMobile.ViewModels"
     Title="Settings"
     prism:ViewModelLocator.AutowireViewModel="True">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding LogoutCommand}"
+            Order="Secondary"
+            Text="Logout" />
+    </ContentPage.ToolbarItems>
 
     <StackLayout Spacing="0" VerticalOptions="StartAndExpand">
 
@@ -75,7 +81,7 @@
                             FontAttributes="Bold"
                             FontSize="12"
                             Text="Account" />
-                        <Label Text="{Binding FullName}" TextColor="Black" />
+                        <Label Text="{Binding ApplicationViewModel.UserProfile.FullName}" TextColor="Black" />
                         <Label FontSize="12" Text="Add your name" />
 
                         <StackLayout.GestureRecognizers>

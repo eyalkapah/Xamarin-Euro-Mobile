@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace EuroMobile.ViewModels
 {
@@ -33,6 +34,7 @@ namespace EuroMobile.ViewModels
         }
 
         public ICommand ShowFullNameDialogCommand { get; set; }
+        public ICommand LogoutCommand { get; set; }
 
         public SettingsPageViewModel(INavigationService navigationService, ILoginService loginService) : base(navigationService)
         {
@@ -40,7 +42,15 @@ namespace EuroMobile.ViewModels
             //    Email = "eyalk@nomail.com";
 
             ShowFullNameDialogCommand = new DelegateCommand(ShowFullNameDialog);
+            LogoutCommand = new DelegateCommand(Logout);
             _loginService = loginService;
+        }
+
+        private async void Logout()
+        {
+            _loginService.Logout();
+
+            await NavigationService.NavigateAsync($"/{typeof(CustomMasterDetailPage).Name}/{typeof(NavigationPage).Name}/{typeof(SignInPage).Name}");
         }
 
         private void AddFullNameCallback(IDialogResult obj)

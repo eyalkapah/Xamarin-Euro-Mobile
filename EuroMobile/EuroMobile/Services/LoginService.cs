@@ -50,36 +50,14 @@ namespace EuroMobile.Services
         public async Task<HttpResponseMessage> GetUserProfileAsync()
         {
             var endpoint = IoC.Configuration["UserProfileEndpoint"];
-            var token = await SecureStorage.GetAsync(Constants.Token);
 
-            //var client = await HttpClientExtensions.HttpAuthenticatedClientAsync();
-
-            var client = IoC.ClientFactory.CreateClient("AzureWebSites");
-
-            client.BaseAddress = new Uri(GlobalSettings.DefaultBaseUrl);
-
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.Bearer, token);
+            var client = await HttpClientExtensions.HttpAuthenticatedClientAsync();
 
             var response = await client.GetAsync(endpoint);
 
+            response.EnsureSuccessStatusCode();
+
             return response;
-        }
-
-        public async Task HandleSuccessfullLoginAsync(Stream content)
-        {
-            var credentialsResult = await JsonSerializer.DeserializeAsync<ApiResponse<LoginResultApiModel>>(content);
-
-            try
-            {
-                await SecureStorage.SetAsync(Constants.Email, credentialsResult.Response.Username);
-                await SecureStorage.SetAsync(Constants.Token, credentialsResult.Response.Token);
-
-                IsLoggedIn = true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
         }
 
         public async Task HandleSuccessfullRegistrationAsync(Stream content)
@@ -101,25 +79,19 @@ namespace EuroMobile.Services
 
         public async Task<HttpResponseMessage> LogInAsync(string username, string password)
         {
-            try
+            var endpoint = IoC.Configuration["LogInEndpoint"];
+
+            var jsonContent = JsonSerializer.Serialize(new LoginCredentialsApiModel
             {
-                var endpoint = IoC.Configuration["LogInEndpoint"];
+                Username = username,
+                Password = password
+            });
 
-                var jsonContent = JsonSerializer.Serialize(new LoginCredentialsApiModel
-                {
-                    Username = username,
-                    Password = password
-                });
+            var response = await HttpClientExtensions.PostDefaultHttpClient(endpoint, jsonContent.ToString());
 
-                var response = await HttpClientExtensions.PostDefaultHttpClient(endpoint, jsonContent.ToString());
+            response.EnsureSuccessStatusCode();
 
-                return response;
-            }
-            catch (Exception ex)
-            {
-            }
-
-            return null;
+            return response;
         }
 
         public async Task<HttpResponseMessage> RegisterAsync(string username, string password)
@@ -143,34 +115,31 @@ namespace EuroMobile.Services
             return null;
         }
 
-        public async Task<UserProfile> SilentLoginInAsync()
+        public async Task SilentLoginInAsync()
         {
             try
             {
-                var email = await SecureStorage.GetAsync(Constants.Email);
-                var token = await SecureStorage.GetAsync(Constants.Token);
+                var endpoint = IoC.Configuration["AuthEndpoint"];
 
-                if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(token))
-                {
-                    ClearCredentials();
+                var client = await HttpClientExtensions.HttpAuthenticatedClientAsync();
 
-                    return null;
-                }
-                else
-                {
-                    var response = await GetUserProfileAsync();
+                var response = await client.GetAsync(endpoint);
 
-                    response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode();
 
-                    return await response.HandleSuccessfullSilentLogIn(this);
-                }
+                IsLoggedIn = true;
             }
             catch (Exception ex)
             {
-                //ClearCredentials();
+                IsLoggedIn = false;
 
-                return null;
+                throw ex;
             }
+        }
+
+        public void Logout()
+        {
+            ClearCredentials();
         }
 
         private void ClearCredentials()

@@ -1,36 +1,52 @@
 ﻿using Euro.Shared.In;
 using Euro.Shared.Out;
+using EuroMobile.Extensions;
 using EuroMobile.Models;
+using System;
+using System.IO;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace EuroMobile.Services
 {
     public static class LoginServiceExtensions
     {
-        public static Task<UserProfile> HandleSuccessfullSilentLogIn(this HttpResponseMessage response, LoginService loginService)
+        public static async Task HandleSuccessfullLoginAsync(this HttpResponseMessage response, ILoginService loginService)
         {
-            loginService.IsLoggedIn = true;
+            try
+            {
+                var stream = await response.GetContentStreamAsync(); ;
 
-            return HandleSuccessfullUserProfileCall(response);
+                var result = await JsonSerializer.DeserializeAsync<ApiResponse<LoginResultApiModel>>(stream);
+
+                await SecureStorage.SetAsync(Constants.Email, result.Response.Username);
+                await SecureStorage.SetAsync(Constants.Token, result.Response.Token);
+
+                loginService.IsLoggedIn = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public static async Task<UserProfile> HandleSuccessfullUserProfileCall(this HttpResponseMessage response)
+        public static async Task<UserProfile> HandleSuccessfullUserProfileAsync(this HttpResponseMessage response)
         {
-            var json = await response.Content.ReadAsStreamAsync();
+            var json = await response.GetContentStreamAsync();
 
-            var profileResult = await JsonSerializer.DeserializeAsync<GeneralApiResponse<UserProfileDetailsApiModel>>(json);
+            var result = await JsonSerializer.DeserializeAsync<GeneralApiResponse<UserProfileDetailsApiModel>>(json);
 
-            if (!profileResult.IsSucceeded)
-                throw new HttpRequestException(profileResult.Error);
+            if (!result.IsSucceeded)
+                throw new HttpRequestException(result.Error);
 
             return new UserProfile
             {
-                FirstName = profileResult.Response.FirstName,
-                LastName = profileResult.Response.LastName,
-                Bio = profileResult.Response.Bio,
-                Email = profileResult.Response.Email
+                FirstName = result.Response.FirstName,
+                LastName = result.Response.LastName,
+                Bio = result.Response.Bio,
+                Email = result.Response.Email
             };
         }
     }

@@ -36,7 +36,15 @@ namespace EuroMobile.ViewModels
 
         public async Task Initialize()
         {
-            await PerformSilentLoginAsync();
+            try
+            {
+                await _loginService.SilentLoginInAsync();
+
+                await SetUserProfileAsync();
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
         private void OnLoggedInChanged(bool isLoggedIn)
@@ -44,17 +52,13 @@ namespace EuroMobile.ViewModels
             IsLoggedIn = isLoggedIn;
         }
 
-        private async Task PerformSilentLoginAsync()
+        public async Task SetUserProfileAsync()
         {
             try
             {
-                var userProfile = await _loginService.SilentLoginInAsync();
+                var respone = await _loginService.GetUserProfileAsync();
 
-                if (userProfile == null)
-                {
-                }
-
-                UserProfile = userProfile;
+                UserProfile = await respone.HandleSuccessfullUserProfileAsync();
             }
             catch (Exception ex)
             {

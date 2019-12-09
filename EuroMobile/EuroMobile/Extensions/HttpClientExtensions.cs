@@ -17,7 +17,7 @@ namespace EuroMobile.Extensions
 
                 var client = IoC.ClientFactory.CreateClient("AzureWebSites");
 
-                client.BaseAddress = new Uri(GlobalSettings.Instance.BaseEndpoint);
+                client.BaseAddress = new Uri(GlobalSettings.DefaultBaseUrl);
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.Bearer, token);
 

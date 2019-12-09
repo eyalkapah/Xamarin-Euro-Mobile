@@ -1,6 +1,7 @@
 ﻿using Euro.Shared.In;
 using Euro.Shared.Out;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -11,6 +12,11 @@ namespace EuroMobile.Extensions
 {
     public static class HttpResponseExtensions
     {
+        public static async Task<Stream> GetContentStreamAsync(this HttpResponseMessage response)
+        {
+            return await response.Content.ReadAsStreamAsync();
+        }
+
         public static async Task<string> GetResponseErrorAsync(this HttpResponseMessage response)
         {
             var json = await response.Content.ReadAsStreamAsync();

@@ -10,7 +10,7 @@ namespace EuroMobile.Services
     {
         event EventHandler<bool> LoggedInChanged;
 
-        bool IsLoggedIn { get; }
+        bool IsLoggedIn { get; set; }
 
         Task<HttpResponseMessage> GetUserProfileAsync();
 
@@ -20,8 +20,8 @@ namespace EuroMobile.Services
 
         Task<HttpResponseMessage> RegisterAsync(string username, string password);
 
-        Task<UserProfile> SilentLoginInAsync();
+        Task SilentLoginInAsync();
 
-        Task HandleSuccessfullLoginAsync(Stream stream);
+        void Logout();
     }
 }

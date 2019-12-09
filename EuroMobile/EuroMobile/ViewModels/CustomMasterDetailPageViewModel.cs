@@ -18,11 +18,11 @@ namespace EuroMobile.ViewModels
 
         public DelegateCommand<string> OnNavigateCommand { get; set; }
 
-        public CustomMasterDetailPageViewModel(INavigationService navigationService, ILoginService loginService) : base(navigationService)
+        public CustomMasterDetailPageViewModel(INavigationService navigationService) : base(navigationService)
         {
             OnNavigateCommand = new DelegateCommand<string>(NavigateAsync);
 
-            MasterPageViewModel = new MasterPageViewModel(navigationService, loginService);
+            MasterPageViewModel = new MasterPageViewModel(navigationService);
         }
 
         public override async void Initialize(INavigationParameters parameters)
