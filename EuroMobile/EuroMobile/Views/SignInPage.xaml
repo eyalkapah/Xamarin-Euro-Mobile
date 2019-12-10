@@ -9,7 +9,26 @@
     Visual="Material">
 
     <ContentPage.Content>
-        <StackLayout BackgroundColor="#EFEFEF" VerticalOptions="Fill">
+
+        <StackLayout VerticalOptions="Fill">
+            <StackLayout.Triggers>
+                <DataTrigger
+                    Binding="{Binding IsLoading}"
+                    TargetType="StackLayout"
+                    Value="True">
+                    <Setter Property="Opacity" Value="0.3" />
+                    <Setter Property="BackgroundColor" Value="#EFEFEF" />
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+                <DataTrigger
+                    Binding="{Binding IsLoading}"
+                    TargetType="StackLayout"
+                    Value="False">
+                    <Setter Property="Opacity" Value="1" />
+                    <Setter Property="BackgroundColor" Value="White" />
+                    <Setter Property="IsEnabled" Value="True" />
+                </DataTrigger>
+            </StackLayout.Triggers>
 
             <!--<StackLayout Padding="16">
                 <Frame
@@ -38,31 +57,43 @@
                 Margin="16"
                 CornerRadius="10"
                 VerticalOptions="Center">
-                <StackLayout>
-                    <Entry
-                        Placeholder="Email"
-                        Style="{StaticResource FormEntryStyle}"
-                        Text="{Binding Username, Mode=TwoWay}" />
-                    <Entry
-                        IsPassword="true"
-                        Placeholder="Password"
-                        Style="{StaticResource FormEntryStyle}"
-                        Text="{Binding Password, Mode=TwoWay}" />
-                    <Label
-                        FontSize="Small"
-                        HorizontalOptions="End"
-                        Text="Forgot Passowrd?"
-                        TextDecorations="Underline" />
-                    <Button
-                        Margin="16,24,16,0"
-                        BackgroundColor="OrangeRed"
-                        Command="{Binding LoginCommand}"
-                        CornerRadius="8"
-                        HorizontalOptions="Fill"
-                        Text="Log In"
-                        TextColor="White"
-                        VerticalOptions="EndAndExpand" />
-                </StackLayout>
+                <Grid>
+                    <StackLayout>
+                        <Entry
+                            Placeholder="Email"
+                            Style="{StaticResource FormEntryStyle}"
+                            Text="{Binding Username, Mode=TwoWay}" />
+                        <Entry
+                            IsPassword="true"
+                            Placeholder="Password"
+                            Style="{StaticResource FormEntryStyle}"
+                            Text="{Binding Password, Mode=TwoWay}" />
+                        <Label
+                            FontSize="Small"
+                            HorizontalOptions="End"
+                            Text="Forgot Passowrd?"
+                            TextDecorations="Underline" />
+
+                        <Button
+                            Margin="16,24,16,0"
+                            BackgroundColor="OrangeRed"
+                            Command="{Binding LoginCommand}"
+                            CornerRadius="8"
+                            HorizontalOptions="Fill"
+                            Text="Log In"
+                            TextColor="White"
+                            VerticalOptions="EndAndExpand" />
+                    </StackLayout>
+
+                    <ActivityIndicator
+                        HeightRequest="40"
+                        HorizontalOptions="CenterAndExpand"
+                        IsRunning="True"
+                        IsVisible="{Binding IsLoading}"
+                        VerticalOptions="Center"
+                        WidthRequest="40"
+                        Color="Black" />
+                </Grid>
             </Frame>
 
             <StackLayout Margin="50" Orientation="Horizontal">

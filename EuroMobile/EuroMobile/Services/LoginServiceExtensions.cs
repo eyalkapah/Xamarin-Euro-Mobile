@@ -34,9 +34,9 @@ namespace EuroMobile.Services
 
         public static async Task<UserProfile> HandleSuccessfullUserProfileAsync(this HttpResponseMessage response)
         {
-            var json = await response.GetContentStreamAsync();
+            var stream = await response.GetContentStreamAsync();
 
-            var result = await JsonSerializer.DeserializeAsync<GeneralApiResponse<UserProfileDetailsApiModel>>(json);
+            var result = await JsonSerializer.DeserializeAsync<GeneralApiResponse<UserProfileDetailsResultApiModel>>(stream);
 
             if (!result.IsSucceeded)
                 throw new HttpRequestException(result.Error);
@@ -48,6 +48,25 @@ namespace EuroMobile.Services
                 Bio = result.Response.Bio,
                 Email = result.Response.Email
             };
+        }
+
+        public static async Task HandleSuccessfullRegistrationAsync(this HttpResponseMessage response, ILoginService loginService)
+        {
+            var stream = await response.GetContentStreamAsync();
+
+            var credentialsResult = await JsonSerializer.DeserializeAsync<ApiResponse<RegisterCredentialsResultApiModel>>(stream);
+
+            try
+            {
+                await SecureStorage.SetAsync(Constants.Email, credentialsResult.Response.Email);
+                await SecureStorage.SetAsync(Constants.Token, credentialsResult.Response.Token);
+
+                loginService.IsLoggedIn = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

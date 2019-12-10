@@ -7,6 +7,8 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace EuroMobile.ViewModels
 {
@@ -22,6 +24,7 @@ namespace EuroMobile.ViewModels
         }
 
         public DelegateCommand<string> OnNavigateCommand { get; set; }
+        public ICommand NavigateToSignInPageCommand { get; set; }
 
         public MasterPageItem SelectedMenuItem
         {
@@ -31,6 +34,17 @@ namespace EuroMobile.ViewModels
 
         public MasterPageViewModel(INavigationService navigationService) : base(navigationService)
         {
+            NavigateToSignInPageCommand = new DelegateCommand(NavigateToSignInPage, CanNavigateToSignInPage).ObservesProperty(() => ApplicationViewModel.IsLoggedIn);
+        }
+
+        private bool CanNavigateToSignInPage()
+        {
+            return !ApplicationViewModel.IsLoggedIn;
+        }
+
+        private async void NavigateToSignInPage()
+        {
+            await NavigationService.NavigateAsync($"{typeof(NavigationPage).Name}/{typeof(SignInPage).Name}");
         }
 
         internal Task BuildNavigationMenuAsync()

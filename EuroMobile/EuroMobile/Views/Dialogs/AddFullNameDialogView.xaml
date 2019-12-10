@@ -38,12 +38,20 @@
             <StackLayout
                 Grid.Row="3"
                 Margin="0,32,0,0"
+                HorizontalOptions="CenterAndExpand"
                 Orientation="Horizontal">
 
                 <Button
+                    Margin="8"
                     Command="{Binding SaveCommand}"
-                    HorizontalOptions="FillAndExpand"
+                    HorizontalOptions="CenterAndExpand"
                     Text="Accept" />
+
+                <Button
+                    Margin="8"
+                    Command="{Binding CancelCommand}"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="Cancel" />
             </StackLayout>
         </Grid>
     </Frame>

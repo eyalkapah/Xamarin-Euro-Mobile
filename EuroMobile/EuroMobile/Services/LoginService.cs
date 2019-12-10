@@ -1,13 +1,9 @@
-﻿using Euro.Shared.In;
-using Euro.Shared.Out;
-using EuroMobile.Exceptions;
+﻿using Euro.Shared;
+using Euro.Shared.In;
 using EuroMobile.Extensions;
 using EuroMobile.Models;
 using System;
-using System.IO;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -49,45 +45,39 @@ namespace EuroMobile.Services
 
         public async Task<HttpResponseMessage> GetUserProfileAsync()
         {
-            var endpoint = IoC.Configuration["UserProfileEndpoint"];
-
             var client = await HttpClientExtensions.HttpAuthenticatedClientAsync();
 
-            var response = await client.GetAsync(endpoint);
+            var response = await client.GetAsync(Routes.GetUserProfile);
 
             response.EnsureSuccessStatusCode();
 
             return response;
         }
 
-        public async Task HandleSuccessfullRegistrationAsync(Stream content)
+        public async Task<HttpResponseMessage> UpdateUserProfileAsync(UserProfile userProfile)
         {
-            var credentialsResult = await JsonSerializer.DeserializeAsync<ApiResponse<RegisterCredentialsResultApiModel>>(content);
-
-            try
+            var jsonContent = JsonSerializer.Serialize(new UserProfileDetailsApiModel
             {
-                await SecureStorage.SetAsync(Constants.Email, credentialsResult.Response.Email);
-                await SecureStorage.SetAsync(Constants.Token, credentialsResult.Response.Token);
+                FirstName = userProfile.FirstName,
+                LastName = userProfile.LastName
+            });
 
-                IsLoggedIn = true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            var response = await HttpClientExtensions.PostAuthenticatedClientAsync(Routes.UpdateUserProfile, jsonContent);
+
+            response.EnsureSuccessStatusCode();
+
+            return response;
         }
 
         public async Task<HttpResponseMessage> LogInAsync(string username, string password)
         {
-            var endpoint = IoC.Configuration["LogInEndpoint"];
-
             var jsonContent = JsonSerializer.Serialize(new LoginCredentialsApiModel
             {
                 Username = username,
                 Password = password
             });
 
-            var response = await HttpClientExtensions.PostDefaultHttpClient(endpoint, jsonContent.ToString());
+            var response = await HttpClientExtensions.PostDefaultHttpClient(Routes.LogIn, jsonContent.ToString());
 
             response.EnsureSuccessStatusCode();
 
@@ -98,15 +88,13 @@ namespace EuroMobile.Services
         {
             try
             {
-                var endpoint = IoC.Configuration["RegisterEndpoint"];
-
                 var jsonContent = JsonSerializer.Serialize(new RegisterCredentialsApiModel
                 {
                     Email = username,
                     Password = password
                 });
 
-                var response = await HttpClientExtensions.PostDefaultHttpClient(endpoint, jsonContent.ToString());
+                var response = await HttpClientExtensions.PostDefaultHttpClient(Routes.Register, jsonContent.ToString());
             }
             catch (Exception ex)
             {
@@ -119,11 +107,9 @@ namespace EuroMobile.Services
         {
             try
             {
-                var endpoint = IoC.Configuration["AuthEndpoint"];
-
                 var client = await HttpClientExtensions.HttpAuthenticatedClientAsync();
 
-                var response = await client.GetAsync(endpoint);
+                var response = await client.GetAsync(Routes.Auth);
 
                 response.EnsureSuccessStatusCode();
 
@@ -140,6 +126,8 @@ namespace EuroMobile.Services
         public void Logout()
         {
             ClearCredentials();
+
+            IsLoggedIn = false;
         }
 
         private void ClearCredentials()

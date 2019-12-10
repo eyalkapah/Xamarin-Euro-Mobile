@@ -56,6 +56,8 @@ namespace EuroMobile.ViewModels
         {
             try
             {
+                IsLoading = true;
+
                 var response = await _loginService.LogInAsync(Username, Password);
 
                 await response.HandleSuccessfullLoginAsync(_loginService);
@@ -67,6 +69,10 @@ namespace EuroMobile.ViewModels
             catch (Exception ex)
             {
                 Debug.Assert(false, ex.Message);
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
 

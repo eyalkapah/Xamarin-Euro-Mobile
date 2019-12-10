@@ -54,15 +54,9 @@ namespace EuroMobile.ViewModels
 
         public async Task SetUserProfileAsync()
         {
-            try
-            {
-                var respone = await _loginService.GetUserProfileAsync();
+            var respone = await _loginService.GetUserProfileAsync();
 
-                UserProfile = await respone.HandleSuccessfullUserProfileAsync();
-            }
-            catch (Exception ex)
-            {
-            }
+            UserProfile = await respone.HandleSuccessfullUserProfileAsync();
         }
     }
 }

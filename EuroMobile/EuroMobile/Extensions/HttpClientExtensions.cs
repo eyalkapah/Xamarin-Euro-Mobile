@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
@@ -42,10 +43,20 @@ namespace EuroMobile.Extensions
         {
             var client = DefaultHttpClient();
 
-            var response = await client.PostAsync(endpoint,
-                    new StringContent(content, Encoding.UTF8, "application/json"));
+            return await client.PostInternal(endpoint, content);
+        }
 
-            return response;
+        private static async Task<HttpResponseMessage> PostInternal(this HttpClient client, string endpoint, string content)
+        {
+            return await client.PostAsync(endpoint,
+                                new StringContent(content, Encoding.UTF8, "application/json"));
+        }
+
+        public async static Task<HttpResponseMessage> PostAuthenticatedClientAsync(string endpoint, string content)
+        {
+            var client = await HttpAuthenticatedClientAsync();
+
+            return await client.PostInternal(endpoint, content);
         }
     }
 }

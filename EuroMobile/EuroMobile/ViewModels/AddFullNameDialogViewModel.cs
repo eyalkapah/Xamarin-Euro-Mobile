@@ -18,6 +18,7 @@ namespace EuroMobile.ViewModels
         public event Action<IDialogParameters> RequestClose;
 
         public ICommand SaveCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
 
         private string _fullName;
 
@@ -30,6 +31,12 @@ namespace EuroMobile.ViewModels
         public AddFullNameDialogViewModel()
         {
             SaveCommand = new DelegateCommand(Save, () => !string.IsNullOrWhiteSpace(FullName)).ObservesProperty(() => FullName);
+            CancelCommand = new DelegateCommand(Close);
+        }
+
+        private void Close()
+        {
+            RequestClose(null);
         }
 
         private void Save()

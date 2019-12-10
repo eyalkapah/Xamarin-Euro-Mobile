@@ -20,6 +20,14 @@ namespace EuroMobile.ViewModels.Base
             set { SetProperty(ref _title, value); }
         }
 
+        private bool _isLoading;
+
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
+
         public ApplicationViewModel ApplicationViewModel => IoC.ApplicationViewModel;
 
         public ViewModelBase(INavigationService navigationService)
