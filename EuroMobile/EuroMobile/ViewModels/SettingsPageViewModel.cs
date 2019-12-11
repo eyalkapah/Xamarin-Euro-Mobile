@@ -2,9 +2,11 @@
 using EuroMobile.ViewModels.Base;
 using EuroMobile.Views;
 using EuroMobile.Views.Dialogs;
+using Plugin.Media;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -25,12 +27,30 @@ namespace EuroMobile.ViewModels
 
         public ICommand ShowFullNameDialogCommand { get; set; }
         public ICommand LogoutCommand { get; set; }
+        public ICommand LoadImageMenuCommand { get; set; }
 
         public SettingsPageViewModel(INavigationService navigationService, ILoginService loginService) : base(navigationService)
         {
             ShowFullNameDialogCommand = new DelegateCommand(ShowFullNameDialog);
             LogoutCommand = new DelegateCommand(Logout);
+            LoadImageMenuCommand = new DelegateCommand(LoadImageMenu);
+
             _loginService = loginService;
+        }
+
+        private async void LoadImageMenu()
+        {
+            var action = await IoC.PageDialog.DisplayActionSheetAsync("Choose photo", "Cancel", null, "Take photo", "Upload from gallery");
+
+            if (action.Equals("Upload from gallery"))
+            {
+                var file = await CrossMedia.Current.PickPhotoAsync();
+
+                if (file == null)
+                {
+                    return;
+                }
+            }
         }
 
         private async void Logout()

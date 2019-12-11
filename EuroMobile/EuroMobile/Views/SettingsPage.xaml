@@ -115,6 +115,10 @@
                     FontFamily="{StaticResource FontAwesomeSolid}"
                     FontSize="24"
                     Text="{x:Static fa:FontAwesomeIcons.Camera}" />
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding LoadImageMenuCommand}" />
+                </Frame.GestureRecognizers>
             </Frame>
         </Grid>
     </StackLayout>

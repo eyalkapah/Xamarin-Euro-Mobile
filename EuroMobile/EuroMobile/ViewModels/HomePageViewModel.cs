@@ -1,10 +1,12 @@
 ﻿using Euro.Shared;
 using EuroMobile.ViewModels.Base;
+using Plugin.Media;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -45,6 +47,21 @@ namespace EuroMobile.ViewModels
             //    var response = await client.PostAsync(url,
             //        new StringContent(jsonContent.ToString(), Encoding.UTF8, "application/json"));
             //}
+
+            if (!CrossMedia.Current.IsPickPhotoSupported)
+            {
+                Debug.Assert(false, "Not supported");
+                return;
+            }
+            else
+            {
+                var file = await CrossMedia.Current.PickPhotoAsync();
+
+                if (file == null)
+                {
+                    return;
+                }
+            }
 
             var token = await SecureStorage.GetAsync("token");
 
