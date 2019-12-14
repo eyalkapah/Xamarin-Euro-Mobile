@@ -3,6 +3,7 @@ using Euro.Shared.In;
 using EuroMobile.Extensions;
 using EuroMobile.Models;
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -54,21 +55,6 @@ namespace EuroMobile.Services
             return response;
         }
 
-        public async Task<HttpResponseMessage> UpdateUserProfileAsync(UserProfile userProfile)
-        {
-            var jsonContent = JsonSerializer.Serialize(new UserProfileDetailsApiModel
-            {
-                FirstName = userProfile.FirstName,
-                LastName = userProfile.LastName
-            });
-
-            var response = await HttpClientExtensions.PostAuthenticatedClientAsync(Routes.UpdateUserProfile, jsonContent);
-
-            response.EnsureSuccessStatusCode();
-
-            return response;
-        }
-
         public async Task<HttpResponseMessage> LogInAsync(string username, string password)
         {
             var jsonContent = JsonSerializer.Serialize(new LoginCredentialsApiModel
@@ -82,6 +68,13 @@ namespace EuroMobile.Services
             response.EnsureSuccessStatusCode();
 
             return response;
+        }
+
+        public void Logout()
+        {
+            ClearCredentials();
+
+            IsLoggedIn = false;
         }
 
         public async Task<HttpResponseMessage> RegisterAsync(string username, string password)
@@ -123,11 +116,47 @@ namespace EuroMobile.Services
             }
         }
 
-        public void Logout()
+        public async Task<HttpResponseMessage> UpdateUserProfileAsync(UserProfile userProfile)
         {
-            ClearCredentials();
+            var jsonContent = JsonSerializer.Serialize(new UserProfileDetailsApiModel
+            {
+                FirstName = userProfile.FirstName,
+                LastName = userProfile.LastName
+            });
 
-            IsLoggedIn = false;
+            var response = await HttpClientExtensions.PostAuthenticatedClientAsync(Routes.UpdateUserProfile, jsonContent);
+
+            response.EnsureSuccessStatusCode();
+
+            return response;
+        }
+
+        public async Task UploadProfileImageAsync(Stream stream, string filename)
+        {
+            HttpContent fileStreamContent = new StreamContent(stream);
+            fileStreamContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("form-data")
+            {
+                Name = "file",
+                FileName = filename
+            };
+            fileStreamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
+
+            var response = await HttpClientExtensions.PostAuthenticatedClientAsync(Routes.UpdateUserProfile, jsonContent);
+
+            using (var client = new HttpClient())
+            using (var formData = new MultipartFormDataContent())
+            {
+                formData.Add(fileStreamContent);
+                try
+                {
+                    var response = await client.PostAsync(url, formData);
+                    return response.IsSuccessStatusCode;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
         }
 
         private void ClearCredentials()

@@ -1,5 +1,6 @@
 ﻿using EuroMobile.Models;
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -22,5 +23,6 @@ namespace EuroMobile.Services
         Task SilentLoginInAsync();
 
         void Logout();
+        Task UploadProfileImageAsync(Stream stream, string filename);
     }
 }

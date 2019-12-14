@@ -12,6 +12,8 @@
             <converters:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter" />
             <converters:HasValueConverter x:Key="HasValueConverter" />
             <converters:InverseConverter x:Key="InverseConverter" />
+            <converters:IsNullConverter x:Key="IsNullConverter" />
+            <converters:IsNotNullConverter x:Key="IsNotNullConverter" />
 
             <OnPlatform x:Key="FontAwesomeBrands" x:TypeArguments="x:String">
                 <On Platform="Android" Value="FontAwesome5Regular.otf#Regular" />
@@ -31,6 +33,12 @@
                 <On Platform="UWP" Value="/Assets/FontAwesome5Regular.otf#Font Awesome 5 Free" />
             </OnPlatform>
 
+            <OnPlatform
+                x:Key="CameraImage"
+                x:TypeArguments="ImageSource"
+                Android="camera.png"
+                WinPhone="Assets\camera.png"
+                iOS="camera.png" />
             <OnPlatform
                 x:Key="FacebookLogo"
                 x:TypeArguments="ImageSource"

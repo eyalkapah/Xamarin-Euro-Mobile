@@ -3,10 +3,12 @@ using EuroMobile.ViewModels.Base;
 using EuroMobile.Views;
 using EuroMobile.Views.Dialogs;
 using Plugin.Media;
+using Plugin.Media.Abstractions;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -19,15 +21,32 @@ namespace EuroMobile.ViewModels
         private readonly ILoginService _loginService;
         private string _email;
 
+        private Stream _imageStream;
+
+        private ImageSource _profileImage;
+
         public string Email
         {
             get => _email;
             set => SetProperty(ref _email, value);
         }
 
-        public ICommand ShowFullNameDialogCommand { get; set; }
-        public ICommand LogoutCommand { get; set; }
+        public Stream ImageStream
+        {
+            get => _imageStream;
+            set => SetProperty(ref _imageStream, value);
+        }
+
         public ICommand LoadImageMenuCommand { get; set; }
+        public ICommand LogoutCommand { get; set; }
+
+        public ImageSource ProfileImage
+        {
+            get => _profileImage;
+            set => SetProperty(ref _profileImage, value);
+        }
+
+        public ICommand ShowFullNameDialogCommand { get; set; }
 
         public SettingsPageViewModel(INavigationService navigationService, ILoginService loginService) : base(navigationService)
         {
@@ -36,28 +55,8 @@ namespace EuroMobile.ViewModels
             LoadImageMenuCommand = new DelegateCommand(LoadImageMenu);
 
             _loginService = loginService;
-        }
 
-        private async void LoadImageMenu()
-        {
-            var action = await IoC.PageDialog.DisplayActionSheetAsync("Choose photo", "Cancel", null, "Take photo", "Upload from gallery");
-
-            if (action.Equals("Upload from gallery"))
-            {
-                var file = await CrossMedia.Current.PickPhotoAsync();
-
-                if (file == null)
-                {
-                    return;
-                }
-            }
-        }
-
-        private async void Logout()
-        {
-            _loginService.Logout();
-
-            await NavigationService.NavigateAsync($"/{typeof(CustomMasterDetailPage).Name}/{typeof(NavigationPage).Name}/{typeof(SignInPage).Name}");
+            //LoadImageMenu();
         }
 
         private async Task AddFullNameCallbackAsync(IDialogResult obj)
@@ -75,6 +74,52 @@ namespace EuroMobile.ViewModels
                 ApplicationViewModel.UserProfile.LastName = split[1];
 
             await _loginService.UpdateUserProfileAsync(ApplicationViewModel.UserProfile);
+        }
+
+        private async void LoadImageMenu()
+        {
+            //var f = new MediaFile("/storage/emulated/0/Android/data/com.companyname.appname/files/Pictures/temp/me_8.jpg", null);
+            //f.pho
+
+            var action = await IoC.PageDialog.DisplayActionSheetAsync("Choose photo", "Cancel", null, "Take photo", "Upload from gallery");
+
+            if (action.Equals("Upload from gallery"))
+            {
+                var file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
+                {
+                    PhotoSize = PhotoSize.Small
+                });
+
+                if (file == null)
+                {
+                    return;
+                }
+
+
+                var stream = file.GetStream();
+                var filename = Path.GetFileName(file.Path);
+
+                file.Dispose();
+
+                ProfileImage = ImageSource.FromStream(() =>
+                {
+                    return stream;
+                });
+
+                await _loginService.UploadProfileImageAsync(stream, filename);
+
+    
+                
+            }
+
+            
+        }
+
+        private async void Logout()
+        {
+            _loginService.Logout();
+
+            await NavigationService.NavigateAsync($"/{typeof(CustomMasterDetailPage).Name}/{typeof(NavigationPage).Name}/{typeof(SignInPage).Name}");
         }
 
         private void ShowFullNameDialog()
