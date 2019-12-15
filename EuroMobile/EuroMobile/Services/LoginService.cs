@@ -5,6 +5,7 @@ using EuroMobile.Models;
 using System;
 using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -131,17 +132,17 @@ namespace EuroMobile.Services
             return response;
         }
 
-        public async Task UploadProfileImageAsync(Stream stream, string filename)
+        public async Task<HttpResponseMessage> UploadProfileImageAsync(Stream stream, string filename)
         {
             HttpContent fileStreamContent = new StreamContent(stream);
-            fileStreamContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("form-data")
+            fileStreamContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
             {
                 Name = "file",
                 FileName = filename
             };
-            fileStreamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
+            fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
-            var response = await HttpClientExtensions.PostAuthenticatedClientAsync(Routes.UpdateUserProfile, jsonContent);
+            //var response = await HttpClientExtensions.PostAuthenticatedClientAsync(Routes.UpdateUserProfile, jsonContent);
 
             using (var client = new HttpClient())
             using (var formData = new MultipartFormDataContent())
@@ -149,12 +150,15 @@ namespace EuroMobile.Services
                 formData.Add(fileStreamContent);
                 try
                 {
-                    var response = await client.PostAsync(url, formData);
-                    return response.IsSuccessStatusCode;
+                    var response = await HttpClientExtensions.PostAuthenticatedClientAsync(Routes.UploadImage, formData);
+                    //var response = await client.PostAsync(url, formData);
+                    response.EnsureSuccessStatusCode();
+
+                    return response;
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    return false;
+                    throw ex;
                 }
             }
         }

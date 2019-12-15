@@ -143,7 +143,6 @@
                 </abstractions:CircleImage.GestureRecognizers>
             </abstractions:CircleImage>
 
-
             <!--<Grid>
                     <Label
                         FontFamily="{StaticResource FontAwesomeSolid}"

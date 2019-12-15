@@ -30,13 +30,18 @@ namespace EuroMobile.Extensions
             }
         }
 
-        private static HttpClient DefaultHttpClient()
+        public async static Task<HttpResponseMessage> PostAuthenticatedClientAsync(string endpoint, string content)
         {
-            var client = IoC.ClientFactory.CreateClient(Constants.DefaultHttpClient);
+            var client = await HttpAuthenticatedClientAsync();
 
-            client.BaseAddress = new Uri(GlobalSettings.Instance.BaseEndpoint);
+            return await client.PostInternal(endpoint, content);
+        }
 
-            return client;
+        public async static Task<HttpResponseMessage> PostAuthenticatedClientAsync(string endpoint, HttpContent content)
+        {
+            var client = await HttpAuthenticatedClientAsync();
+
+            return await client.PostAsync(endpoint, content);
         }
 
         public async static Task<HttpResponseMessage> PostDefaultHttpClient(string endpoint, string content)
@@ -46,17 +51,19 @@ namespace EuroMobile.Extensions
             return await client.PostInternal(endpoint, content);
         }
 
+        private static HttpClient DefaultHttpClient()
+        {
+            var client = IoC.ClientFactory.CreateClient(Constants.DefaultHttpClient);
+
+            client.BaseAddress = new Uri(GlobalSettings.Instance.BaseEndpoint);
+
+            return client;
+        }
+
         private static async Task<HttpResponseMessage> PostInternal(this HttpClient client, string endpoint, string content)
         {
             return await client.PostAsync(endpoint,
                                 new StringContent(content, Encoding.UTF8, "application/json"));
-        }
-
-        public async static Task<HttpResponseMessage> PostAuthenticatedClientAsync(string endpoint, string content)
-        {
-            var client = await HttpAuthenticatedClientAsync();
-
-            return await client.PostInternal(endpoint, content);
         }
     }
 }

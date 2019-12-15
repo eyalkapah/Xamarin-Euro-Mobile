@@ -14,15 +14,16 @@ namespace EuroMobile.Services
 
         Task<HttpResponseMessage> GetUserProfileAsync();
 
-        Task<HttpResponseMessage> UpdateUserProfileAsync(UserProfile userProfile);
-
         Task<HttpResponseMessage> LogInAsync(string username, string password);
+
+        void Logout();
 
         Task<HttpResponseMessage> RegisterAsync(string username, string password);
 
         Task SilentLoginInAsync();
 
-        void Logout();
-        Task UploadProfileImageAsync(Stream stream, string filename);
+        Task<HttpResponseMessage> UpdateUserProfileAsync(UserProfile userProfile);
+
+        Task<HttpResponseMessage> UploadProfileImageAsync(Stream stream, string filename);
     }
 }

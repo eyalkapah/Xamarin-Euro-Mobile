@@ -25,6 +25,8 @@ namespace EuroMobile.ViewModels
 
         private ImageSource _profileImage;
 
+        private Stream _profileImageStream;
+
         public string Email
         {
             get => _email;
@@ -46,13 +48,19 @@ namespace EuroMobile.ViewModels
             set => SetProperty(ref _profileImage, value);
         }
 
+        public Stream ProfileImageStream
+        {
+            get => _profileImageStream;
+            set => SetProperty(ref _profileImageStream, value);
+        }
+
         public ICommand ShowFullNameDialogCommand { get; set; }
 
         public SettingsPageViewModel(INavigationService navigationService, ILoginService loginService) : base(navigationService)
         {
             ShowFullNameDialogCommand = new DelegateCommand(ShowFullNameDialog);
             LogoutCommand = new DelegateCommand(Logout);
-            LoadImageMenuCommand = new DelegateCommand(LoadImageMenu);
+            LoadImageMenuCommand = new DelegateCommand(async () => await LoadImageMenu());
 
             _loginService = loginService;
 
@@ -76,43 +84,41 @@ namespace EuroMobile.ViewModels
             await _loginService.UpdateUserProfileAsync(ApplicationViewModel.UserProfile);
         }
 
-        private async void LoadImageMenu()
+        private async Task LoadImageMenu()
         {
             //var f = new MediaFile("/storage/emulated/0/Android/data/com.companyname.appname/files/Pictures/temp/me_8.jpg", null);
             //f.pho
 
-            var action = await IoC.PageDialog.DisplayActionSheetAsync("Choose photo", "Cancel", null, "Take photo", "Upload from gallery");
-
-            if (action.Equals("Upload from gallery"))
+            try
             {
-                var file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
-                {
-                    PhotoSize = PhotoSize.Small
-                });
+                var action = await IoC.PageDialog.DisplayActionSheetAsync("Choose photo", "Cancel", null, "Take photo", "Upload from gallery");
 
-                if (file == null)
+                if (action.Equals("Upload from gallery"))
                 {
-                    return;
+                    var file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
+                    {
+                        PhotoSize = PhotoSize.Small,
+                        CompressionQuality = 90
+                    });
+
+                    if (file == null)
+                        return;
+
+                    ProfileImage = ImageSource.FromStream(() =>
+                    {
+                        var fileStream = file.GetStream();
+                        return fileStream;
+                    });
+
+                    await _loginService.UploadProfileImageAsync(file.GetStream(), Path.GetFileName(file.Path));
+
+                    file.Dispose();
                 }
-
-
-                var stream = file.GetStream();
-                var filename = Path.GetFileName(file.Path);
-
-                file.Dispose();
-
-                ProfileImage = ImageSource.FromStream(() =>
-                {
-                    return stream;
-                });
-
-                await _loginService.UploadProfileImageAsync(stream, filename);
-
-    
-                
             }
-
-            
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         private async void Logout()
