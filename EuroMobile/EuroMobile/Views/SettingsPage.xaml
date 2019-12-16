@@ -30,11 +30,42 @@
             BackgroundColor="#EFEFEF"
             Orientation="Horizontal"
             VerticalOptions="Start">
-            <Label
+            <!--<Label
                 FontFamily="{StaticResource FontAwesomeSolid}"
                 FontSize="48"
                 Text="{x:Static fa:FontAwesomeIcons.UserCircle}"
-                VerticalOptions="Start" />
+                VerticalOptions="Start" />-->
+
+            <abstractions:CircleImage
+                Aspect="AspectFill"
+                BorderColor="#D9D9D9"
+                BorderThickness="2"
+                HeightRequest="64"
+                HorizontalOptions="End"
+                IsVisible="{Binding ProfileImage, Converter={StaticResource IsNotNullConverter}}"
+                Source="{Binding ProfileImage}"
+                VerticalOptions="Start"
+                WidthRequest="64">
+                <abstractions:CircleImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding LoadImageMenuCommand}" />
+                </abstractions:CircleImage.GestureRecognizers>
+            </abstractions:CircleImage>
+
+            <abstractions:CircleImage
+                Aspect="AspectFill"
+                BorderColor="#D9D9D9"
+                BorderThickness="2"
+                FillColor="White"
+                HeightRequest="64"
+                HorizontalOptions="End"
+                IsVisible="{Binding ProfileImage, Converter={StaticResource IsNullConverter}}"
+                Source="{StaticResource CameraImage}"
+                VerticalOptions="Start"
+                WidthRequest="64">
+                <abstractions:CircleImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding LoadImageMenuCommand}" />
+                </abstractions:CircleImage.GestureRecognizers>
+            </abstractions:CircleImage>
 
             <StackLayout Margin="8,0" VerticalOptions="Center">
                 <Label
@@ -77,7 +108,7 @@
             <Frame
                 Margin="0"
                 Padding="16,16,0,16"
-                CornerRadius="0"
+                CornerRadius="20"
                 HorizontalOptions="Fill">
 
                 <StackLayout>
@@ -110,7 +141,7 @@
                 </StackLayout>
             </Frame>
 
-            <abstractions:CircleImage
+            <!--<abstractions:CircleImage
                 Margin="16,-32,16,0"
                 Aspect="AspectFill"
                 BorderColor="#D9D9D9"
@@ -141,7 +172,7 @@
                 <abstractions:CircleImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding LoadImageMenuCommand}" />
                 </abstractions:CircleImage.GestureRecognizers>
-            </abstractions:CircleImage>
+            </abstractions:CircleImage>-->
 
             <!--<Grid>
                     <Label

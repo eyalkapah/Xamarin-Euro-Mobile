@@ -19,25 +19,8 @@ namespace EuroMobile.ViewModels
     public class SettingsPageViewModel : ViewModelBase
     {
         private readonly ILoginService _loginService;
-        private string _email;
-
-        private Stream _imageStream;
 
         private ImageSource _profileImage;
-
-        private Stream _profileImageStream;
-
-        public string Email
-        {
-            get => _email;
-            set => SetProperty(ref _email, value);
-        }
-
-        public Stream ImageStream
-        {
-            get => _imageStream;
-            set => SetProperty(ref _imageStream, value);
-        }
 
         public ICommand LoadImageMenuCommand { get; set; }
         public ICommand LogoutCommand { get; set; }
@@ -46,12 +29,6 @@ namespace EuroMobile.ViewModels
         {
             get => _profileImage;
             set => SetProperty(ref _profileImage, value);
-        }
-
-        public Stream ProfileImageStream
-        {
-            get => _profileImageStream;
-            set => SetProperty(ref _profileImageStream, value);
         }
 
         public ICommand ShowFullNameDialogCommand { get; set; }
@@ -67,6 +44,22 @@ namespace EuroMobile.ViewModels
             //LoadImageMenu();
         }
 
+        public override async void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            await GetProfileImageAsync();
+        }
+
+        private async Task GetProfileImageAsync()
+        {
+            var response = await _loginService.GetProfileImageAsync();
+
+            var stream = await response.Content.ReadAsStreamAsync();
+
+            ProfileImage = ImageSource.FromStream(() => stream);
+        }
+
         private async Task AddFullNameCallbackAsync(IDialogResult obj)
         {
             if (obj == null || obj.Parameters == null || !obj.Parameters.Any())
@@ -74,7 +67,7 @@ namespace EuroMobile.ViewModels
 
             var fullname = obj.Parameters.GetValue<string>(AddFullNameDialogViewModel.ParameterFullName);
 
-            var split = fullname.Split();
+            var split = fullname.Trim().Split();
 
             ApplicationViewModel.UserProfile.FirstName = split[0];
 
@@ -93,7 +86,7 @@ namespace EuroMobile.ViewModels
             {
                 var action = await IoC.PageDialog.DisplayActionSheetAsync("Choose photo", "Cancel", null, "Take photo", "Upload from gallery");
 
-                if (action.Equals("Upload from gallery"))
+                if (action != null && action.Equals("Upload from gallery"))
                 {
                     var file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
                     {

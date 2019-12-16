@@ -72,7 +72,7 @@
 
   <ItemGroup>
     <Reference Include="Euro.Shared">
-      <HintPath>..\..\..\eyalkapah\Euro\Euro.Shared\bin\Debug\netstandard2.0\Euro.Shared.dll</HintPath>
+      <HintPath>..\..\..\..\Euro\Euro.Shared\bin\Debug\netstandard2.0\Euro.Shared.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
