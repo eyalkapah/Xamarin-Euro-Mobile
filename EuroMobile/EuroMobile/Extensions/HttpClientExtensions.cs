@@ -51,7 +51,7 @@ namespace EuroMobile.Extensions
             return await client.PostInternal(endpoint, content);
         }
 
-        private static HttpClient DefaultHttpClient()
+        public static HttpClient DefaultHttpClient()
         {
             var client = IoC.ClientFactory.CreateClient(Constants.DefaultHttpClient);
 

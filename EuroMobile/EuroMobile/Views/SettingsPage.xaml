@@ -42,10 +42,15 @@
                 BorderThickness="2"
                 HeightRequest="64"
                 HorizontalOptions="End"
-                IsVisible="{Binding ProfileImage, Converter={StaticResource IsNotNullConverter}}"
-                Source="{Binding ProfileImage}"
+                IsVisible="{Binding ProfileImageUri, Converter={StaticResource IsNotNullConverter}}"
                 VerticalOptions="Start"
                 WidthRequest="64">
+                <abstractions:CircleImage.Source>
+                    <UriImageSource
+                        CacheValidity="1"
+                        CachingEnabled="True"
+                        Uri="{Binding ProfileImageUri}" />
+                </abstractions:CircleImage.Source>
                 <abstractions:CircleImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding LoadImageMenuCommand}" />
                 </abstractions:CircleImage.GestureRecognizers>
@@ -58,7 +63,7 @@
                 FillColor="White"
                 HeightRequest="64"
                 HorizontalOptions="End"
-                IsVisible="{Binding ProfileImage, Converter={StaticResource IsNullConverter}}"
+                IsVisible="{Binding ProfileImageUri, Converter={StaticResource IsNullConverter}}"
                 Source="{StaticResource CameraImage}"
                 VerticalOptions="Start"
                 WidthRequest="64">

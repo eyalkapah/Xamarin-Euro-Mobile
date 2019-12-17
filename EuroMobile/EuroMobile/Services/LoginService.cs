@@ -45,6 +45,17 @@ namespace EuroMobile.Services
             _settings = settings;
         }
 
+        public async Task<HttpResponseMessage> GetProfileImageUri()
+        {
+            var client = await HttpClientExtensions.HttpAuthenticatedClientAsync();
+
+            var response = await client.GetAsync(Routes.GetProfileImage);
+
+            response.EnsureSuccessStatusCode();
+
+            return response;
+        }
+
         public async Task<HttpResponseMessage> GetProfileImageAsync()
         {
             var client = await HttpClientExtensions.HttpAuthenticatedClientAsync();

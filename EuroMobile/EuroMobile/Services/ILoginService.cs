@@ -27,5 +27,7 @@ namespace EuroMobile.Services
         Task<HttpResponseMessage> UploadProfileImageAsync(Stream stream, string filename);
 
         Task<HttpResponseMessage> GetProfileImageAsync();
+
+        Task<HttpResponseMessage> GetProfileImageUri();
     }
 }

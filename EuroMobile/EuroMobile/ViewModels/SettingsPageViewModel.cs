@@ -31,6 +31,14 @@ namespace EuroMobile.ViewModels
             set => SetProperty(ref _profileImage, value);
         }
 
+        private string _profileImageUri;
+
+        public string ProfileImageUri
+        {
+            get => _profileImageUri;
+            set => SetProperty(ref _profileImageUri, value);
+        }
+
         public ICommand ShowFullNameDialogCommand { get; set; }
 
         public SettingsPageViewModel(INavigationService navigationService, ILoginService loginService) : base(navigationService)
@@ -48,7 +56,16 @@ namespace EuroMobile.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            await GetProfileImageAsync();
+            await GetProfileImageUri();
+        }
+
+        private async Task GetProfileImageUri()
+        {
+            var response = await _loginService.GetProfileImageUri();
+
+            var relativePath = await response.Content.ReadAsStringAsync();
+
+            ProfileImageUri = Path.Combine(GlobalSettings.DefaultBaseUrl, relativePath);
         }
 
         private async Task GetProfileImageAsync()
