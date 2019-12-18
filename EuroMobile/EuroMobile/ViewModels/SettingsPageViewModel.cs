@@ -52,13 +52,6 @@ namespace EuroMobile.ViewModels
             //LoadImageMenu();
         }
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
-        {
-            base.OnNavigatedTo(parameters);
-
-            await GetProfileImageUri();
-        }
-
         private async Task GetProfileImageUri()
         {
             var response = await _loginService.GetProfileImageUri();
@@ -120,7 +113,9 @@ namespace EuroMobile.ViewModels
                         return fileStream;
                     });
 
-                    await _loginService.UploadProfileImageAsync(file.GetStream(), Path.GetFileName(file.Path));
+                    var response = await _loginService.UploadProfileImageAsync(file.GetStream(), Path.GetFileName(file.Path));
+
+                    response.HandleSuccessfullRegistrationAsync
 
                     file.Dispose();
                 }

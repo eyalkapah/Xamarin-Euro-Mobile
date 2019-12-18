@@ -7,8 +7,8 @@ namespace EuroMobile.Models
         private string _bio;
         private string _email;
         private string _firstName;
-
         private string _lastName;
+        private string _profileImage;
 
         public string Bio
         {
@@ -34,6 +34,12 @@ namespace EuroMobile.Models
         {
             get => _lastName;
             set => SetProperty(ref _lastName, value, () => RaisePropertyChanged(nameof(FullName)));
+        }
+
+        public string ProfileImage
+        {
+            get => _profileImage;
+            set => SetProperty(ref _profileImage, value);
         }
     }
 }

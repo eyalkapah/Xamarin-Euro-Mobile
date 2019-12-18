@@ -46,7 +46,8 @@ namespace EuroMobile.Services
                 FirstName = result.Response.FirstName,
                 LastName = result.Response.LastName,
                 Bio = result.Response.Bio,
-                Email = result.Response.Email
+                Email = result.Response.Email,
+                ProfileImage = result.Response.ProfileImage
             };
         }
 
@@ -67,6 +68,11 @@ namespace EuroMobile.Services
             {
                 throw ex;
             }
+        }
+
+        public static Task<string> HandleSuccessfullUploadProfileImageAsync(this HttpResponseMessage response)
+        {
+            var json = await JsonSerializer.DeserializeAsync
         }
     }
 }
