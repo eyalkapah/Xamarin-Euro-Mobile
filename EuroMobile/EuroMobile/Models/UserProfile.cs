@@ -1,4 +1,5 @@
 ﻿using Prism.Mvvm;
+using System;
 
 namespace EuroMobile.Models
 {
@@ -39,7 +40,12 @@ namespace EuroMobile.Models
         public string ProfileImage
         {
             get => _profileImage;
-            set => SetProperty(ref _profileImage, value);
+            private set => SetProperty(ref _profileImage, value);
+        }
+
+        internal void SetProfileImage(string path)
+        {
+            ProfileImage = path;
         }
     }
 }

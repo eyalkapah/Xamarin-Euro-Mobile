@@ -107,15 +107,17 @@ namespace EuroMobile.ViewModels
                     if (file == null)
                         return;
 
-                    ProfileImage = ImageSource.FromStream(() =>
-                    {
-                        var fileStream = file.GetStream();
-                        return fileStream;
-                    });
+                    //ProfileImage = ImageSource.FromStream(() =>
+                    //{
+                    //    var fileStream = file.GetStream();
+                    //    return fileStream;
+                    //});
 
                     var response = await _loginService.UploadProfileImageAsync(file.GetStream(), Path.GetFileName(file.Path));
 
-                    response.HandleSuccessfullRegistrationAsync
+                    var profileImagePath = await response.HandleSuccessfullUploadProfileImageAsync();
+
+                    ApplicationViewModel.SetProfileImage(profileImagePath);
 
                     file.Dispose();
                 }

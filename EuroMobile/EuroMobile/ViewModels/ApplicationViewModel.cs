@@ -2,6 +2,7 @@
 using EuroMobile.Services;
 using Prism.Mvvm;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace EuroMobile.ViewModels
@@ -57,6 +58,11 @@ namespace EuroMobile.ViewModels
             var respone = await _loginService.GetUserProfileAsync();
 
             UserProfile = await respone.HandleSuccessfullUserProfileAsync();
+        }
+
+        internal void SetProfileImage(string profileImagePath)
+        {
+            UserProfile.SetProfileImage(Path.Combine(GlobalSettings.DefaultBaseUrl, profileImagePath));
         }
     }
 }

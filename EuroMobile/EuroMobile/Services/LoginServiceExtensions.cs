@@ -41,14 +41,17 @@ namespace EuroMobile.Services
             if (!result.IsSucceeded)
                 throw new HttpRequestException(result.Error);
 
-            return new UserProfile
+            var userProfile = new UserProfile
             {
                 FirstName = result.Response.FirstName,
                 LastName = result.Response.LastName,
                 Bio = result.Response.Bio,
                 Email = result.Response.Email,
-                ProfileImage = result.Response.ProfileImage
             };
+
+            userProfile.SetProfileImage(Path.Combine(GlobalSettings.DefaultBaseUrl, result.Response.ProfileImage));
+
+            return userProfile;
         }
 
         public static async Task HandleSuccessfullRegistrationAsync(this HttpResponseMessage response, ILoginService loginService)
@@ -70,9 +73,13 @@ namespace EuroMobile.Services
             }
         }
 
-        public static Task<string> HandleSuccessfullUploadProfileImageAsync(this HttpResponseMessage response)
+        public static async Task<string> HandleSuccessfullUploadProfileImageAsync(this HttpResponseMessage response)
         {
-            var json = await JsonSerializer.DeserializeAsync
+            var stream = await response.GetContentStreamAsync();
+
+            var result = await JsonSerializer.DeserializeAsync<UploadImageResultApiModel>(stream);
+
+            return result.ImagePath;
         }
     }
 }
