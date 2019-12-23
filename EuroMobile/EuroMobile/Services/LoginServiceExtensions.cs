@@ -49,7 +49,8 @@ namespace EuroMobile.Services
                 Email = result.Response.Email,
             };
 
-            userProfile.SetProfileImage(Path.Combine(GlobalSettings.DefaultBaseUrl, result.Response.ProfileImage));
+            if (!string.IsNullOrEmpty(result.Response.ProfileImage))
+                userProfile.SetProfileImage(Path.Combine(GlobalSettings.DefaultBaseUrl, result.Response.ProfileImage));
 
             return userProfile;
         }
