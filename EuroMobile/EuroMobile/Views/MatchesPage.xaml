@@ -1,8 +1,68 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="EuroMobile.Views.MatchesPage">
-  
+<ContentPage
+    x:Class="EuroMobile.Views.MatchesPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="http://prismlibrary.com"
+    Title="Match Details"
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding AddMatchCommand}"
+            Order="Primary"
+            Text="Add" />
+    </ContentPage.ToolbarItems>
+    <StackLayout VerticalOptions="StartAndExpand">
+        <TableView Intent="Settings">
+            <TableRoot>
+                <TableSection Title="Home Team">
+                    <ViewCell>
+
+                        <StackLayout BackgroundColor="AliceBlue" Orientation="Horizontal">
+
+                            <Picker
+                                x:Name="ContactMethodPicker"
+                                Title="Home Team"
+                                BackgroundColor="Transparent"
+                                HorizontalOptions="FillAndExpand">
+
+                                <Picker.Items>
+                                    <x:String>Email</x:String>
+                                    <x:String>SMS</x:String>
+                                    <x:String>Email</x:String>
+                                    <x:String>SMS</x:String>
+                                    <x:String>Email</x:String>
+                                    <x:String>SMS</x:String>
+                                    <x:String>Email</x:String>
+                                    <x:String>SMS</x:String>
+                                    <x:String>Email</x:String>
+                                    <x:String>SMS</x:String>
+                                    <x:String>Email</x:String>
+                                    <x:String>SMS</x:String>
+                                    <x:String>Email</x:String>
+                                    <x:String>SMS</x:String>
+                                    <x:String>Email</x:String>
+                                    <x:String>SMS</x:String>
+                                    <x:String>Email</x:String>
+                                    <x:String>SMS</x:String>
+                                    <x:String>Email</x:String>
+                                    <x:String>SMS</x:String>
+                                    <x:String>Email</x:String>
+                                    <x:String>SMS</x:String>
+                                    <x:String>Email</x:String>
+                                </Picker.Items>
+
+                            </Picker>
+
+                        </StackLayout>
+
+                    </ViewCell>
+
+                </TableSection>
+            </TableRoot>
+        </TableView>
+
+
+
+    </StackLayout>
 </ContentPage>

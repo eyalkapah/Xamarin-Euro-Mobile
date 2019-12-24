@@ -210,5 +210,95 @@
   <ItemGroup>
     <BundleResource Include="Resources\camera.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\cro.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\cyp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\cze.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\eng.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\est.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\hun.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\isr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\kaz.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\kos.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\ltu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\lux.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\lva.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\mkd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\mne.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\ned.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\nir.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\pol.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\por.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\rus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\sco.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\smr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\srb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\svk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\svn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\ukr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\aut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\aze.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\bel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\blr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Flags\bul.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

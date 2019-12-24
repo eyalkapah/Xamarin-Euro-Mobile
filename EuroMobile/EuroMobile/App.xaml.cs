@@ -44,6 +44,7 @@ namespace EuroMobile
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<ILoginService, LoginService>();
+            containerRegistry.RegisterSingleton<ITeamService, TeamService>();
             containerRegistry.RegisterSingleton<ISettingsService, SettingsService>();
             //containerRegistry.RegisterSingleton<IHttpClientFactory>();
 
@@ -64,6 +65,7 @@ namespace EuroMobile
             IoC.Initialize(Container);
 
             Startup.Init(containerRegistry);
+            containerRegistry.RegisterForNavigation<AddMatchPage, AddMatchPageViewModel>();
         }
 
         private void InitializeServices()
