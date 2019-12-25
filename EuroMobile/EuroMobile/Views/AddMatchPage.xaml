@@ -1,8 +1,67 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="EuroMobile.Views.AddMatchPage">
-  
+<ContentPage
+    x:Class="EuroMobile.Views.AddMatchPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="http://prismlibrary.com"
+    Title="ADD MATCH"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    Visual="Material">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding SaveCommand}"
+            Icon="{StaticResource SaveIcon}"
+            Order="Primary" />
+    </ContentPage.ToolbarItems>
+
+    <StackLayout BackgroundColor="AliceBlue" VerticalOptions="Fill">
+
+        <Frame Margin="8" CornerRadius="5">
+            <Picker
+                Title="Home Team"
+                BackgroundColor="Transparent"
+                HorizontalOptions="FillAndExpand"
+                ItemsSource="{Binding Teams}"
+                SelectedItem="{Binding SelectedHomeTeam}"
+                TextColor="Blue"
+                TitleColor="Black" />
+        </Frame>
+
+        <Frame Margin="8" CornerRadius="5">
+            <Picker
+                Title="Guest Team"
+                BackgroundColor="Transparent"
+                HorizontalOptions="FillAndExpand"
+                ItemsSource="{Binding Teams}"
+                SelectedItem="{Binding SelectedGuestTeam}"
+                TextColor="Blue"
+                TitleColor="Black" />
+        </Frame>
+
+        <Frame Margin="8" CornerRadius="5">
+            <DatePicker
+                BackgroundColor="Transparent"
+                Date="{Binding MatchDate}"
+                Format="D"
+                TextColor="Blue" />
+        </Frame>
+
+        <Frame Margin="8" CornerRadius="5">
+            <TimePicker
+                BackgroundColor="Transparent"
+                Format="T"
+                TextColor="Blue"
+                Time="{Binding MatchTime}" />
+        </Frame>
+
+        <Frame
+            Margin="8,16"
+            CornerRadius="20"
+            IsVisible="{Binding Errors, Converter={StaticResource IsNotNullOrEmptyConverter}}">
+            <Label
+                HorizontalOptions="Start"
+                Text="{Binding Errors}"
+                TextColor="Red" />
+        </Frame>
+    </StackLayout>
 </ContentPage>

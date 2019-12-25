@@ -9,6 +9,7 @@ using System;
 using EuroMobile.Views.Dialogs;
 using System.Threading.Tasks;
 using System.Net.Http;
+using EuroMobile.Configurations;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
@@ -43,10 +44,7 @@ namespace EuroMobile
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<ILoginService, LoginService>();
-            containerRegistry.RegisterSingleton<ITeamService, TeamService>();
-            containerRegistry.RegisterSingleton<ISettingsService, SettingsService>();
-            //containerRegistry.RegisterSingleton<IHttpClientFactory>();
+            containerRegistry.RegisterServices();
 
             containerRegistry.RegisterSingleton<ApplicationViewModel>();
 

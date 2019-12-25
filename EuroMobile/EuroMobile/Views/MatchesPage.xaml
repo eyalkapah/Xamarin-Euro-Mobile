@@ -12,57 +12,5 @@
             Order="Primary"
             Text="Add" />
     </ContentPage.ToolbarItems>
-    <StackLayout VerticalOptions="StartAndExpand">
-        <TableView Intent="Settings">
-            <TableRoot>
-                <TableSection Title="Home Team">
-                    <ViewCell>
-
-                        <StackLayout BackgroundColor="AliceBlue" Orientation="Horizontal">
-
-                            <Picker
-                                x:Name="ContactMethodPicker"
-                                Title="Home Team"
-                                BackgroundColor="Transparent"
-                                HorizontalOptions="FillAndExpand">
-
-                                <Picker.Items>
-                                    <x:String>Email</x:String>
-                                    <x:String>SMS</x:String>
-                                    <x:String>Email</x:String>
-                                    <x:String>SMS</x:String>
-                                    <x:String>Email</x:String>
-                                    <x:String>SMS</x:String>
-                                    <x:String>Email</x:String>
-                                    <x:String>SMS</x:String>
-                                    <x:String>Email</x:String>
-                                    <x:String>SMS</x:String>
-                                    <x:String>Email</x:String>
-                                    <x:String>SMS</x:String>
-                                    <x:String>Email</x:String>
-                                    <x:String>SMS</x:String>
-                                    <x:String>Email</x:String>
-                                    <x:String>SMS</x:String>
-                                    <x:String>Email</x:String>
-                                    <x:String>SMS</x:String>
-                                    <x:String>Email</x:String>
-                                    <x:String>SMS</x:String>
-                                    <x:String>Email</x:String>
-                                    <x:String>SMS</x:String>
-                                    <x:String>Email</x:String>
-                                </Picker.Items>
-
-                            </Picker>
-
-                        </StackLayout>
-
-                    </ViewCell>
-
-                </TableSection>
-            </TableRoot>
-        </TableView>
-
-
-
-    </StackLayout>
+    <StackLayout VerticalOptions="StartAndExpand" />
 </ContentPage>

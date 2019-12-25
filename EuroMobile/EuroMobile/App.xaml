@@ -14,6 +14,7 @@
             <converters:InverseConverter x:Key="InverseConverter" />
             <converters:IsNullConverter x:Key="IsNullConverter" />
             <converters:IsNotNullConverter x:Key="IsNotNullConverter" />
+            <converters:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
 
             <OnPlatform x:Key="FontAwesomeBrands" x:TypeArguments="x:String">
                 <On Platform="Android" Value="FontAwesome5Regular.otf#Regular" />
@@ -52,6 +53,13 @@
                 Android="google.png"
                 WinPhone="Assets\Logos\google.png"
                 iOS="google.png" />
+
+            <OnPlatform
+                x:Key="SaveIcon"
+                x:TypeArguments="ImageSource"
+                Android="save.png"
+                WinPhone="Assets\save.png"
+                iOS="save.png" />
 
             <Style x:Key="FormEntryStyle" TargetType="Entry">
                 <Setter Property="BackgroundColor" Value="Transparent" />
