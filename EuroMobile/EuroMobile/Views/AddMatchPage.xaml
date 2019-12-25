@@ -18,6 +18,17 @@
 
         <Frame Margin="8" CornerRadius="5">
             <Picker
+                Title="Group \ Match Level"
+                BackgroundColor="Transparent"
+                HorizontalOptions="FillAndExpand"
+                ItemsSource="{Binding Groups}"
+                SelectedItem="{Binding SelectedGroup}"
+                TextColor="Blue"
+                TitleColor="Black" />
+        </Frame>
+
+        <Frame Margin="8" CornerRadius="5">
+            <Picker
                 Title="Home Team"
                 BackgroundColor="Transparent"
                 HorizontalOptions="FillAndExpand"

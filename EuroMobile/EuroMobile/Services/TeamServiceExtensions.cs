@@ -1,4 +1,5 @@
 ﻿using Euro.Domain.ApiModels;
+using Euro.Shared.Out;
 using EuroMobile.Extensions;
 using System.Collections.Generic;
 using System.Net.Http;

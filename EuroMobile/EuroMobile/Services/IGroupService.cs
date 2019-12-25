@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace EuroMobile.Services
 {
-    public interface IMatchService
+    public interface IGroupService
     {
-        Task<HttpResponseMessage> AddMatchAsync(int homeTeamId, int guestTeamId, DateTime matchDate);
+        Task<HttpResponseMessage> GetAllGroupsAsync();
     }
 }

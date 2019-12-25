@@ -16,6 +16,7 @@ namespace EuroMobile.Configurations
             container.RegisterSingleton<ITeamService, TeamService>();
             container.RegisterSingleton<ISettingsService, SettingsService>();
             container.RegisterSingleton<IMatchService, MatchService>();
+            container.RegisterSingleton<IGroupService, GroupService>();
         }
     }
 }

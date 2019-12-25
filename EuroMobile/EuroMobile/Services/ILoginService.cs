@@ -12,6 +12,10 @@ namespace EuroMobile.Services
 
         bool IsLoggedIn { get; set; }
 
+        Task<HttpResponseMessage> GetProfileImageAsync();
+
+        Task<HttpResponseMessage> GetProfileImageUri();
+
         Task<HttpResponseMessage> GetUserProfileAsync();
 
         Task<HttpResponseMessage> LogInAsync(string username, string password);
@@ -25,9 +29,5 @@ namespace EuroMobile.Services
         Task<HttpResponseMessage> UpdateUserProfileAsync(UserProfile userProfile);
 
         Task<HttpResponseMessage> UploadProfileImageAsync(Stream stream, string filename);
-
-        Task<HttpResponseMessage> GetProfileImageAsync();
-
-        Task<HttpResponseMessage> GetProfileImageUri();
     }
 }
