@@ -29,5 +29,16 @@ namespace EuroMobile.Services
 
             return response;
         }
+
+        public async Task<HttpResponseMessage> GetAllMatchesAsync()
+        {
+            var client = await HttpClientExtensions.HttpAuthenticatedClientAsync();
+
+            var response = await client.GetAsync(Routes.Matches);
+
+            response.EnsureSuccessStatusCode();
+
+            return response;
+        }
     }
 }

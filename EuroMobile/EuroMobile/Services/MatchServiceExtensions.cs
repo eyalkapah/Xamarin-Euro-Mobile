@@ -27,5 +27,14 @@ namespace EuroMobile.Services
                 throw ex;
             }
         }
+
+        public static async Task<IEnumerable<MatchResultApiModel>> HandleSuccessfullGetAllMatches(this HttpResponseMessage response)
+        {
+            var stream = await response.GetContentStreamAsync();
+
+            var result = await JsonSerializer.DeserializeAsync<IEnumerable<MatchResultApiModel>>(stream);
+
+            return result;
+        }
     }
 }
