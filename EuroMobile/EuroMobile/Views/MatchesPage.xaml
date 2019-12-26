@@ -12,5 +12,23 @@
             Order="Primary"
             Text="Add" />
     </ContentPage.ToolbarItems>
-    <StackLayout VerticalOptions="StartAndExpand" />
+    <ListView
+        GroupDisplayBinding="{Binding PlayDateTime}"
+        IsGroupingEnabled="true"
+        ItemsSource="{Binding Matches}">
+        <ListView.GroupHeaderTemplate>
+            <DataTemplate>
+                <TextCell
+                    Detail="{Binding ShortName}"
+                    DetailColor="#503026"
+                    Text="{Binding Title}"
+                    TextColor="#f35e20" />
+            </DataTemplate>
+        </ListView.GroupHeaderTemplate>
+        <!--<ListView.ItemTemplate>
+            <DataTemplate>
+                <TextCell Detail="{Binding Subtitle}" Text="{Binding Title}" />
+            </DataTemplate>
+        </ListView.ItemTemplate>-->
+    </ListView>
 </ContentPage>
