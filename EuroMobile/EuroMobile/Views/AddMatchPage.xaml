@@ -21,6 +21,7 @@
                 Title="Group \ Match Level"
                 BackgroundColor="Transparent"
                 HorizontalOptions="FillAndExpand"
+                ItemDisplayBinding="{Binding Name}"
                 ItemsSource="{Binding Groups}"
                 SelectedItem="{Binding SelectedGroup}"
                 TextColor="Blue"
@@ -32,6 +33,8 @@
                 Title="Home Team"
                 BackgroundColor="Transparent"
                 HorizontalOptions="FillAndExpand"
+                IsEnabled="{Binding SelectedGroup, Converter={StaticResource IsNotNullConverter}}"
+                ItemDisplayBinding="{Binding Name}"
                 ItemsSource="{Binding Teams}"
                 SelectedItem="{Binding SelectedHomeTeam}"
                 TextColor="Blue"
@@ -43,7 +46,9 @@
                 Title="Guest Team"
                 BackgroundColor="Transparent"
                 HorizontalOptions="FillAndExpand"
-                ItemsSource="{Binding Teams}"
+                IsEnabled="{Binding SelectedHomeTeam, Converter={StaticResource IsNotNullConverter}}"
+                ItemDisplayBinding="{Binding Name}"
+                ItemsSource="{Binding GuestTeams}"
                 SelectedItem="{Binding SelectedGuestTeam}"
                 TextColor="Blue"
                 TitleColor="Black" />
@@ -63,16 +68,6 @@
                 Format="T"
                 TextColor="Blue"
                 Time="{Binding MatchTime}" />
-        </Frame>
-
-        <Frame
-            Margin="8,16"
-            CornerRadius="20"
-            IsVisible="{Binding Errors, Converter={StaticResource IsNotNullOrEmptyConverter}}">
-            <Label
-                HorizontalOptions="Start"
-                Text="{Binding Errors}"
-                TextColor="Red" />
         </Frame>
     </StackLayout>
 </ContentPage>

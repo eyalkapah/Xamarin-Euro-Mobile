@@ -15,75 +15,64 @@ namespace EuroMobile.ViewModels
 {
     public class AddMatchPageViewModel : ViewModelBase
     {
-        private const string GuestTeamCannotBeEmpty = "* Guest team cannot be empty";
-        private const string HomeTeamAndGuestTeamAreTheSame = "* Home team and guest team cannot be the same.";
-        private const string HomeTeamCannotBeEmpty = "* Home team cannot be empty";
         private readonly IGroupService _groupService;
         private readonly IMatchService _matchService;
         private readonly ITeamService _teamService;
-        private string __errors;
-        private IEnumerable<GroupResultApiModel> _allGroups;
-        private IEnumerable<TeamResultApiModel> _allTeams;
-        private string _group;
-        private List<string> _groups;
+        private List<TeamResultApiModel> _allTeams;
+        private List<GroupResultApiModel> _groups;
+        private List<TeamResultApiModel> _guestTeams;
         private DateTime _matchDate;
         private TimeSpan _matchTime;
-        private string _selectedGroup;
-        private string _selectedGuestTeam;
-        private string _selectedHomeTeam;
-        private List<string> _teams;
+        private GroupResultApiModel _selectedGroup;
+        private TeamResultApiModel _selectedGuestTeam;
+        private TeamResultApiModel _selectedHomeTeam;
+        private List<TeamResultApiModel> _teams;
 
-        public string Errors
-        {
-            get => __errors;
-            set => SetProperty(ref __errors, value);
-        }
-
-        public string Group
-        {
-            get => _group;
-            set => SetProperty(ref _group, value);
-        }
-
-        public List<string> Groups
+        public List<GroupResultApiModel> Groups
         {
             get => _groups;
             set => SetProperty(ref _groups, value);
         }
 
+        public List<TeamResultApiModel> GuestTeams
+        {
+            get => _guestTeams;
+            set => SetProperty(ref _guestTeams, value);
+        }
+
         public DateTime MatchDate
         {
             get => _matchDate;
-            set => SetProperty(ref _matchDate, value, MatchDateChanged);
+            set => SetProperty(ref _matchDate, value);
         }
 
         public TimeSpan MatchTime
         {
             get => _matchTime;
-            set => SetProperty(ref _matchTime, value, MatchTimeChanged);
+            set => SetProperty(ref _matchTime, value);
         }
 
         public ICommand SaveCommand { get; set; }
 
-        public string SelectedGroup
+        public GroupResultApiModel SelectedGroup
         {
             get => _selectedGroup;
             set => SetProperty(ref _selectedGroup, value, SelectedGroupChanged);
         }
 
-        public string SelectedGuestTeam
+        public TeamResultApiModel SelectedGuestTeam
         {
             get => _selectedGuestTeam;
-            set => SetProperty(ref _selectedGuestTeam, value, SelectedGuestTeamChanged);
+            set => SetProperty(ref _selectedGuestTeam, value);
         }
 
-        public string SelectedHomeTeam
+        public TeamResultApiModel SelectedHomeTeam
         {
             get => _selectedHomeTeam;
             set => SetProperty(ref _selectedHomeTeam, value, SelectedHomeTeamChanged);
         }
 
-        public List<string> Teams
+        public List<TeamResultApiModel> Teams
         {
             get => _teams;
             set => SetProperty(ref _teams, value);
@@ -107,20 +96,15 @@ namespace EuroMobile.ViewModels
             await FetchTeamsAsync();
         }
 
-        private void ClearErrors()
-        {
-            Errors = string.Empty;
-        }
-
         private async Task FetchGroupsAsync()
         {
             try
             {
                 var response = await _groupService.GetAllGroupsAsync();
 
-                _allGroups = await response.HandleSuccessfullGetAllGroups();
+                var result = await response.HandleSuccessfullGetAllGroups();
 
-                Groups = _allGroups.Select(c => c.Name).ToList();
+                Groups = result.ToList();
             }
             catch (Exception ex)
             {
@@ -134,9 +118,9 @@ namespace EuroMobile.ViewModels
             {
                 var response = await _teamService.GetAllTeamsAsync();
 
-                _allTeams = await response.HandleSuccessfullGetAllTeams();
+                var result = await response.HandleSuccessfullGetAllTeams();
 
-                Teams = _allTeams.OrderBy(c => c.Name).Select(c => c.Name).ToList();
+                _allTeams = result.ToList();
             }
             catch (Exception ex)
             {
@@ -144,21 +128,10 @@ namespace EuroMobile.ViewModels
             }
         }
 
-        private void MatchDateChanged() => ClearErrors();
-
-        private void MatchTimeChanged() => ClearErrors();
-
         private async void SaveAsync()
         {
             try
             {
-                ValidateForm();
-
-                if (!string.IsNullOrEmpty(Errors))
-                {
-                    return;
-                }
-
                 var homeTeamId = _allTeams.First(t => t.Name.Equals(SelectedHomeTeam)).TeamId;
                 var guestTeamId = _allTeams.First(t => t.Name.Equals(SelectedGuestTeam)).TeamId;
                 var matchDateTime = MatchDate + MatchTime;
@@ -177,20 +150,22 @@ namespace EuroMobile.ViewModels
 
         private void SelectedGroupChanged()
         {
+            SelectedHomeTeam = null;
+            SelectedGuestTeam = null;
+
+            var teams = _allTeams.OrderBy(t => t.Name).ToList();
+
+            Teams = SelectedGroup.IsGroupLevel ? teams.Where(t => t.GroupId.Equals(SelectedGroup.GroupId)).ToList() : teams;
         }
 
-        private void SelectedGuestTeamChanged() => ClearErrors();
-
-        private void SelectedHomeTeamChanged() => ClearErrors();
-
-        private void ValidateForm()
+        private void SelectedHomeTeamChanged()
         {
-            if (string.IsNullOrEmpty(SelectedHomeTeam))
-                Errors += $"{HomeTeamCannotBeEmpty}{Environment.NewLine}";
-            if (string.IsNullOrEmpty(SelectedGuestTeam))
-                Errors += $"{GuestTeamCannotBeEmpty}{Environment.NewLine}";
-            if (!string.IsNullOrEmpty(SelectedHomeTeam) && !string.IsNullOrEmpty(SelectedGuestTeam) && SelectedHomeTeam.Equals(SelectedGuestTeam))
-                Errors += $"{HomeTeamAndGuestTeamAreTheSame}{Environment.NewLine}";
+            if (SelectedHomeTeam == null || Teams == null)
+                return;
+
+            var teams = SelectedGroup.IsGroupLevel ? Teams : _allTeams.OrderBy(t => t.Name).ToList();
+
+            GuestTeams = teams.Where(t => t.TeamId != SelectedHomeTeam.TeamId).ToList();
         }
     }
 }
