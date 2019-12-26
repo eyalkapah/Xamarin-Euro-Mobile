@@ -9,6 +9,6 @@ namespace EuroMobile.Services
 {
     public interface IMatchService
     {
-        Task<HttpResponseMessage> AddMatchAsync(int homeTeamId, int guestTeamId, DateTime matchDate);
+        Task<HttpResponseMessage> AddMatchAsync(int homeTeamId, int guestTeamId, DateTime matchDate, int groupId);
     }
 }

@@ -13,13 +13,14 @@ namespace EuroMobile.Services
 {
     public class MatchService : IMatchService
     {
-        public async Task<HttpResponseMessage> AddMatchAsync(int homeTeamId, int guestTeamId, DateTime matchDate)
+        public async Task<HttpResponseMessage> AddMatchAsync(int homeTeamId, int guestTeamId, DateTime matchDate, int groupId)
         {
             var jsonContent = JsonSerializer.Serialize(new MatchApiModel
             {
                 HostTeamId = homeTeamId,
                 GuestTeamId = guestTeamId,
-                PlayDateTime = matchDate
+                PlayDateTime = matchDate,
+                GroupId = groupId
             });
 
             var response = await HttpClientExtensions.PostDefaultHttpClient(Routes.Matches, jsonContent.ToString());

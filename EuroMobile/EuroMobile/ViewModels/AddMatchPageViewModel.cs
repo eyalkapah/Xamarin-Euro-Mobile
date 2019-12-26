@@ -132,11 +132,9 @@ namespace EuroMobile.ViewModels
         {
             try
             {
-                var homeTeamId = _allTeams.First(t => t.Name.Equals(SelectedHomeTeam)).TeamId;
-                var guestTeamId = _allTeams.First(t => t.Name.Equals(SelectedGuestTeam)).TeamId;
                 var matchDateTime = MatchDate + MatchTime;
 
-                var response = await _matchService.AddMatchAsync(homeTeamId, guestTeamId, matchDateTime);
+                var response = await _matchService.AddMatchAsync(SelectedHomeTeam.TeamId, SelectedGuestTeam.TeamId, matchDateTime, SelectedGroup.GroupId);
 
                 var result = await response.HandleSuccessfullAddMatchAsync();
 
